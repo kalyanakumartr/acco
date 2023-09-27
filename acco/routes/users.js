@@ -9,6 +9,29 @@ const State = require('country-state-city').State;
 
 
 
+//auth login
+const authenticat =(req,res)=>{
+  headers = {
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Credentials": true
+  };
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) return res.sendStatus(401);
+  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
+    if (err) {
+      return res.sendStatus(403);
+    }
+    req.username = obj.username;
+    req.password = obj.password;
+    next();
+
+  })
+}
+
+
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
@@ -45,31 +68,10 @@ router.post('/adduser', async function (req, res) {
   })
 })
 
-//auth login
-const authenticat =(req,res)=>{
-  headers = {
-    'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Credentials": true
-  };
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (!token) return res.sendStatus(401);
-  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
-    if (err) {
-      return res.sendStatus(403);
-    }
-    req.username = obj.username;
-    req.password = obj.password;
-    next();
-
-  })
-}
-
 
 
 //get user detail
-router.get('/getuser',authenticat,function(req,res){
+router.get('/getuser',function(req,res){
   command='select * from user ';
   con.query(command,function(error,results){
     if(error){
@@ -95,6 +97,8 @@ router.post('/auth', function (request, response) {
               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
               console.log("token", accesstoken);
               response.status(200).send({ accesstoken: accesstoken,});
+              response.send("success to login");
+
             }
             else{
               response.status(401).send('Incorrect Username and/or Password!');
