@@ -50,6 +50,7 @@ router.post('/addbooking',function(req,res){
   try{
   console.log(req.body);
   var command = sprintf('INSERT INTO booking (firstName,lastName,email,phoneNumber,address1,address2,city,state,country,pincode,checkIn,checkOut,adults,child,roomType,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)',req.body.firstName, req.body.lastName, req.body.email,req.body.phoneNumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkIn,req.body.checkOut,req.body.adult,req.body.child,req.body.roomType,1);
+  // var command =('INSERT INTO booking (firstName,lastName,email,phoneNumber,address1,address2,city,state,country,pincode,checkIn,checkOut,adults,child,roomType,status) VALUES',req.body.firstName, req.body.lastName, req.body.email,req.body.phoneNumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkIn,req.body.checkOut,req.body.adult,req.body.child,req.body.roomType,1);  
     console.log("after",command);
   con.query(command,function(err,result)
   {
