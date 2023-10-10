@@ -45,7 +45,30 @@ router.get('/home', function (req, res, next) {
 }
 );
 
-
+//add booking
+router.post('/addbooking',function(req,res){
+  try{
+  console.log(req.body);
+  var command = sprintf('INSERT INTO booking (firstName,lastName,email,phoneNumber,address1,address2,city,state,country,pincode,checkIn,checkOut,adults,child,roomType,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)',req.body.firstName, req.body.lastName, req.body.email,req.body.phoneNumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkIn,req.body.checkOut,req.body.adult,req.body.child,req.body.roomType,1);
+    console.log("after",command);
+  con.query(command,function(err,result)
+  {
+    if(err){
+      console.log(err);
+      res.send({ status: false, message: err });
+    }
+    else
+    {
+      res.status(200).send("Booking added Successfully"); 
+    }
+  })
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
+})
 
 
 
@@ -55,18 +78,29 @@ router.post('/adduser', async function (req, res) {
   console.log(req.body);
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
   console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (userName,password,gender,email,phoneNumber,country,state,city,address,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.userName, hashedPassword, req.body.gender, req.body.email, req.body.phoneNumber,req.body.country, req.body.state,req.body.city,req.body.address,1);
+  var command = sprintf('INSERT INTO user (username,password,gender,email,pnumber,country,state,city,address1,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.userName, hashedPassword, req.body.gender, req.body.email, req.body.phoneNumber,req.body.country, req.body.state,req.body.city,req.body.address,1);
   console.log(command);
   con.query(command, function (err, mysqlres1) {
-    if (err) {
-      res.send({ status: false, message: err });
-    }
-    else {
-
-      res.status(200).send("Users added Successfully");
-    }
+    if (err) throw err;
+    userId = mysqlres1.insertId
+    console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);
+    var command = sprintf('INSERT INTO userrolemap (userId ,roleId,status) VALUES (%d, %d);', userId, req.body.roleId);
+    con.query(command, function (err, mysqlres2) {
+      if (err) {         res.send({ status: false, message: err });       }
+      else {       
+          if (req.body.roleId = 4)
+          res.status(200).send("Customer added Successfully");
+      }
   })
 })
+})
+    // if (err) {
+    //   res.send({ status: false, message: err });
+    // }
+    // else {
+
+    //   res.status(200).send("Users added Successfully");
+    // }
 
 
 
