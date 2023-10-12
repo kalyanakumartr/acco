@@ -122,6 +122,7 @@ router.get('/getuser',function(req,res){
 router.post('/auth', function (request, response) {
   let username = request.body.userName;
   let password = request.body.password;
+  response.setHeader('Content-Type', 'application/json');
   if (username && password) {
     con.query('SELECT *FROM user WHERE userName = ?  ', [request.body.userName], function (error, results) {
       if (results.length > 0) {
