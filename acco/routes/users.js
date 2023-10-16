@@ -79,7 +79,7 @@ router.post('/adduser', async function (req, res) {
   console.log(req.body);
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
   console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (username,password,gender,email,pnumber,country,state,city,address1,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.userName, hashedPassword, req.body.gender, req.body.email, req.body.phoneNumber,req.body.country, req.body.state,req.body.city,req.body.address,1);
+  var command = sprintf('INSERT INTO user (firstName,lastName,address1,address2,city,state,country,pnumber,email,userName,password,cpassword,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstName,req.body.lastName,req.body.address1,  req.body.address2,req.body.city, req.body.state, req.body.country,req.body.phoneNumber, req.body.email,req.body.state,req.body.userName,hashedPassword,hashedPassword,1);
   console.log(command);
   con.query(command, function (err, mysqlres1) {
     if (err) throw err;
