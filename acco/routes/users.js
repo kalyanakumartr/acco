@@ -60,7 +60,8 @@ router.post('/addbooking',function(req,res){
     }
     else
     {
-      res.status(200).send("Booking added Successfully"); 
+      res.status(200).send({"message": "Booking added Successfully"}); 
+      res.end();
     }
   })
 }
@@ -84,7 +85,7 @@ router.post('/adduser', async function (req, res) {
   con.query(command, function (err, mysqlres1) {
     if (err) throw err;
     userId = mysqlres1.insertId
-    console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);
+    console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
     var command = sprintf('INSERT INTO userrolemap (userId ,roleId,status) VALUES (%d, %d);', userId, req.body.roleId);
     con.query(command, function (err, mysqlres2) {
       if (err) {         res.send({ status: false, message: err });       }
@@ -105,9 +106,9 @@ router.post('/adduser', async function (req, res) {
 
 
 
-//get user detail
-router.get('/getuser',function(req,res){
-  command='select * from user ';
+//get booking detail
+router.get('/getbooking',function(req,res){
+  command='select * from booking ';
   con.query(command,function(error,results){
     if(error){
       res.send("Unable to get Date ")
@@ -116,6 +117,20 @@ router.get('/getuser',function(req,res){
       res.send(results);
     }
   })
+
+  //get user detail
+  router.get('/getuser',function(req,res){
+    command='select * from user ';
+    con.query(command,function(error,results){
+      if(error){
+        res.send("Unable to get Date ")
+      }
+      else{
+        res.send(results);
+      }
+    })
+  })
+  
 })
 
 //auth
