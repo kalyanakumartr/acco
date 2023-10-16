@@ -80,15 +80,15 @@ router.post('/adduser', async function (req, res) {
   console.log(req.body);
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
   console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstName,lastName,address1,address2,city,state,country,pnumber,email,userName,password,cpassword,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstName,req.body.lastName,req.body.address1,  req.body.address2,req.body.city, req.body.state, req.body.country,req.body.phoneNumber, req.body.email,req.body.state,req.body.userName,hashedPassword,hashedPassword,1);
-  console.log(command);
+  var command = sprintf('INSERT INTO user (firstName,lastName,address1,address2,city,state,country,phoneNumber,email,userName,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstName,req.body.lastName,req.body.address1,  req.body.address2,req.body.city, req.body.state, req.body.country,req.body.phoneNumber, req.body.email,req.body.userName,hashedPassword,hashedPassword,1);
+  // console.log(command);
   con.query(command, function (err, mysqlres1) {
     if (err) throw err;
     userId = mysqlres1.insertId
     console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
     var command = sprintf('INSERT INTO userrolemap (userId ,roleId,status) VALUES (%d, %d);', userId, req.body.roleId);
     con.query(command, function (err, mysqlres2) {
-      if (err) {         res.send({ status: false, message: err });       }
+      if (err) {res.send({ status: false, message: err });       }
       else {       
           if (req.body.roleId = 4)
           res.status(200).send({"message":"Successfully Register"});
@@ -148,13 +148,13 @@ router.post('/auth', function (request, response) {
             if (res && results.length > 0) {
               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
               console.log("token", accesstoken);
-              response.status(200).send({ accesstoken: accesstoken,"message":"Successfully Login"});
+              response.status(200).send({"message":"Successfully Login", accesstoken: accesstoken});
               // response.send({"message"success to login");
 
             }
             else{
               response.status(401).send({"message":"Incorrect Username and/or Password!"});
-              response.end();
+              // response.end();
             }
           })
           .catch(err => console.error(err.message))
@@ -162,7 +162,7 @@ router.post('/auth', function (request, response) {
 
       }else{
         response.status(401).send({"message":"Incorrect Username and/or Password!"});
-        response.end();
+        // response.end();
       }
     }
       );
