@@ -91,7 +91,8 @@ router.post('/adduser', async function (req, res) {
       if (err) {         res.send({ status: false, message: err });       }
       else {       
           if (req.body.roleId = 4)
-          res.status(200).send("Customer added Successfully");
+          res.status(200).send({"message":"Successfully Register"});
+        res.end();
       }
   })
 })
@@ -147,12 +148,12 @@ router.post('/auth', function (request, response) {
             if (res && results.length > 0) {
               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
               console.log("token", accesstoken);
-              response.status(200).send({ accesstoken: accesstoken,});
-              response.send("success to login");
+              response.status(200).send({ accesstoken: accesstoken,"message":"Successfully Login"});
+              // response.send({"message"success to login");
 
             }
             else{
-              response.status(401).send('Incorrect Username and/or Password!');
+              response.status(401).send({"message":"Incorrect Username and/or Password!"});
               response.end();
             }
           })
@@ -160,7 +161,7 @@ router.post('/auth', function (request, response) {
 
 
       }else{
-        response.status(401).send('Incorrect Username and/or Password!');
+        response.status(401).send({"message":"Incorrect Username and/or Password!"});
         response.end();
       }
     }
