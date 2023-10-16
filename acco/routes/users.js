@@ -79,19 +79,23 @@ catch (e) {
 router.post('/adduser', async function (req, res) {
   console.log(req.body);
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
-  console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstName,lastName,address1,address2,city,state,country,phoneNumber,email,userName,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstName,req.body.lastName,req.body.address1,  req.body.address2,req.body.city, req.body.state, req.body.country,req.body.phoneNumber, req.body.email,req.body.userName,hashedPassword,hashedPassword,1);
+  let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
+  // console.log(hashedPassword);
+  var command = sprintf('INSERT INTO user (firstName,lastName,address1,address2,city,state,country,phoneNumber,email,userName,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstName,req.body.lastName,req.body.address1,  req.body.address2,req.body.city, req.body.state, req.body.country,req.body.phoneNumber, req.body.email,req.body.userName,hashedPassword,hashedCPassword,1);
   // console.log(command);
   con.query(command, function (err, mysqlres1) {
     if (err) throw err;
+    console.log("Error",err);
     userId = mysqlres1.insertId
-    console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
-    var command = sprintf('INSERT INTO userrolemap (userId ,roleId,status) VALUES (%d, %d);', userId, req.body.roleId);
+    // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
+    var command = sprintf('INSERT INTO userrolemap (userId ,roleId,status) VALUES (%d,%d, %d);', userId, req.body.roleId,1);
     con.query(command, function (err, mysqlres2) {
-      if (err) {res.send({ status: false, message: err });       }
+      console.log(command);
+      if (err) {
+        res.status(401).send({ "message": err });       }
       else {       
           if (req.body.roleId = 4)
-          res.status(200).send({"message":"Successfully Register"});
+          res.status(200).send({message:"Successfully Register"});
         res.end();
       }
   })
