@@ -15,10 +15,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+const allowedOrigins = ['http://localhost:3001' , 'https://192.68.0.6:3002', 'http://127.0.0.1:3002'];
+const options=cors.CorsOptions= {  origin: allowedOrigins};
+app.use(cors(options));
 app.use(cors({
   origin: '*'
   
 }));
+
+
 
 app.use(logger('dev'));
 app.use(express.json());

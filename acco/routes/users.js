@@ -10,10 +10,10 @@ const State = require('country-state-city').State;
 
 
 //auth login
-const authenticat =(req,res)=>{
+const authcheck =(req,res)=>{
   headers = {
     'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Origin": origin.allowedOrigins,
     "Access-Control-Allow-Credentials": true
   };
   const authHeader = req.headers['authorization'];
@@ -40,7 +40,7 @@ router.get('/', function (req, res, next) {
 // console.log(State.getAllStates())
 });
 
-router.get('/home', function (req, res, next) {
+router.get('/home', authcheck, function (req, res, next) {
   res.status(200).send(Country.getAllCountries());
 }
 );
@@ -49,7 +49,7 @@ router.get('/home', function (req, res, next) {
 router.post('/addbooking',function(req,res){
   try{
   console.log(req.body);
-  var command = sprintf('INSERT INTO booking (firstName,lastName,email,phoneNumber,address1,address2,city,state,country,pincode,checkIn,checkOut,adults,child,roomType,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)',req.body.firstName, req.body.lastName, req.body.email,req.body.phoneNumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkIn,req.body.checkOut,req.body.adult,req.body.child,req.body.roomType,1);
+  var command = sprintf('INSERT INTO booking (firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)',req.body.firstname, req.body.lastname, req.body.email,req.body.phonenumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkin,req.body.checkout,req.body.adult,req.body.child,req.body.roomtype,1);
   
     console.log("after",command);
   con.query(command,function(err,result)
@@ -77,42 +77,43 @@ catch (e) {
 //add user
 
 router.post('/adduser', async function (req, res) {
-  console.log(req.body);
+  try{
+  console.log("body",req.body);
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
   let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
-  // console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstName,lastName,address1,address2,city,state,country,phoneNumber,email,userName,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstName,req.body.lastName,req.body.address1,  req.body.address2,req.body.city, req.body.state, req.body.country,req.body.phoneNumber, req.body.email,req.body.userName,hashedPassword,hashedCPassword,1);
-  // console.log(command);
+  console.log(hashedPassword);
+  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,registereddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.registereddate ,req.body.phonenumber, req.body.email,req.body.createddate, req.body.username,hashedPassword,hashedCPassword,1);
+  console.log(command);
   con.query(command, function (err, mysqlres1) {
+    // console.log(v);
     if (err) throw err;
     console.log("Error",err);
-    userId = mysqlres1.insertId
+    userid = mysqlres1.insertId
+    console.log(userid);
     // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
-    var command = sprintf('INSERT INTO userrolemap (userId ,roleId,status) VALUES (%d,%d, %d);', userId, req.body.roleId,1);
+    var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid,1);
     con.query(command, function (err, mysqlres2) {
-      console.log(command);
+      console.log("role",command);
       if (err) {
         res.status(401).send({ "message": err });       }
       else {       
-          if (req.body.roleId = 4)
+          if (req.body.roleid = 4)
           res.status(200).send({message:"Successfully Register"});
         res.end();
       }
   })
 })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }  
 })
-    // if (err) {
-    //   res.send({ status: false, message: err });
-    // }
-    // else {
-
-    //   res.status(200).send("Users added Successfully");
-    // }
-
-
 
 //get booking detail
 router.get('/getbooking',function(req,res){
+  try{
   command='select * from booking ';
   con.query(command,function(error,results){
     if(error){
@@ -122,10 +123,19 @@ router.get('/getbooking',function(req,res){
       res.send(results);
     }
   })
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
+
+})
 
   //get user detail
   router.get('/getuser',function(req,res){
-    command='select * from user ';
+    try{
+    command='select * from user';
     con.query(command,function(error,results){
       if(error){
         res.send("Unable to get Date ")
@@ -134,7 +144,12 @@ router.get('/getbooking',function(req,res){
         res.send(results);
       }
     })
-  })
+ }
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
   
 })
 
