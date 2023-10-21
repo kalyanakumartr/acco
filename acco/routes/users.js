@@ -6,8 +6,40 @@ const jsonwebtoken = require('jsonwebtoken');
 const con = require('../dbconfig');
 const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
+const multer = require('multer');
+const path = require('path');
 
+//booked
+router.post('/roombooked',function(req,res){
+console.log("Welcome to Book page");
+// console.log(req.body);
 
+var getdetails = "SELECT *,false as roombooked FROM booking WHERE bookingid=" +req.body.bookingid;
+
+con.query(getdetails,function(request,result){
+  console.log("resu",result[0].adults);
+
+if(result[0].adults<=4)
+{
+
+ console.log("Booked");
+}
+  
+else{
+  console.log("Not Booked");
+  // response.end();
+}
+
+  // 
+  // res.end();
+  
+})
+// console.log(cin);
+// var gerorderwise= "SELECT * FROM room ORDER BY roomname";
+// c=con.query(gerorderwise,function(reqq,ress){})
+// console.log("cin",cin,"c",res[0].roomname,"order",gerorderwise);
+
+});
 
 //auth login
 const authcheck =(req,res)=>{
@@ -72,6 +104,55 @@ catch (e) {
 }
 })
 
+
+//update image
+
+//storage
+
+const storage = multer.diskStorage({
+  destination: 'C:/accouserimage/',
+
+  filename: (req1, file, cb) => {
+        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+      }
+})
+
+//end storage
+
+//create image 
+const createimage = async (req, res, next) => {
+
+  var data = {
+
+    imageurl: req.file.filename,
+
+    // userImage:userImg.filename,
+    // status:1
+  }
+  // console.log("Filename",req.file.filename);
+  let result = await con.query("update user set imageurl='" + req.file.filename + "' WHERE userid=" + req.body.userid, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.send({
+        message: "errpr", err
+      })
+    }
+    else {
+      res.send({ message: "save" })
+    }
+  })
+}
+
+//end create image 
+//upload
+const upload = multer({
+  storage: storage
+})
+//end upload
+router.post('/updateuserimage', upload.single('images'), createimage)
+
+
+//end updateuser image
 
 
 //add user
