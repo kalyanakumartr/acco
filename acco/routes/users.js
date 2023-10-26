@@ -9,6 +9,78 @@ const State = require('country-state-city').State;
 const multer = require('multer');
 const path = require('path');
 
+
+
+//idproof 
+
+//update image
+
+//storage
+
+const storagespace = multer.diskStorage({
+  destination: 'C:/accouserimage/proof',
+  filee: (req1, file, cb) => {
+        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+      }
+})
+
+//end storage
+
+//create image 
+const userproofimage = async (req, res, next) => {
+
+  var data1 = {
+    idproof: req.file.filename,
+  }
+  console.log("Filename",req.file.filename);
+
+  let result = await con.query("update user set idproof='" + req.file.filename + "' WHERE proofid=" + req.body.idproof, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.send({
+        message: "error", err
+      })
+    }
+    else {
+      res.send({ message: "save" })
+    }
+  })
+}
+
+//end create image 
+//upload
+const proofupload = multer({
+  storage: storagespace
+})
+//end upload
+
+router.post('/userproof', proofupload.single('images'), userproofimage)
+
+//cancelroombook
+router.post('cancelroombook/:id',function(req,res){
+  console.log("Welcome to cancel Room Book");
+  var id = req.params.id;
+  var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND id=' + id;
+  con.query(cmd, function (error, getresult) {
+    if(getresult=true){
+      var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + ' ';
+      let data = [true, 1];
+      con.query(command, data, function (error, result) {
+        if (error) {
+          res.send({ status: false, message: error });
+          console.log(error);
+          throw error;
+        }
+        else {
+          res.status(200).send("Successfully Booking Cancel");
+        };
+      });
+    }
+  })
+});
+
+
+
 //booked
 router.post('/roombooked',function(req,res){
 console.log("Welcome to Book page");
@@ -22,12 +94,20 @@ con.query(getdetails,function(request,result){
 if(result[0].adults<=4)
 {
 
- console.log("Booked");
+ console.log("2 bed room Booked");
+ res.send({"Message":"2 Bed Room Booked"})
+}
+else if(result[0].adults>=4 && result[0].adults<=6)
+{
+  console.log("3 bed room Booked");
+  res.send({"Message":"3 Bed Room Booked"})
+ 
 }
   
 else{
   console.log("Not Booked");
-  // response.end();
+  res.send({"Message":" Not Booked"})
+  res.end();
 }
 
   // 
@@ -38,6 +118,7 @@ else{
 // var gerorderwise= "SELECT * FROM room ORDER BY roomname";
 // c=con.query(gerorderwise,function(reqq,ress){})
 // console.log("cin",cin,"c",res[0].roomname,"order",gerorderwise);
+
 
 });
 
@@ -110,7 +191,7 @@ catch (e) {
 //storage
 
 const storage = multer.diskStorage({
-  destination: 'C:/accouserimage/',
+  destination: 'C:/accouserimage/user',
 
   filename: (req1, file, cb) => {
         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
@@ -124,10 +205,8 @@ const createimage = async (req, res, next) => {
 
   var data = {
 
-    imageurl: req.file.filename,
+    imageurl: req.file?.filename,
 
-    // userImage:userImg.filename,
-    // status:1
   }
   // console.log("Filename",req.file.filename);
   let result = await con.query("update user set imageurl='" + req.file.filename + "' WHERE userid=" + req.body.userid, function (err, rows) {
@@ -173,8 +252,10 @@ router.post('/adduser', async function (req, res) {
     console.log(userid);
     // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
     var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid,1);
-    con.query(command, function (err, mysqlres2) {
+    // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
+    con.query(command,function (err, mysqlres2) {
       console.log("role",command);
+      // console.log("proof",command1);
       if (err) {
         res.status(401).send({ "message": err });       }
       else {       
@@ -238,29 +319,35 @@ catch (e) {
 router.post('/auth', function (request, response) {
   let username = request.body.userName;
   let password = request.body.password;
-  response.setHeader('Content-Type', 'application/json');
+  console.log("Check", username, password);
+  // response.setHeader({'Content-Type': 'application/json'});
+  // response.header ({'Content-Type': 'application/json'});
   if (username && password) {
-    con.query('SELECT *FROM user WHERE userName = ?  ', [request.body.userName], function (error, results) {
+    con.query('SELECT *FROM user WHERE username = ?  ', [request.body.userName], function (error, results) {
       if (results.length > 0) {
+        console.log("test3");
         bcrypt
           .compare(request.body.password, results[0].password)
           .then(res => {
+            console.log("test1");
             if (res && results.length > 0) {
               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
               console.log("token", accesstoken);
               response.status(200).send({"message":"Successfully Login", accesstoken: accesstoken});
               // response.send({"message"success to login");
+              response.end();
 
             }
             else{
               response.status(401).send({"message":"Incorrect Username and/or Password!"});
-              // response.end();
+              response.end();
             }
           })
           .catch(err => console.error(err.message))
 
 
       }else{
+        console.log("test2");
         response.status(401).send({"message":"Incorrect Username and/or Password!"});
         // response.end();
       }

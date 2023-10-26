@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const cors = require("cors");
+// const cors = require("cors");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -15,15 +15,18 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-const allowedOrigins = ['http://localhost:3001' , 'https://192.68.0.6:3002', 'http://127.0.0.1:3002'];
+const { error } = require('console');
+
+
+
+const cors = require('cors');
+const allowedOrigins = ['http://localhost:4200' ];
 const options=cors.CorsOptions= {  origin: allowedOrigins};
 app.use(cors(options));
 app.use(cors({
   origin: '*'
   
 }));
-
-
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -54,6 +57,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+// app.listen(3001, 'localhost'); // or server.listen(3001, '0.0.0.0'); for all interfaces
+// app.on('listening', function() {
+//     console.log('Express server started on port %s at %s', server.address().port, server.address().address);
+// });
 
 
 app.use(function(err, req, res, next) {
