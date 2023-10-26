@@ -10,6 +10,28 @@ const multer = require('multer');
 const path = require('path');
 
 
+//get role 
+
+router.get('/getrole',function(req,res){
+  try{
+    command='select * from role ';
+    console.log(command);
+    con.query(command,function(error,results){
+      if(error){
+        res.send({"Message":"Unable to get Date "});
+      }
+      else{
+        res.send({"results":results});
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+  
+  })
 
 //idproof 
 
