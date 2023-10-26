@@ -319,17 +319,18 @@ catch (e) {
 router.post('/auth', function (request, response) {
   let username = request.body.userName;
   let password = request.body.password;
-  console.log("Check", username, password);
+  // console.log("Check", username, password);
+  // console.log("Check", username, password);
   // response.setHeader({'Content-Type': 'application/json'});
   // response.header ({'Content-Type': 'application/json'});
   if (username && password) {
     con.query('SELECT *FROM user WHERE username = ?  ', [request.body.userName], function (error, results) {
       if (results.length > 0) {
-        console.log("test3");
+        // console.log("test3");
         bcrypt
           .compare(request.body.password, results[0].password)
           .then(res => {
-            console.log("test1");
+            // console.log("test1");
             if (res && results.length > 0) {
               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
               console.log("token", accesstoken);
@@ -347,7 +348,7 @@ router.post('/auth', function (request, response) {
 
 
       }else{
-        console.log("test2");
+        // console.log("test2");
         response.status(401).send({"message":"Incorrect Username and/or Password!"});
         // response.end();
       }
