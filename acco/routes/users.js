@@ -21,7 +21,8 @@ router.get('/getrole',function(req,res){
         res.send({"Message":"Unable to get Date "});
       }
       else{
-        res.send({"results":results});
+        res.send(results);
+        // console.log("Done");
       }
     })
   }
@@ -30,6 +31,10 @@ router.get('/getrole',function(req,res){
     const statusCode = e.statusCoderes || 500;
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
+  
+
+
+
   
   })
 
