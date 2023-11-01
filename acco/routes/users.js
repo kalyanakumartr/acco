@@ -12,8 +12,8 @@ const path = require('path');
 //get food item
 router.get('/getfooditem',function(req,res){
   try{
-    command='select * from fooditem ';
-    console.log(command);
+    command='select * from fooditem';
+    
     con.query(command,function(error,results){
       if(error){
         res.send({"Message":"Unable to get Date "});
