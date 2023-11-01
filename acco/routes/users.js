@@ -9,6 +9,27 @@ const State = require('country-state-city').State;
 const multer = require('multer');
 const path = require('path');
 
+//get food item
+router.get('/getfooditem',function(req,res){
+  try{
+    command='select * from fooditem ';
+    console.log(command);
+    con.query(command,function(error,results){
+      if(error){
+        res.send({"Message":"Unable to get Date "});
+      }
+      else{
+        res.send(results);
+        // console.log("Done");
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
 
 //get role 
 
@@ -277,8 +298,8 @@ router.post('/adduser', async function (req, res) {
   var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
   var year = date_ob.getFullYear();
      
-  var date = year + "-" + month + "-" + day;
-  console.log(date);
+  // var date = year + "-" + month + "-" + day;
+  // console.log(date);
       
   var hours = date_ob.getHours();
   var minutes = date_ob.getMinutes();
@@ -383,7 +404,7 @@ router.post('/auth', function (request, response) {
             if (res && results.length > 0) {
               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
               console.log("token", accesstoken);
-              response.status(200).send({"message":"Successfully Login", accesstoken: accesstoken});
+              response.status(200).send({"message":"Successfully Login", accesstoken: accesstoken,username:results[0].username});
               // response.send({"message"success to login");
               response.end();
 
