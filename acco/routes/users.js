@@ -269,7 +269,29 @@ router.post('/adduser', async function (req, res) {
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
   let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
   console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,registereddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.registereddate ,req.body.phonenumber, req.body.email,req.body.createddate, req.body.username,hashedPassword,hashedCPassword,1);
+  //datetime st
+  // var datetime=new  GETDATE();
+  // console.log("date",datetime);
+  var date_ob = new Date();
+  var day = ("0" + date_ob.getDate()).slice(-2);
+  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  var year = date_ob.getFullYear();
+     
+  var date = year + "-" + month + "-" + day;
+  console.log(date);
+      
+  var hours = date_ob.getHours();
+  var minutes = date_ob.getMinutes();
+  var seconds = date_ob.getSeconds();
+    
+  var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+  console.log(dateTime);
+
+
+
+  //end datetime 
+  console.log(hashedPassword);
+  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,registereddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.registereddate ,req.body.phonenumber, req.body.email,dateTime, req.body.username,hashedPassword,hashedCPassword,1);
   console.log(command);
   con.query(command, function (err, mysqlres1) {
     // console.log(v);
@@ -383,4 +405,69 @@ router.post('/auth', function (request, response) {
       );
   }
 })
+
+//anupama code 
+
+router.get('/getfloor', function (req, res) {
+  console.log("getfloor");
+  var tablelist = "SELECT floornumber FROM floor ";
+  con.query(tablelist, function (error, result) {
+    if (error) {
+      console.log(error);
+      res.send("Unable to get data");
+    }
+    else {
+      res.send(result);
+    }
+  });
+  });
+
+  //to get roomnumber and bhk when floornumber given
+  router.get('/getroom/:floornumber', function (req, res) {
+    console.log("getroom")
+    var getroom = "SELECT * FROM floorroommapping WHERE floornumber=" + req.params.floornumber+'';
+    con.query(getroom, function (error, result) {
+      if (error) {
+        console.log(error);
+        res.send("Unable to get data");
+      }
+      else {
+        res.send(result);
+      }
+    });
+  });
+
+  router.get('/getbhk/:noofbhk', function (req, res) {
+    console.log("getbhk")
+    var getroom = "SELECT * FROM floorroommapping WHERE noofbhk=" + req.params.noofbhk+'';
+    con.query(getroom, function (error, result) {
+      if (error) {
+        console.log(error);
+        res.send("Unable to get data");
+      }
+      else {
+        res.send(result);
+      }
+    });
+  });
+
+  router.get('/getChargedAmenities', function (req, res) {
+    console.log("getchargedAmenities")
+    var getroom = "SELECT * FROM facilitycharges WHERE facilitycategory='Charged Amenities'" ;
+    con.query(getroom, function (error, result) {
+      if (error) {
+        console.log(error);
+        res.send("Unable to get data");
+      }
+      else {
+        res.send(result);
+      }
+    });
+  });
+  
+
+  module.exports = router;
+
+
+
 module.exports = router;
