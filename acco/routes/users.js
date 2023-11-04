@@ -26,7 +26,7 @@ const authcheck =(req,res,next)=>{
   console.log(token);
   if (!token) return res.sendStatus(401);
   jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
-    console.log("jsonwebtoken",jsonwebtoken);
+    
     if (err) {
       console.log("error",err);
       return res.sendStatus(403);
@@ -37,6 +37,33 @@ const authcheck =(req,res,next)=>{
 
   })
 }
+
+
+//placetovisit
+
+
+router.get('/getplacetovisit',authcheck,function(req,res){
+  try{
+    command='select * from placetovisit';
+    
+    con.query(command,function(error,results){
+      if(error){
+        res.send({"Message":"Unable to get Date "});
+      }
+      else{
+        res.send({results});
+    
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+
 
 
 
