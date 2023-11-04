@@ -220,7 +220,7 @@ router.get('/home', authcheck, function (req, res, next) {
 router.post('/addbooking',function(req,res){
   try{
   console.log(req.body);
-  var command = sprintf('INSERT INTO booking (firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)',req.body.firstname, req.body.lastname, req.body.email,req.body.phonenumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkin,req.body.checkout,req.body.adult,req.body.child,req.body.roomtype,1);
+  var command = sprintf('INSERT INTO booking (firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)',req.body.firstname, req.body.lastname, req.body.email,req.body.phonenumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkin,req.body.checkout,req.body.adult,req.body.child,req.body.roomtype,1);
   
     console.log("after",command);
   con.query(command,function(err,result)

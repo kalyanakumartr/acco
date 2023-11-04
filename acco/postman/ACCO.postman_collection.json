@@ -1,0 +1,472 @@
+{
+	"info": {
+		"_postman_id": "520e1000-e3bb-4319-9dfc-d2020f76d42d",
+		"name": "ACCO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21730236"
+	},
+	"item": [
+		{
+			"name": "adduser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"nagam2\",\r\n    \"lastname\": \"n\",    \r\n    \"address1\":\"51\",\r\n    \"address2\":\"a\",\r\n    \"city\":\"namakkal\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\", \r\n    \"modifieddate\":\"2010-10-24 12:12\",\r\n    \"phonenumber\":\"9876545667\",\r\n    \"email\":\"nagam2@gmail.com\",  \r\n       \"userName\":\"muthu\",\r\n     \"password\":\"muthu\",\r\n     \"cpassword\":\"muthu\",\r\n     \"roleid\":4\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/adduser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"adduser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateuserimage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/stashook/oudatha/BE/oudatha/images/image_1693491580291.jpg"
+						},
+						{
+							"key": "userid",
+							"value": "8",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/updateuserimage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"updateuserimage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "proofimage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/stashook/oudatha/BE/oudatha/images/image_1693491580291.jpg"
+						},
+						{
+							"key": "userid",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "proofname",
+							"value": "id card",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/userproof",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"userproof"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addbooking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"Arjun\",\r\n    \"lastname\":\"Test1\",\r\n    \"email\":\"muthu@stashook.com\",\r\n    \"phonenumber\":\"444444\",\r\n    \"address1\":\"Test1\",\r\n    \"address2\":\"Test1\",\r\n    \"city\":\"Test1\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\",\r\n    \"pincode\":\"55555\",\r\n    \"checkin\":\"2023-09-02 03:00\" ,\r\n    \"checkout\":\"2023-10-10 04:00\",\r\n    \"adults\":\"2\",\r\n    \"child\":\"1\",\r\n    \"roomtype\":\"Service Apartments\"\r\n    \r\n}   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/addbooking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"addbooking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "roombooked",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"Arjun\",\r\n    \"lastname\":\"Test1\",\r\n    \"email\":\"muthu@stashook.com\",\r\n    \"phonenumber\":\"444444\",\r\n    \"address1\":\"Test1\",\r\n    \"address2\":\"Test1\",\r\n    \"city\":\"Test1\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\",\r\n    \"pincode\":\"55555\",\r\n    \"checkin\":\"2023-09-02 03:00\" ,\r\n    \"checkout\":\"2023-10-10 04:00\",\r\n    \"adults\":\"2\",\r\n    \"child\":\"1\",\r\n    \"roomtype\":\"Service Apartments\"\r\n    \r\n}   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/roombooked",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"roombooked"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\":\"muthu\",\r\n    \"password\":\"muthu\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getuser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getfloor",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getfloor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getfloor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroom/:floornumber",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getroom/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getroom",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getChargedAmenities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getChargedAmenities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getChargedAmenities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getbhk/:noofbhk",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getbhk/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getbhk",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getfooditem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getfooditem",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getfooditem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getrole",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/getrole",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getrole"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getbooking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getbooking"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
