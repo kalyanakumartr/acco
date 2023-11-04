@@ -171,20 +171,25 @@ else{
 });
 
 //auth login
-const authcheck =(req,res)=>{
+const authcheck =(req,res,next)=>{
   headers = {
+
     'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin": origin.allowedOrigins,
+    "Access-Control-Allow-Origin":' <origin>',
     "Access-Control-Allow-Credentials": true
   };
+  console.log(headers);
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(" ")[1];
+  console.log(token);
   if (!token) return res.sendStatus(401);
   jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
+    console.log("jsonwebtoken",jsonwebtoken);
     if (err) {
+      console.log("error",err);
       return res.sendStatus(403);
     }
-    req.username = obj.username;
+    req.userName = obj.username;
     req.password = obj.password;
     next();
 
@@ -312,7 +317,7 @@ router.post('/adduser', async function (req, res) {
 
   //end datetime 
   console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,registereddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.registereddate ,req.body.phonenumber, req.body.email,dateTime, req.body.username,hashedPassword,hashedCPassword,1);
+  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.modifieddate ,req.body.phonenumber, req.body.email,dateTime, req.body.userName,hashedPassword,hashedCPassword,1);
   console.log(command);
   con.query(command, function (err, mysqlres1) {
     // console.log(v);
@@ -344,7 +349,7 @@ router.post('/adduser', async function (req, res) {
 })
 
 //get booking detail
-router.get('/getbooking',function(req,res){
+router.get('/getbooking',authcheck,function(req,res){
   try{
   command='select * from booking ';
   con.query(command,function(error,results){
@@ -365,7 +370,7 @@ catch (e) {
 })
 
   //get user detail
-  router.get('/getuser',function(req,res){
+  router.get('/getuser',authcheck,function(req,res){
     try{
     command='select * from user';
     con.query(command,function(error,results){
