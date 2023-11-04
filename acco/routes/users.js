@@ -9,8 +9,40 @@ const State = require('country-state-city').State;
 const multer = require('multer');
 const path = require('path');
 
+
+
+
+//auth login
+const authcheck =(req,res,next)=>{
+  headers = {
+
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin":' <origin>',
+    "Access-Control-Allow-Credentials": true
+  };
+  console.log(headers);
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(" ")[1];
+  console.log(token);
+  if (!token) return res.sendStatus(401);
+  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
+    console.log("jsonwebtoken",jsonwebtoken);
+    if (err) {
+      console.log("error",err);
+      return res.sendStatus(403);
+    }
+    req.userName = obj.username;
+    req.password = obj.password;
+    next();
+
+  })
+}
+
+
+
+
 //get food item
-router.get('/getfooditem',function(req,res){
+router.get('/getfooditem',authcheck,function(req,res){
   try{
     command='select * from fooditem';
     
@@ -33,7 +65,7 @@ router.get('/getfooditem',function(req,res){
 
 //get role 
 
-router.get('/getrole',function(req,res){
+router.get('/getrole',authcheck,function(req,res){
   try{
     command='select * from role ';
     console.log(command);
@@ -169,33 +201,6 @@ else{
 
 
 });
-
-//auth login
-const authcheck =(req,res,next)=>{
-  headers = {
-
-    'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin":' <origin>',
-    "Access-Control-Allow-Credentials": true
-  };
-  console.log(headers);
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(" ")[1];
-  console.log(token);
-  if (!token) return res.sendStatus(401);
-  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
-    console.log("jsonwebtoken",jsonwebtoken);
-    if (err) {
-      console.log("error",err);
-      return res.sendStatus(403);
-    }
-    req.userName = obj.username;
-    req.password = obj.password;
-    next();
-
-  })
-}
-
 
 
 /* GET users listing. */
@@ -434,7 +439,7 @@ router.post('/auth', function (request, response) {
 
 //anupama code 
 
-router.get('/getfloor', function (req, res) {
+router.get('/getfloor', authcheck,function (req, res) {
   console.log("getfloor");
   var tablelist = "SELECT floornumber FROM floor ";
   con.query(tablelist, function (error, result) {
@@ -449,7 +454,7 @@ router.get('/getfloor', function (req, res) {
   });
 
   //to get roomnumber and bhk when floornumber given
-  router.get('/getroom/:floornumber', function (req, res) {
+  router.get('/getroom/:floornumber',authcheck, function (req, res) {
     console.log("getroom")
     var getroom = "SELECT * FROM floorroommapping WHERE floornumber=" + req.params.floornumber+'';
     con.query(getroom, function (error, result) {
@@ -463,7 +468,7 @@ router.get('/getfloor', function (req, res) {
     });
   });
 
-  router.get('/getbhk/:noofbhk', function (req, res) {
+  router.get('/getbhk/:noofbhk',authcheck, function (req, res) {
     console.log("getbhk")
     var getroom = "SELECT * FROM floorroommapping WHERE noofbhk=" + req.params.noofbhk+'';
     con.query(getroom, function (error, result) {
@@ -477,7 +482,7 @@ router.get('/getfloor', function (req, res) {
     });
   });
 
-  router.get('/getChargedAmenities', function (req, res) {
+  router.get('/getChargedAmenities',authcheck, function (req, res) {
     console.log("getchargedAmenities")
     var getroom = "SELECT * FROM facilitycharges WHERE facilitycategory='Charged Amenities'" ;
     con.query(getroom, function (error, result) {

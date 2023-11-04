@@ -1,0 +1,18 @@
+1. authcheck
+2. getfooditem
+3. getrole
+4. userproof pending show error(becase double time get same for updateuserimage)
+5. roombooked pending post method
+6. addbooking
+7. updateuserimage done
+8. adduser
+9. getbooking
+10. getuser
+11. auth
+anupama code will check
+12. getfloor
+13. getroom/:floornumber
+14. getbhk/:noofbhk
+15. getChargedAmenities
+16
+
