@@ -20,10 +20,10 @@ const authcheck =(req,res,next)=>{
     "Access-Control-Allow-Origin":' <origin>',
     "Access-Control-Allow-Credentials": true
   };
-  console.log(headers);
+  // console.log(headers);
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(" ")[1];
-  console.log(token);
+  // console.log(token);
   if (!token) return res.sendStatus(401);
   jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
     
@@ -42,18 +42,16 @@ const authcheck =(req,res,next)=>{
 //placetovisit
 
 
-router.get('/getplacetovisit',authcheck,function(req,res){
+router.get('/getplacetovisit',function(req,res){
   try{
     command='select * from placetovisit';
-    
-    con.query(command,function(error,results){
+        con.query(command,function(error,results){
       if(error){
         res.send({"Message":"Unable to get Date "});
       }
       else{
-        res.send({results});
-    
-      }
+        res.send(results);
+          }
     })
   }
   catch (e) {
@@ -69,7 +67,7 @@ router.get('/getplacetovisit',authcheck,function(req,res){
 
 
 //get food item
-router.get('/getfooditem',authcheck,function(req,res){
+router.get('/getfooditem',function(req,res){
   try{
     command='select * from fooditem';
     
@@ -92,7 +90,7 @@ router.get('/getfooditem',authcheck,function(req,res){
 
 //get role 
 
-router.get('/getrole',authcheck,function(req,res){
+router.get('/getrole',function(req,res){
   try{
     command='select * from role ';
     console.log(command);
