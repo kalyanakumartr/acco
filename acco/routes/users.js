@@ -8,16 +8,15 @@ const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
 const multer = require('multer');
 const path = require('path');
-
-
+const { error } = require('console');
 
 
 //auth login
-const authcheck =(req,res,next)=>{
+const authcheck = (req, res, next) => {
   headers = {
 
     'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin":' <origin>',
+    "Access-Control-Allow-Origin": ' <origin>',
     "Access-Control-Allow-Credentials": true
   };
   // console.log(headers);
@@ -26,9 +25,9 @@ const authcheck =(req,res,next)=>{
   // console.log(token);
   if (!token) return res.sendStatus(401);
   jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
-    
+
     if (err) {
-      console.log("error",err);
+      console.log("error", err);
       return res.sendStatus(403);
     }
     req.userName = obj.username;
@@ -39,19 +38,119 @@ const authcheck =(req,res,next)=>{
 }
 
 
+//get room split
+router.get('/getroomsplit', authcheck, function (req, res) {
+  try {
+    command = 'SELECT * FROM room  WHERE roomsplit=1';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+//end get room
+
+//get room list
+router.get('/getroomlist/:adults', authcheck, function (req, res) {
+// var cmd=sprintf("select adults, child from booking where adults="+req.query.adults+ "and child="+req.query.child);
+var cmd=sprintf("select adults from booking where adults="+req.params.adults);
+console.log(cmd);
+con.query(cmd,function(err,getadults){
+  
+  var cmmd=sprintf("select * from room where roomsplit=1")
+  con.query(cmmd,function(reqq,getroom){
+    if(getadults[0].adults>=1 && getadults[0].adults<=4){
+    console.log(getroom);
+    res.send(getroom);
+    res.end();
+  }
+  else if(getadults[0].adults>=5 && getadults[0].adults<=8 )
+  {
+    var cmmdd=sprintf("select * from room where roomsplit=0 and roomname='2BHK' ")
+    con.query(cmmdd,function(req,more2){
+      console.log(more2);
+      res.send(more2);
+      res.end();
+    })
+      }
+    else(getadults[0].adults>=9 && getadults[0].adults<=12 )
+    {
+      var cmmddd=sprintf("select * from room where roomsplit=0 and roomname='3BHK' ")
+    con.query(cmmddd,function(req,more3){
+      console.log(more3);
+      res.send(more3);
+      res.end();
+    })
+      
+    }
+  })
+})
+});
+
+//end get room
+
+
+//to get roomnumber and bhk when floornumber given
+router.get('/getroom', authcheck, function (req, res) {
+  console.log("getroom")
+  var getroom = "SELECT * FROM floorroommapping"
+  con.query(getroom, function (error, result) {
+    if (error) {
+      console.log(error);
+      res.send("Unable to get data");
+    }
+    else {
+      res.send(result);
+    }
+  });
+});
+
+// get room in room tbl
+// end get room
+
+
+// router.get('/findroom',function(req,res){
+// var get = "SELECT roomno FROM floorroommapping"
+// getroom.find()
+// .then(roomno=>{
+//   res.json(roomno)
+// })
+// .catch(error=>{
+//   res.json({error})
+// })
+// })
+
+// //
+// st extra bill 
+
+
+
+// end extra bill
+
+
 //placetovisit
 
 
-router.get('/getplacetovisit',function(req,res){
-  try{
-    command='select * from placetovisit';
-        con.query(command,function(error,results){
-      if(error){
-        res.send({"Message":"Unable to get Date "});
+router.get('/getplacetovisit', authcheck, function (req, res) {
+  try {
+    command = 'select * from placetovisit';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
       }
-      else{
+      else {
         res.send(results);
-          }
+      }
     })
   }
   catch (e) {
@@ -67,15 +166,15 @@ router.get('/getplacetovisit',function(req,res){
 
 
 //get food item
-router.get('/getfooditem',function(req,res){
-  try{
-    command='select * from fooditem';
-    
-    con.query(command,function(error,results){
-      if(error){
-        res.send({"Message":"Unable to get Date "});
+router.get('/getfooditem', authcheck, function (req, res) {
+  try {
+    command = 'select * from fooditem';
+
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
       }
-      else{
+      else {
         res.send(results);
         // console.log("Done");
       }
@@ -90,15 +189,15 @@ router.get('/getfooditem',function(req,res){
 
 //get role 
 
-router.get('/getrole',function(req,res){
-  try{
-    command='select * from role ';
+router.get('/getrole', authcheck, function (req, res) {
+  try {
+    command = 'select * from role ';
     console.log(command);
-    con.query(command,function(error,results){
-      if(error){
-        res.send({"Message":"Unable to get Date "});
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
       }
-      else{
+      else {
         res.send(results);
         // console.log("Done");
       }
@@ -109,12 +208,12 @@ router.get('/getrole',function(req,res){
     const statusCode = e.statusCoderes || 500;
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
-  
 
 
 
-  
-  })
+
+
+})
 
 //idproof 
 
@@ -125,8 +224,8 @@ router.get('/getrole',function(req,res){
 const storagespace = multer.diskStorage({
   destination: 'C:/accouserimage/proof',
   filee: (req1, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-      }
+    return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+  }
 })
 
 //end storage
@@ -137,7 +236,7 @@ const userproofimage = async (req, res, next) => {
   var data1 = {
     idproof: req.file.filename,
   }
-  console.log("Filename",req.file.filename);
+  console.log("Filename", req.file.filename);
 
   let result = await con.query("update user set idproof='" + req.file.filename + "' WHERE proofid=" + req.body.idproof, function (err, rows) {
     if (err) {
@@ -162,12 +261,12 @@ const proofupload = multer({
 router.post('/userproof', proofupload.single('images'), userproofimage)
 
 //cancelroombook
-router.post('cancelroombook/:id',function(req,res){
+router.post('cancelroombook/:id', function (req, res) {
   console.log("Welcome to cancel Room Book");
   var id = req.params.id;
   var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND id=' + id;
   con.query(cmd, function (error, getresult) {
-    if(getresult=true){
+    if (getresult = true) {
       var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + ' ';
       let data = [true, 1];
       con.query(command, data, function (error, result) {
@@ -187,42 +286,40 @@ router.post('cancelroombook/:id',function(req,res){
 
 
 //booked
-router.post('/roombooked',function(req,res){
-console.log("Welcome to Book page");
-// console.log(req.body);
+router.post('/roombooked', authcheck, function (req, res) {
+  console.log("Welcome to Book page");
+  // console.log(req.body);
 
-var getdetails = "SELECT *,false as roombooked FROM booking WHERE bookingid=" +req.body.bookingid;
+  var getdetails = "SELECT *,false as roombooked FROM booking WHERE bookingid=" + req.body.bookingid;
 
-con.query(getdetails,function(request,result){
-  console.log("resu",result[0].adults);
+  con.query(getdetails, function (request, result) {
+    console.log("resu", result[0].adults);
 
-if(result[0].adults<=4)
-{
+    if (result[0].adults <= 4) {
 
- console.log("2 bed room Booked");
- res.send({"Message":"2 Bed Room Booked"})
-}
-else if(result[0].adults>=4 && result[0].adults<=6)
-{
-  console.log("3 bed room Booked");
-  res.send({"Message":"3 Bed Room Booked"})
- 
-}
-  
-else{
-  console.log("Not Booked");
-  res.send({"Message":" Not Booked"})
-  res.end();
-}
+      console.log("2 bed room Booked");
+      res.send({ "Message": "2 Bed Room Booked" })
+    }
+    else if (result[0].adults >= 4 && result[0].adults <= 6) {
+      console.log("3 bed room Booked");
+      res.send({ "Message": "3 Bed Room Booked" })
 
-  // 
-  // res.end();
-  
-})
-// console.log(cin);
-// var gerorderwise= "SELECT * FROM room ORDER BY roomname";
-// c=con.query(gerorderwise,function(reqq,ress){})
-// console.log("cin",cin,"c",res[0].roomname,"order",gerorderwise);
+    }
+
+    else {
+      console.log("Not Booked");
+      res.send({ "Message": " Not Booked" })
+      res.end();
+    }
+
+    // 
+    // res.end();
+
+  })
+  // console.log(cin);
+  // var gerorderwise= "SELECT * FROM room ORDER BY roomname";
+  // c=con.query(gerorderwise,function(reqq,ress){})
+  // console.log("cin",cin,"c",res[0].roomname,"order",gerorderwise);
 
 
 });
@@ -233,7 +330,7 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
   res.status(200).send(Country.getAllCountries());
   // console.log(Country.getAllCountries())
-// console.log(State.getAllStates())
+  // console.log(State.getAllStates())
 });
 
 router.get('/home', authcheck, function (req, res, next) {
@@ -242,30 +339,28 @@ router.get('/home', authcheck, function (req, res, next) {
 );
 
 //add booking
-router.post('/addbooking',function(req,res){
-  try{
-  console.log(req.body);
-  var command = sprintf('INSERT INTO booking (firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)',req.body.firstname, req.body.lastname, req.body.email,req.body.phonenumber,req.body.address1,req.body.address2,req.body.city,req.body.state,req.body.country ,req.body.pincode,req.body.checkin,req.body.checkout,req.body.adult,req.body.child,req.body.roomtype,1);
-  
-    console.log("after",command);
-  con.query(command,function(err,result)
-  {
-    if(err){
-      console.log(err);
-      res.send({ status: false, message: err });
-    }
-    else
-    {
-      res.status(200).send({"message": "Booking added Successfully"}); 
-      res.end();
-    }
-  })
-}
-catch (e) {
-  console.log("Catch");
-  const statusCode = e.statusCoderes || 500;
-  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-}
+router.post('/addbooking', authcheck, function (req, res) {
+  try {
+    console.log(req.body);
+    var command = sprintf('INSERT INTO booking (firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
+
+    console.log("after", command);
+    con.query(command, function (err, result) {
+      if (err) {
+        console.log(err);
+        res.send({ status: false, message: err });
+      }
+      else {
+        res.status(200).send({ "message": "Booking added Successfully" });
+        res.end();
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
 })
 
 
@@ -277,8 +372,8 @@ const storage = multer.diskStorage({
   destination: 'C:/accouserimage/user',
 
   filename: (req1, file, cb) => {
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-      }
+    return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+  }
 })
 
 //end storage
@@ -320,104 +415,105 @@ router.post('/updateuserimage', upload.single('images'), createimage)
 //add user
 
 router.post('/adduser', async function (req, res) {
-  try{
-  console.log("body",req.body);
-  let hashedPassword = await bcrypt.hash(req.body.password, 8);
-  let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
-  console.log(hashedPassword);
-  //datetime st
-  // var datetime=new  GETDATE();
-  // console.log("date",datetime);
-  var date_ob = new Date();
-  var day = ("0" + date_ob.getDate()).slice(-2);
-  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-  var year = date_ob.getFullYear();
-     
-  // var date = year + "-" + month + "-" + day;
-  // console.log(date);
-      
-  var hours = date_ob.getHours();
-  var minutes = date_ob.getMinutes();
-  var seconds = date_ob.getSeconds();
-    
-  var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-  console.log(dateTime);
+  try {
+    console.log("body", req.body);
+    let hashedPassword = await bcrypt.hash(req.body.password, 8);
+    let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
+    console.log(hashedPassword);
+    //datetime st
+    // var datetime=new  GETDATE();
+    // console.log("date",datetime);
+    var date_ob = new Date();
+    var day = ("0" + date_ob.getDate()).slice(-2);
+    var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    var year = date_ob.getFullYear();
+
+    // var date = year + "-" + month + "-" + day;
+    // console.log(date);
+
+    var hours = date_ob.getHours();
+    var minutes = date_ob.getMinutes();
+    var seconds = date_ob.getSeconds();
+
+    var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+    console.log(dateTime);
 
 
 
-  //end datetime 
-  console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.modifieddate ,req.body.phonenumber, req.body.email,dateTime, req.body.userName,hashedPassword,hashedCPassword,1);
-  console.log(command);
-  con.query(command, function (err, mysqlres1) {
-    // console.log(v);
-    if (err) throw err;
-    console.log("Error",err);
-    userid = mysqlres1.insertId
-    console.log(userid);
-    // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
-    var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid,1);
-    // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
-    con.query(command,function (err, mysqlres2) {
-      console.log("role",command);
-      // console.log("proof",command1);
-      if (err) {
-        res.status(401).send({ "message": err });       }
-      else {       
+    //end datetime 
+    console.log(hashedPassword);
+    var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.modifieddate, req.body.phonenumber, req.body.email, dateTime, req.body.userName, hashedPassword, hashedCPassword, 1);
+    console.log(command);
+    con.query(command, function (err, mysqlres1) {
+      // console.log(v);
+      if (err) throw err;
+      console.log("Error", err);
+      userid = mysqlres1.insertId
+      console.log(userid);
+      // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
+      var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid, 1);
+      // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
+      con.query(command, function (err, mysqlres2) {
+        console.log("role", command);
+        // console.log("proof",command1);
+        if (err) {
+          res.status(401).send({ "message": err });
+        }
+        else {
           if (req.body.roleid = 4)
-          res.status(200).send({message:"Successfully Register"});
-        res.end();
-      }
-  })
-})
+            res.status(200).send({ message: "Successfully Register" });
+          res.end();
+        }
+      })
+    })
   }
   catch (e) {
     console.log("Catch");
     const statusCode = e.statusCoderes || 500;
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }  
+  }
 })
 
 //get booking detail
-router.get('/getbooking',authcheck,function(req,res){
-  try{
-  command='select * from booking ';
-  con.query(command,function(error,results){
-    if(error){
-      res.send("Unable to get Date ")
-    }
-    else{
-      res.send(results);
-    }
-  })
-}
-catch (e) {
-  console.log("Catch");
-  const statusCode = e.statusCoderes || 500;
-  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-}
-
-})
-
-  //get user detail
-  router.get('/getuser',authcheck,function(req,res){
-    try{
-    command='select * from user';
-    con.query(command,function(error,results){
-      if(error){
+router.get('/getbooking', authcheck, function (req, res) {
+  try {
+    command = 'select * from booking ';
+    con.query(command, function (error, results) {
+      if (error) {
         res.send("Unable to get Date ")
       }
-      else{
+      else {
         res.send(results);
       }
     })
- }
-catch (e) {
-  console.log("Catch");
-  const statusCode = e.statusCoderes || 500;
-  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-}
-  
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+//get user detail
+router.get('/getuser', authcheck, function (req, res) {
+  try {
+    command = 'select * from user';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
 })
 
 //auth
@@ -439,32 +535,32 @@ router.post('/auth', function (request, response) {
             if (res && results.length > 0) {
               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
               console.log("token", accesstoken);
-              response.status(200).send({"message":"Successfully Login", accesstoken: accesstoken,username:results[0].username});
+              response.status(200).send({ "message": "Successfully Login", accesstoken: accesstoken, username: results[0].username });
               // response.send({"message"success to login");
               response.end();
 
             }
-            else{
-              response.status(401).send({"message":"Incorrect Username and/or Password!"});
+            else {
+              response.status(401).send({ "message": "Incorrect Username and/or Password!" });
               response.end();
             }
           })
           .catch(err => console.error(err.message))
 
 
-      }else{
+      } else {
         // console.log("test2");
-        response.status(401).send({"message":"Incorrect Username and/or Password!"});
+        response.status(401).send({ "message": "Incorrect Username and/or Password!" });
         // response.end();
       }
     }
-      );
+    );
   }
 })
 
 //anupama code 
 
-router.get('/getfloor', authcheck,function (req, res) {
+router.get('/getfloor', authcheck, function (req, res) {
   console.log("getfloor");
   var tablelist = "SELECT floornumber FROM floor ";
   con.query(tablelist, function (error, result) {
@@ -476,53 +572,53 @@ router.get('/getfloor', authcheck,function (req, res) {
       res.send(result);
     }
   });
-  });
+});
 
-  //to get roomnumber and bhk when floornumber given
-  router.get('/getroom/:floornumber',authcheck, function (req, res) {
-    console.log("getroom")
-    var getroom = "SELECT * FROM floorroommapping WHERE floornumber=" + req.params.floornumber+'';
-    con.query(getroom, function (error, result) {
-      if (error) {
-        console.log(error);
-        res.send("Unable to get data");
-      }
-      else {
-        res.send(result);
-      }
-    });
+//to get roomnumber and bhk when floornumber given
+router.get('/getroom/:floornumber', authcheck, function (req, res) {
+  console.log("getroom")
+  var getroom = "SELECT * FROM floorroommapping WHERE floornumber=" + req.params.floornumber + '';
+  con.query(getroom, function (error, result) {
+    if (error) {
+      console.log(error);
+      res.send("Unable to get data");
+    }
+    else {
+      res.send(result);
+    }
   });
+});
 
-  router.get('/getbhk/:noofbhk',authcheck, function (req, res) {
-    console.log("getbhk")
-    var getroom = "SELECT * FROM floorroommapping WHERE noofbhk=" + req.params.noofbhk+'';
-    con.query(getroom, function (error, result) {
-      if (error) {
-        console.log(error);
-        res.send("Unable to get data");
-      }
-      else {
-        res.send(result);
-      }
-    });
+router.get('/getbhk/:noofbhk', authcheck, function (req, res) {
+  console.log("getbhk")
+  var getroom = "SELECT * FROM floorroommapping WHERE noofbhk=" + req.params.noofbhk + '';
+  con.query(getroom, function (error, result) {
+    if (error) {
+      console.log(error);
+      res.send("Unable to get data");
+    }
+    else {
+      res.send(result);
+    }
   });
+});
 
-  router.get('/getChargedAmenities',authcheck, function (req, res) {
-    console.log("getchargedAmenities")
-    var getroom = "SELECT * FROM facilitycharges WHERE facilitycategory='Charged Amenities'" ;
-    con.query(getroom, function (error, result) {
-      if (error) {
-        console.log(error);
-        res.send("Unable to get data");
-      }
-      else {
-        res.send(result);
-      }
-    });
+router.get('/getChargedAmenities', authcheck, function (req, res) {
+  console.log("getchargedAmenities")
+  var getroom = "SELECT * FROM facilitycharges WHERE facilitycategory='Charged Amenities'";
+  con.query(getroom, function (error, result) {
+    if (error) {
+      console.log(error);
+      res.send("Unable to get data");
+    }
+    else {
+      res.send(result);
+    }
   });
-  
+});
 
-  module.exports = router;
+
+module.exports = router;
 
 
 
