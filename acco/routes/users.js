@@ -440,26 +440,25 @@ router.post('/adduser', async function (req, res) {
 
 
 
-    //end datetime 
-    console.log(hashedPassword);
-    var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.modifieddate, req.body.phonenumber, req.body.email, dateTime, req.body.userName, hashedPassword, hashedCPassword, 1);
-    console.log(command);
-    con.query(command, function (err, mysqlres1) {
-      // console.log(v);
-      if (err) throw err;
-      console.log("Error", err);
-      userid = mysqlres1.insertId
-      console.log(userid);
-      // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
-      var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid, 1);
-      // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
-      con.query(command, function (err, mysqlres2) {
-        console.log("role", command);
-        // console.log("proof",command1);
-        if (err) {
-          res.status(401).send({ "message": err });
-        }
-        else {
+  //end datetime 
+  console.log(hashedPassword);
+  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.modifieddate ,req.body.phonenumber, req.body.email,dateTime, req.body.userName,hashedPassword,hashedCPassword,1);
+  console.log(command);
+  con.query(command, function (err, mysqlres1) {
+    // console.log(v);
+    if (err) throw err;
+    console.log("Error",err);
+    userid = mysqlres1.insertId
+    console.log(userid);
+    // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
+    var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid,1);
+    // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
+    con.query(command,function (err, mysqlres2) {
+      console.log("role",command);
+      // console.log("proof",command1);
+      if (err) {
+        res.status(401).send({ "message": err });       }
+      else {       
           if (req.body.roleid = 4)
             res.status(200).send({ message: "Successfully Register" });
           res.end();
