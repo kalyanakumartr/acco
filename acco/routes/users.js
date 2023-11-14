@@ -8,7 +8,7 @@ const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
 const multer = require('multer');
 const path = require('path');
-const { error } = require('console');
+const { error, Console } = require('console');
 
 
 //auth login
@@ -60,44 +60,23 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 
 //end get room
 
-//get room list
-router.get('/getroomlist/:adults', authcheck, function (req, res) {
-// var cmd=sprintf("select adults, child from booking where adults="+req.query.adults+ "and child="+req.query.child);
-var cmd=sprintf("select adults from booking where adults="+req.params.adults);
-console.log(cmd);
-con.query(cmd,function(err,getadults){
-  
-  var cmmd=sprintf("select * from room where roomsplit=1")
-  con.query(cmmd,function(reqq,getroom){
-    if(getadults[0].adults>=1 && getadults[0].adults<=4){
-    console.log(getroom);
-    res.send(getroom);
-    res.end();
-  }
-  else if(getadults[0].adults>=5 && getadults[0].adults<=8 )
-  {
-    var cmmdd=sprintf("select * from room where roomsplit=0 and roomname='2BHK' ")
-    con.query(cmmdd,function(req,more2){
-      console.log(more2);
-      res.send(more2);
-      res.end();
-    })
+//st get room list
+router.get('/getroomlist', function (req, res) {
+   var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
+    con.query(cmmd, function (err, result) {
+      console.log("result", result);
+      if (err) {
+        console.log(err);
+        res.send("no data",err);
       }
-    else(getadults[0].adults>=9 && getadults[0].adults<=12 )
-    {
-      var cmmddd=sprintf("select * from room where roomsplit=0 and roomname='3BHK' ")
-    con.query(cmmddd,function(req,more3){
-      console.log(more3);
-      res.send(more3);
-      res.end();
-    })
-      
-    }
+      else {
+        res.send(result);
+      }
   })
-})
-});
 
-//end get room
+  })
+ 
+//end get room list
 
 
 //to get roomnumber and bhk when floornumber given
