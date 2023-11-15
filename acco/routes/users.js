@@ -62,20 +62,24 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 
 //st get room list
 router.get('/getroomlist', function (req, res) {
-   var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
+  //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
+  var cmmd=sprintf("select * from room where (basecount<='"+req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "+req.query.checkin+" AND "+req.query.checkout+" OR checkout BETWEEN "+req.query.checkin+" AND "+req.query.checkout+"))");
     con.query(cmmd, function (err, result) {
-      console.log("result", result);
+      console.log("cmd", cmmd);
       if (err) {
         console.log(err);
-        res.send("no data",err);
+        res.send(err);
       }
       else {
-        res.send(result);
-      }
-  })
-
-  })
- 
+        
+            console.log(result);
+            res.send(result);
+            res.end();
+          }
+        })
+        // res.send(result);
+      });
+   
 //end get room list
 
 
