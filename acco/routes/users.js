@@ -2,16 +2,110 @@ var express = require('express');
 var router = express.Router();
 var sprintf = require('sprintf-js').sprintf;
 const bcrypt = require('bcryptjs');
+const nodemailer = require("nodemailer");
 const jsonwebtoken = require('jsonwebtoken');
 const con = require('../dbconfig');
 const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
 const multer = require('multer');
 const path = require('path');
+// const otpgen=require('otp-generator');
 const { error, Console } = require('console');
 
+const otpGenerator = require('otp-generator');
+
+
+//otp gen st
+
+
+router.post('/generateOTP', (req, res) => {
+  var email  = req.body;
+  // var userid=
+  console.log(email);
+  var otpCode = Math.floor(100000 + Math.random() * 900000);
+  console.log("otpcode",otpCode);
+
+  
+  var date_ob = new Date();
+
+  var day = ("0" + date_ob.getDate()).slice(-2);
+    var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    var year = date_ob.getFullYear();
+
+    // var date = year + "-" + month + "-" + day;
+    // console.log(date);
+
+    // var hours = date_ob.getHours();
+    // var minutes = date_ob.getMinutes();
+    // var seconds = date_ob.getSeconds();
+
+    // var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+    var hours = date_ob.getHours();
+  var minutes = date_ob.getMinutes();
+  var tenminutes = date_ob.getMinutes()+10;
+  var seconds = date_ob.getSeconds();
+
+  var otpcTime =   year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+  // console.log("ctime",otpcTime);
+
+  var otpeTime =   year + "-" + month + "-" + day + " " + hours + ":" + tenminutes + ":" + seconds;
+  // console.log("et",otpeTime);
+
+var otpn=otpGenerator.generate(6,{upperCaseAlphabets:true,lowerCaseAlphabets:false,specialChars:false});
+console.log("newitp : ",otpn);
+var comm=sprintf('INSERT INTO otpstore (userid,otp,otptype,otpctime,otpetime,status) VALUES (%d, %d,"%s","%s","%s",%d)', req.body.userid, otpCode, req.body.otptype, otpcTime,otpeTime,1);
+  console.log(comm);
+  con.query(comm, function (err, result) {
+    if (err) {
+      console.log(err);
+      res.send({ status: false, message: err });
+    }
+    else {
+      // console.log(result[0]);
+      res.send(result);
+      res.end();
+    }
+  })
+});
+
+
+// //send email st
+
+// router.post('/sendemail',async function(req,res){
+// const{ from,to,subject,text}=req.body;
+// const data={from,to,subject,text}
+
+// const r=await nodemailer.send(data);
+// // const data={
+// //   "from":"stashook2020@gmail.com",
+// //     "to": "muthu@stashook.com",
+// //     "subject": "Hellow world!",
+// //     "text": "test"
+
+// // }
+
+
+// })
+// var sender=nodemailer.createTransport({
+//   service:"gmail",
+//   host: "smtp.gmail.com",
+//   port:587,
+//   secure: false,
+  
+//   auth:{
+//       // type: "login", // default
+//       Username:'stashook2020@gmail.com',
+//       Password:'Stashook@123'
+//   },
+// });
+
+
+// res.send(r);
+
+// //send email stop
 
 //auth login
+
 const authcheck = (req, res, next) => {
   headers = {
 
@@ -61,9 +155,10 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 //end get room
 
 //st get room list
-router.get('/getroomlist', function (req, res) {
+router.get('/getroomlist',function (req, res) {
   //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
-  var cmmd=sprintf("select * from room where (basecount<='"+req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "+req.query.checkin+" AND "+req.query.checkout+" OR checkout BETWEEN "+req.query.checkin+" AND "+req.query.checkout+"))");
+  // var cmmd=sprintf("select * from room where (basecount<='"+req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+" OR checkout BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+"))");
+  var cmmd=sprintf("select * from room where (basecount<='"+req.query.adult + "' OR basecount<=4) and roomid NOT IN (SELECT roomid FROM booking WHERE "+req.query.checkIn+ " BETWEEN checkin AND checkout)");
     con.query(cmmd, function (err, result) {
       console.log("cmd", cmmd);
       if (err) {
@@ -84,7 +179,7 @@ router.get('/getroomlist', function (req, res) {
 
 
 //to get roomnumber and bhk when floornumber given
-router.get('/getroom', authcheck, function (req, res) {
+router.get('/getroom',  function (req, res) {
   console.log("getroom")
   var getroom = "SELECT * FROM floorroommapping"
   con.query(getroom, function (error, result) {
@@ -425,7 +520,7 @@ router.post('/adduser', async function (req, res) {
 
   //end datetime 
   console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,req.body.modifieddate ,req.body.phonenumber, req.body.email,dateTime, req.body.userName,hashedPassword,hashedCPassword,1);
+  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,dateTime ,req.body.phonenumber, req.body.email,dateTime, req.body.username,hashedPassword,hashedCPassword,1);
   console.log(command);
   con.query(command, function (err, mysqlres1) {
     // console.log(v);
@@ -478,7 +573,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 })
 
 //get user detail
-router.get('/getuser', authcheck, function (req, res) {
+router.get('/getuser', function (req, res) {
   try {
     command = 'select * from user';
     con.query(command, function (error, results) {
@@ -542,7 +637,7 @@ router.post('/auth', function (request, response) {
 
 //anupama code 
 
-router.get('/getfloor', authcheck, function (req, res) {
+router.get('/getfloor',  function (req, res) {
   console.log("getfloor");
   var tablelist = "SELECT floornumber FROM floor ";
   con.query(tablelist, function (error, result) {
