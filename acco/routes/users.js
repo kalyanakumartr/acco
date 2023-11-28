@@ -11,7 +11,7 @@ const multer = require('multer');
 const path = require('path');
 // const otpgen=require('otp-generator');
 const { error, Console } = require('console');
-
+const moment=require('moment');
 const otpGenerator = require('otp-generator');
 
 
@@ -20,48 +20,70 @@ const otpGenerator = require('otp-generator');
 
 router.post('/generateOTP', (req, res) => {
   var email  = req.body;
+
   // var userid=
   console.log(email);
   var otpCode = Math.floor(100000 + Math.random() * 900000);
   console.log("otpcode",otpCode);
 
   
-  var date_ob = new Date();
+  // var date_ob = new Date();
 
-  var day = ("0" + date_ob.getDate()).slice(-2);
-    var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    var year = date_ob.getFullYear();
+  // var day = ("0" + date_ob.getDate()).slice(-2);
+  //   var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  //   var year = date_ob.getFullYear();
 
-    // var date = year + "-" + month + "-" + day;
-    // console.log(date);
+  //   // var date = year + "-" + month + "-" + day;
+  //   // console.log(date);
 
-    // var hours = date_ob.getHours();
-    // var minutes = date_ob.getMinutes();
-    // var seconds = date_ob.getSeconds();
+  //   // var hours = date_ob.getHours();
+  //   // var minutes = date_ob.getMinutes();
+  //   // var seconds = date_ob.getSeconds();
 
-    // var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-    var hours = date_ob.getHours();
-  var minutes = date_ob.getMinutes();
-  var tenminutes = date_ob.getMinutes()+10;
-  var seconds = date_ob.getSeconds();
+  //   // var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+  //   var hours = date_ob.getHours();
+  // var minutes = date_ob.getMinutes();
+  // var tenminutes = date_ob.getMinutes()+10;
+  // var seconds = date_ob.getSeconds();
 
-  var otpcTime =   year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+  // var otpcTime =   year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
   // console.log("ctime",otpcTime);
 
-  var otpeTime =   year + "-" + month + "-" + day + " " + hours + ":" + tenminutes + ":" + seconds;
+  // var otpeTime =   year + "-" + month + "-" + day + " " + hours + ":" + tenminutes + ":" + seconds;
+  // function addten(date,minutes){
+  //   return new Date(date.getTime()+minutes*60000);
+  // }
+  // console.log(addten);
+  // c  onst now=new Date();
+  // var otpeTime=addten(otpcTime,10);
   // console.log("et",otpeTime);
+//   var seconds = secondsToMinutes.split(':')[1];
+// var minutes = secondsToMinutes.split(':')[0];
+// var momentInTime = moment(...)
+//                    .add(seconds,'seconds')
+//                    .add(minutes,'minutes')
+//                    .format('LT');
 
-var otpn=otpGenerator.generate(6,{upperCaseAlphabets:true,lowerCaseAlphabets:false,specialChars:false});
+// var endTime = moment(startTime ,'HH:mm:ss').add(10,'seconds').format('HH:mm:ss');
+
+  var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  var tensqlTimestamp = moment(Date.now()).add(10,'minutes').format('YYYY-MM-DD HH:mm:ss');
+  console.log("ten",tensqlTimestamp);
+
+
+var otpn=otpGenerator.generate(6,{upperCaseAlphabets:false,lowerCaseAlphabets:false,specialChars:false});
 console.log("newitp : ",otpn);
-var comm=sprintf('INSERT INTO otpstore (userid,otp,otptype,otpctime,otpetime,status) VALUES (%d, %d,"%s","%s","%s",%d)', req.body.userid, otpCode, req.body.otptype, otpcTime,otpeTime,1);
+
+var comm=sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', 1,req.body.name,req.body.phonenumber, otpCode, req.body.otptype,mysqlTimestamp,tensqlTimestamp,1);
+// var comm=('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES' ("1",+req.body.name,req.body.phonenumber, otpCode, req.body.otptype,CURRENT_TIMESTAMP ,ADDTIME(CURRENT_TIMESTAMP, '0 0:10:0\'),1));
   console.log(comm);
   con.query(comm, function (err, result) {
     if (err) {
-      console.log(err);
+      // console.log(err);
       res.send({ status: false, message: err });
     }
     else {
-      // console.log(result[0]);
+
       res.send(result);
       res.end();
     }
@@ -440,6 +462,69 @@ router.post('/addbooking', authcheck, function (req, res) {
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
 })
+//end add booking
+
+//st update booking
+router.post('/updatebooking', function (req, res) {
+  try {
+    console.log(req.body);
+    var command = sprintf('update booking set checkin=' + req.body.checkin+',checkout='+ req.body.checkout +' WHERE bookingid=' + req.body.bookingid);
+      // lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
+
+    console.log("after", command);
+    con.query(command, function (err, result) {
+      if (err) {
+        console.log(err);
+        res.send({ status: false, message: err });
+      }
+      else {
+        res.status(200).send({ "message": "Booking Update Successfully" });
+        res.end();
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+//end update booking
+
+// st cancel booking
+
+router.post('/bookingcancel', (req, res) => {
+  console.log("Welcomce to cancel");
+  var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND bookingid=' +req.params.bookingid;
+  console.log(cmd);
+  con.query(cmd, function (error, getresult) {
+    // if (getresult.length > 0 && getresult[0].bookedstatusid == 2) {
+      console.log(getresult[0]);
+      if (getresult[0].bookedstatusid == 2) {
+      console.log("err",error);
+      res.send("Already Cancel");
+
+    }
+    else {
+      var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + req.body.bookingid;
+      let data = [true, 1];
+      con.query(command, data, function (error, result) {
+        if (error) {
+          res.send({ status: false, message: error });
+          console.log(error);
+          throw error;
+        }
+        else {
+          res.status(200).send("Successfully Cancel");
+        };
+      });
+    }
+  })
+});
+
+
+
+//end cancel booking
 
 
 //update image
