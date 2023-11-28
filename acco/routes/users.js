@@ -11,7 +11,7 @@ const multer = require('multer');
 const path = require('path');
 // const otpgen=require('otp-generator');
 const { error, Console } = require('console');
-const moment=require('moment');
+const moment = require('moment');
 const otpGenerator = require('otp-generator');
 
 
@@ -19,14 +19,14 @@ const otpGenerator = require('otp-generator');
 
 
 router.post('/generateOTP', (req, res) => {
-  var email  = req.body;
+  var email = req.body;
 
   // var userid=
   console.log(email);
   var otpCode = Math.floor(100000 + Math.random() * 900000);
-  console.log("otpcode",otpCode);
+  console.log("otpcode", otpCode);
 
-  
+
   // var date_ob = new Date();
 
   // var day = ("0" + date_ob.getDate()).slice(-2);
@@ -57,25 +57,25 @@ router.post('/generateOTP', (req, res) => {
   // c  onst now=new Date();
   // var otpeTime=addten(otpcTime,10);
   // console.log("et",otpeTime);
-//   var seconds = secondsToMinutes.split(':')[1];
-// var minutes = secondsToMinutes.split(':')[0];
-// var momentInTime = moment(...)
-//                    .add(seconds,'seconds')
-//                    .add(minutes,'minutes')
-//                    .format('LT');
+  //   var seconds = secondsToMinutes.split(':')[1];
+  // var minutes = secondsToMinutes.split(':')[0];
+  // var momentInTime = moment(...)
+  //                    .add(seconds,'seconds')
+  //                    .add(minutes,'minutes')
+  //                    .format('LT');
 
-// var endTime = moment(startTime ,'HH:mm:ss').add(10,'seconds').format('HH:mm:ss');
+  // var endTime = moment(startTime ,'HH:mm:ss').add(10,'seconds').format('HH:mm:ss');
 
   var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-  var tensqlTimestamp = moment(Date.now()).add(10,'minutes').format('YYYY-MM-DD HH:mm:ss');
-  console.log("ten",tensqlTimestamp);
+  var tensqlTimestamp = moment(Date.now()).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+  console.log("ten", tensqlTimestamp);
 
 
-var otpn=otpGenerator.generate(6,{upperCaseAlphabets:false,lowerCaseAlphabets:false,specialChars:false});
-console.log("newitp : ",otpn);
+  var otpn = otpGenerator.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: true, specialChars: true });
+  console.log("newotp : ", otpn);
 
-var comm=sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', 1,req.body.name,req.body.phonenumber, otpCode, req.body.otptype,mysqlTimestamp,tensqlTimestamp,1);
-// var comm=('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES' ("1",+req.body.name,req.body.phonenumber, otpCode, req.body.otptype,CURRENT_TIMESTAMP ,ADDTIME(CURRENT_TIMESTAMP, '0 0:10:0\'),1));
+  var comm = sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', 1, req.body.name, req.body.phonenumber, otpCode, req.body.otptype, mysqlTimestamp, tensqlTimestamp, 1);
+  // var comm=('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES' ("1",+req.body.name,req.body.phonenumber, otpCode, req.body.otptype,CURRENT_TIMESTAMP ,ADDTIME(CURRENT_TIMESTAMP, '0 0:10:0\'),1));
   console.log(comm);
   con.query(comm, function (err, result) {
     if (err) {
@@ -89,6 +89,40 @@ var comm=sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpc
     }
   })
 });
+
+//otp gen en st
+
+router.post('/verifyOTP', (req, res) => {
+  try {
+    var inputotp = req.body.inputotp;
+    // console.log(req.body);
+    var cmd = ('select otp from otpstore where userid=' + req.body.userid);
+    // console.log(cmd);
+    con.query(cmd, function (req, result) {
+      // console.log("table otp",result[0].otp);
+      if (result[0].otp == inputotp) {
+        res.send("Successfully Verify ");
+      }
+      else {
+        console.log("Error")
+        // res.send({ "Message": "Unable to get Date " });
+        res.send({ status: false, message: "Unable to get Data" });
+      }
+    })
+  }
+  catch (err) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+
+  }
+
+})
+
+//otp gen en end
+
+
+//otp very
 
 
 // //send email st
@@ -113,7 +147,7 @@ var comm=sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpc
 //   host: "smtp.gmail.com",
 //   port:587,
 //   secure: false,
-  
+
 //   auth:{
 //       // type: "login", // default
 //       Username:'stashook2020@gmail.com',
@@ -177,31 +211,31 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 //end get room
 
 //st get room list
-router.get('/getroomlist',function (req, res) {
+router.get('/getroomlist', function (req, res) {
   //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
-  // var cmmd=sprintf("select * from room where (basecount<='"+req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+" OR checkout BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+"))");
-  var cmmd=sprintf("select * from room where (basecount<='"+req.query.adult + "' OR basecount<=4) and roomid NOT IN (SELECT roomid FROM booking WHERE "+req.query.checkIn+ " BETWEEN checkin AND checkout)");
-    con.query(cmmd, function (err, result) {
-      console.log("cmd", cmmd);
-      if (err) {
-        console.log(err);
-        res.send(err);
-      }
-      else {
-        
-            console.log(result);
-            res.send(result);
-            res.end();
-          }
-        })
-        // res.send(result);
-      });
-   
+  var cmmd=sprintf("select * from room where (basecount<='"+req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+" OR checkout BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+"))");
+  // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adult + "' OR basecount<=4) and roomid NOT IN (SELECT roomid FROM booking WHERE " + req.query.checkIn + " BETWEEN checkin AND checkout)");
+  con.query(cmmd, function (err, result) {
+    console.log("cmd", cmmd);
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    else {
+
+      console.log(result);
+      res.send(result);
+      res.end();
+    }
+  })
+  // res.send(result);
+});
+
 //end get room list
 
 
 //to get roomnumber and bhk when floornumber given
-router.get('/getroom',  function (req, res) {
+router.get('/getroom', function (req, res) {
   console.log("getroom")
   var getroom = "SELECT * FROM floorroommapping"
   con.query(getroom, function (error, result) {
@@ -468,8 +502,8 @@ router.post('/addbooking', authcheck, function (req, res) {
 router.post('/updatebooking', function (req, res) {
   try {
     console.log(req.body);
-    var command = sprintf('update booking set checkin=' + req.body.checkin+',checkout='+ req.body.checkout +' WHERE bookingid=' + req.body.bookingid);
-      // lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
+    var command = sprintf('update booking set checkin=' + req.body.checkin + ',checkout=' + req.body.checkout + ' WHERE bookingid=' + req.body.bookingid);
+    // lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
 
     console.log("after", command);
     con.query(command, function (err, result) {
@@ -495,13 +529,13 @@ router.post('/updatebooking', function (req, res) {
 
 router.post('/bookingcancel', (req, res) => {
   console.log("Welcomce to cancel");
-  var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND bookingid=' +req.params.bookingid;
+  var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND bookingid=' + req.params.bookingid;
   console.log(cmd);
   con.query(cmd, function (error, getresult) {
     // if (getresult.length > 0 && getresult[0].bookedstatusid == 2) {
-      console.log(getresult[0]);
-      if (getresult[0].bookedstatusid == 2) {
-      console.log("err",error);
+    console.log(getresult[0]);
+    if (getresult[0].bookedstatusid == 2) {
+      console.log("err", error);
       res.send("Already Cancel");
 
     }
@@ -603,25 +637,26 @@ router.post('/adduser', async function (req, res) {
 
 
 
-  //end datetime 
-  console.log(hashedPassword);
-  var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname,req.body.lastname,req.body.address1,req.body.address2,req.body.city, req.body.state, req.body.country,dateTime ,req.body.phonenumber, req.body.email,dateTime, req.body.username,hashedPassword,hashedCPassword,1);
-  console.log(command);
-  con.query(command, function (err, mysqlres1) {
-    // console.log(v);
-    if (err) throw err;
-    console.log("Error",err);
-    userid = mysqlres1.insertId
-    console.log(userid);
-    // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
-    var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid,1);
-    // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
-    con.query(command,function (err, mysqlres2) {
-      console.log("role",command);
-      // console.log("proof",command1);
-      if (err) {
-        res.status(401).send({ "message": err });       }
-      else {       
+    //end datetime 
+    console.log(hashedPassword);
+    var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, dateTime, req.body.phonenumber, req.body.email, dateTime, req.body.username, hashedPassword, hashedCPassword, 1);
+    console.log(command);
+    con.query(command, function (err, mysqlres1) {
+      // console.log(v);
+      if (err) throw err;
+      console.log("Error", err);
+      userid = mysqlres1.insertId
+      console.log(userid);
+      // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
+      var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid, 1);
+      // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
+      con.query(command, function (err, mysqlres2) {
+        console.log("role", command);
+        // console.log("proof",command1);
+        if (err) {
+          res.status(401).send({ "message": err });
+        }
+        else {
           if (req.body.roleid = 4)
             res.status(200).send({ message: "Successfully Register" });
           res.end();
@@ -722,7 +757,7 @@ router.post('/auth', function (request, response) {
 
 //anupama code 
 
-router.get('/getfloor',  function (req, res) {
+router.get('/getfloor', function (req, res) {
   console.log("getfloor");
   var tablelist = "SELECT floornumber FROM floor ";
   con.query(tablelist, function (error, result) {
