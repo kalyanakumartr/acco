@@ -106,7 +106,7 @@ router.post('/verifyOTP', (req, res) => {
     con.query(cmmd, function (error, result) {
       console.log("count",result);
       if(result[0].count > 0){
-              res.send("Successfully Verify ");
+              res.send({message:"Successfully Verify "});
       }
       else {
         console.log("Error",error)
@@ -218,8 +218,7 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 //st get room list
 router.get('/getroomlist', function (req, res) {
   //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
-  var cmmd=sprintf("select * from room where (basecount<='"+req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+" OR checkout BETWEEN "+req.query.checkIn+" AND "+req.query.checkOut+"))");
-  // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adult + "' OR basecount<=4) and roomid NOT IN (SELECT roomid FROM booking WHERE " + req.query.checkIn + " BETWEEN checkin AND checkout)");
+  var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from confirmbooking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
   con.query(cmmd, function (err, result) {
     console.log("cmd", cmmd);
     if (err) {
@@ -230,13 +229,37 @@ router.get('/getroomlist', function (req, res) {
 
       console.log(result);
       res.send(result);
-      res.end();
+      
     }
   })
   // res.send(result);
 });
-
 //end get room list
+
+//confirmbooking
+router.post('/confirmbooking', function (req, res) {
+  try {
+    console.log(req.body);
+    var command = sprintf('INSERT INTO confirmbooking (roomid,checkin,checkout,roombhk,noofdays,adults,name,phonenumber,email,price,totalprice,verificationstatus,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.roomid, req.body.checkin, req.body.checkout, req.body.roombhk, req.body.noofdays, req.body.adults, req.body.name, req.body.phonenumber, req.body.email, req.body.price, req.body.totalprice,req.body.verificationstatus,  1);
+
+    console.log("after", command);
+    con.query(command, function (err, result) {
+      if (err) {
+        console.log(err);
+        res.send({ status: false, message: err });
+      }
+      else {
+        res.status(200).send({ "message": "Booking added Successfully" });
+        res.end();
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
 
 
 //to get roomnumber and bhk when floornumber given
