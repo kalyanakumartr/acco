@@ -19,64 +19,58 @@ const otpGenerator = require('otp-generator');
 
 
 router.post('/generateOTP', (req, res) => {
-  var email = req.body;
-
-  // var userid=
-  console.log(email);
+  // var email = req.body;
   var otpCode = Math.floor(100000 + Math.random() * 900000);
   console.log("otpcode", otpCode);
-
-
-  // var date_ob = new Date();
-
-  // var day = ("0" + date_ob.getDate()).slice(-2);
-  //   var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-  //   var year = date_ob.getFullYear();
-
-  //   // var date = year + "-" + month + "-" + day;
-  //   // console.log(date);
-
-  //   // var hours = date_ob.getHours();
-  //   // var minutes = date_ob.getMinutes();
-  //   // var seconds = date_ob.getSeconds();
-
-  //   // var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-  //   var hours = date_ob.getHours();
-  // var minutes = date_ob.getMinutes();
-  // var tenminutes = date_ob.getMinutes()+10;
-  // var seconds = date_ob.getSeconds();
-
-  // var otpcTime =   year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-  // console.log("ctime",otpcTime);
-
-  // var otpeTime =   year + "-" + month + "-" + day + " " + hours + ":" + tenminutes + ":" + seconds;
-  // function addten(date,minutes){
-  //   return new Date(date.getTime()+minutes*60000);
-  // }
-  // console.log(addten);
-  // c  onst now=new Date();
-  // var otpeTime=addten(otpcTime,10);
-  // console.log("et",otpeTime);
-  //   var seconds = secondsToMinutes.split(':')[1];
-  // var minutes = secondsToMinutes.split(':')[0];
-  // var momentInTime = moment(...)
-  //                    .add(seconds,'seconds')
-  //                    .add(minutes,'minutes')
-  //                    .format('LT');
-
-  // var endTime = moment(startTime ,'HH:mm:ss').add(10,'seconds').format('HH:mm:ss');
-
   var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   var tensqlTimestamp = moment(Date.now()).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
   console.log("ten", tensqlTimestamp);
 
 
+  con.query("select userid,count(email) count from user where email=?", [req.body.email], async (error, result) => {
+    console.log("Error", error, result[0].count,result[0].userid);
+    if (result[0].count > 0) {
+    //   res.send({ status: true, message: "Already email id exist give correct email id " })
+    //   return;
+    console.log("Already email id exist give correct email id",result[0].userid)
+    user=result[0].userid;
+    console.log(user);
+    // res.send(userid);
+    // return;
+    var comm = sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', user, req.body.name, req.body.phonenumber, otpCode, req.body.otptype, mysqlTimestamp, tensqlTimestamp, 1);
+    console.log("before",comm);
+    con.query(comm, function (err, result) {
+      if (err) {
+        // console.log(err);
+        res.send({ status: false, message: err });
+      }
+      else {
+  
+        res.send(result);
+        res.end();
+      }
+    }) 
+    }
+    else{
   var otpn = otpGenerator.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: true, specialChars: true });
   console.log("newotp : ", otpn);
+  fname=req.body.name;
+  email=req.body.email;
+  pno=req.body.phonenumber;
+  var cmdate = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+var cd=sprintf('INSERT INTO user (firstname,modifieddate,phoneNumber,email,createddate,username,status) values ("%s","%s","%s","%s","%s","%s",%d)',fname,cmdate,pno,email,cmdate,fname,1);
 
-  var comm = sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', 1, req.body.name, req.body.phonenumber, otpCode, req.body.otptype, mysqlTimestamp, tensqlTimestamp, 1);
-  // var comm=('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES' ("1",+req.body.name,req.body.phonenumber, otpCode, req.body.otptype,CURRENT_TIMESTAMP ,ADDTIME(CURRENT_TIMESTAMP, '0 0:10:0\'),1));
-  console.log(comm);
+console.log("after in",cd);
+con.query(cd,function(erro,inseruser){
+  // con.query("select userid,count(email) count from user where email=?", [req.body.email], async (error, result) => {
+  // var suser=('select userid from user where email='+req.body.email);
+  // con.query(suser,function(error, afterresult)  {
+    con.query("select userid,count(email) count from user where email=?", [req.body.email], async (error, afterresult) => {
+  var user=afterresult[0].userid
+  console.log("after user",user);
+  var comm = sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', user, req.body.name, req.body.phonenumber, otpCode, req.body.otptype, mysqlTimestamp, tensqlTimestamp, 1);
+  
+  console.log("after email ",comm);
   con.query(comm, function (err, result) {
     if (err) {
       // console.log(err);
@@ -88,8 +82,11 @@ router.post('/generateOTP', (req, res) => {
       res.end();
     }
   })
+})
+    })
+  }
 });
-
+});
 //otp gen en st
 
 router.post('/verifyOTP', (req, res) => {
@@ -527,34 +524,30 @@ router.post('/updatebooking', function (req, res) {
 
 // st cancel booking
 
-router.post('/bookingcancel', (req, res) => {
-  console.log("Welcomce to cancel");
-  var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND bookingid=' + req.params.bookingid;
-  console.log(cmd);
-  con.query(cmd, function (error, getresult) {
-    // if (getresult.length > 0 && getresult[0].bookedstatusid == 2) {
-    console.log(getresult[0]);
-    if (getresult[0].bookedstatusid == 2) {
-      console.log("err", error);
-      res.send("Already Cancel");
-
-    }
-    else {
-      var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + req.body.bookingid;
-      let data = [true, 1];
-      con.query(command, data, function (error, result) {
-        if (error) {
-          res.send({ status: false, message: error });
-          console.log(error);
-          throw error;
-        }
-        else {
-          res.status(200).send("Successfully Cancel");
-        };
-      });
-    }
-  })
-});
+// router.post('/bookingcancel/:id', (req, res) => {
+//   console.log("Welcomce to cancel");
+//   var id = req.params.id;
+//   var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND bookingid=' + id;
+//   console.log(cmd);
+//   con.query(cmd, function (error, getresult) {
+//     // if (getresult.length > 0 && getresult[0].bookedstatusid == 2) {
+//       if(getresult=true){
+//         var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' +id;
+//         let data=[true,1];
+//         con.query(command, data, function (error, result){
+//     // console.log(getresult[0]);
+//     if (error) {
+//       res.send({ status: false, message: error });
+//       console.log(error);
+//       throw error;
+//     }
+//     else {     
+//       res.status(200).send("Successfully Booking Cancel");               }
+        
+//       });
+//     }
+//   })
+// });
 
 
 

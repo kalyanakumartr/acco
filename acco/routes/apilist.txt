@@ -9,10 +9,91 @@
 9. getbooking
 10. getuser
 11. auth
-anupama code will check
 12. getfloor
 13. getroom/:floornumber
 14. getbhk/:noofbhk
 15. getChargedAmenities
-16
+16. generateOTP
+17. verifyOTP not use userid in table check
+18. getroomsplit
+19. getroomlist
+20. getroom
+21. getplacetovisit
+22. cancelroombook/:id
+23. updatebooking
 
+
+
+otpgen api
+
+router.post('/generateOTP', (req, res) => {
+  // var email = req.body;
+ 
+  // var userid=
+  console.log(email);
+  var otpCode = Math.floor(100000 + Math.random() * 900000);
+  console.log("otpcode", otpCode);
+
+
+  // var date_ob = new Date();
+
+  // var day = ("0" + date_ob.getDate()).slice(-2);
+  //   var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  //   var year = date_ob.getFullYear();
+
+  //   // var date = year + "-" + month + "-" + day;
+  //   // console.log(date);
+
+  //   // var hours = date_ob.getHours();
+  //   // var minutes = date_ob.getMinutes();
+  //   // var seconds = date_ob.getSeconds();
+
+  //   // var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+  //   var hours = date_ob.getHours();
+  // var minutes = date_ob.getMinutes();
+  // var tenminutes = date_ob.getMinutes()+10;
+  // var seconds = date_ob.getSeconds();
+
+  // var otpcTime =   year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+  // console.log("ctime",otpcTime);
+
+  // var otpeTime =   year + "-" + month + "-" + day + " " + hours + ":" + tenminutes + ":" + seconds;
+  // function addten(date,minutes){
+  //   return new Date(date.getTime()+minutes*60000);
+  // }
+  // console.log(addten);
+  // c  onst now=new Date();
+  // var otpeTime=addten(otpcTime,10);
+  // console.log("et",otpeTime);
+  //   var seconds = secondsToMinutes.split(':')[1];
+  // var minutes = secondsToMinutes.split(':')[0];
+  // var momentInTime = moment(...)
+  //                    .add(seconds,'seconds')
+  //                    .add(minutes,'minutes')
+  //                    .format('LT');
+
+  // var endTime = moment(startTime ,'HH:mm:ss').add(10,'seconds').format('HH:mm:ss');
+
+  var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  var tensqlTimestamp = moment(Date.now()).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+  console.log("ten", tensqlTimestamp);
+
+
+  var otpn = otpGenerator.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: true, specialChars: true });
+  console.log("newotp : ", otpn);
+
+  var comm = sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', 1, req.body.name, req.body.phonenumber, otpCode, req.body.otptype, mysqlTimestamp, tensqlTimestamp, 1);
+  // var comm=('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES' ("1",+req.body.name,req.body.phonenumber, otpCode, req.body.otptype,CURRENT_TIMESTAMP ,ADDTIME(CURRENT_TIMESTAMP, '0 0:10:0\'),1));
+  console.log(comm);
+  con.query(comm, function (err, result) {
+    if (err) {
+      // console.log(err);
+      res.send({ status: false, message: err });
+    }
+    else {
+
+      res.send(result);
+      res.end();
+    }
+  })
+});
