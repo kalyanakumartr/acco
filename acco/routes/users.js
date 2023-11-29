@@ -91,19 +91,27 @@ con.query(cd,function(erro,inseruser){
 
 router.post('/verifyOTP', (req, res) => {
   try {
-    var inputotp = req.body.inputotp;
+    // var inputotp = req.body.inputotp;
     // console.log(req.body);
-    var cmd = ('select otp from otpstore where userid=' + req.body.userid);
-    // console.log(cmd);
-    con.query(cmd, function (req, result) {
-      // console.log("table otp",result[0].otp);
-      if (result[0].otp == inputotp) {
-        res.send("Successfully Verify ");
+    // var cmd = ('select count(otp,otpetime from otpstore where userid=' + req.body.userid);
+    usrid=req.body.userid;
+    console.log(usrid);
+    ctime=moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    console.log(ctime);
+    otp=req.body.inputotp
+    console.log("otp",otp);
+    // console.log(userid);
+    var cmmd=("select count(otp) as count from otpstore where userid=" + req.body.userid + " AND otpetime>'"+ctime+"' AND otp='"+otp+"'");
+    console.log("cmd",cmmd);
+    con.query(cmmd, function (error, result) {
+      console.log("count",result);
+      if(result[0].count > 0){
+              res.send("Successfully Verify ");
       }
       else {
-        console.log("Error")
+        console.log("Error",error)
         // res.send({ "Message": "Unable to get Date " });
-        res.send({ status: false, message: "Unable to get Data" });
+        res.send({ status: false, message: "Expired OTP Or Unable to get data" });
       }
     })
   }
