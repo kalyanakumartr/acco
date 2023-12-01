@@ -15,7 +15,90 @@ const moment = require('moment');
 const otpGenerator = require('otp-generator');
 
 
+//st auth multiple
+router.post('/auth', async function (request, response) {
+  // Capture the input fields
+  let username = request.body.username;
+  let password = request.body.password;
+  if (username && password) {
+    con.query('SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username = ?  ', [request.body.username], function (error, results) {
+      if (results.length > 0) {
+        // console.log("Error", error, results[0]);
+        // console.log("Error", error);
+        // console.log(results, "check", results[0].password);
+        // bcrypt
+        //   .compare(request.body.password, results[0].password)
+        //   .then(res => {
+            // console.log("res", res) // return true
+            if (results.length > 0) {
+              const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
+              // console.log("token", accesstoken);
+              var type = '';
+              if (results[0].roleid == 1) {
+
+                type = "Admin"
+                // var appoiid = 0;
+                // var statusId = 0;
+
+                response.status(200).send({accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email});
+                response.end();
+              }
+              else if (results[0].roleid == 2) {
+
+                type = "Manager"
+                // var appoiid = 0;
+                // var statusId = 0;
+                response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email });
+                response.end();
+              }
+              else {
+                type = "Customer"
+                if (type == "Customer") {
+                  // comm = "SELECT * FROM appointment app WHERE app.appPatientId=" + results[0].userId + " AND appStatusId=4";
+                  // con.query(comm, function (req, res) {
+                    // var appoiid = 0;
+                    // var statusId = 0;
+                    // if (res.length > 0) {
+                      // appoiid = res[0].id;
+                      // statusId = res[0].appStatusId;
+                    
+                    // else{}
+                    response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email});
+                    response.end();
+                  }
+                  // );
+                // }
+              }
+              //
+            }
+            else {
+              response.status(401).send('Incorrect Username and/or Password!');
+              response.end();
+            }
+            //  response.end();
+          // })
+          // .catch(err => console.error(err.message))
+      } else {
+        response.status(401).send('Incorrect Username and/or Password!');
+        response.end();
+      }
+    }
+    );
+  } else {
+    response.status(401).send('Please enter Username and Password!');
+    response.end();
+  }
+});
+
+
+
+
+//end multiple
+
+
+
 //otp gen st
+
 
 
 router.post('/generateOTP', (req, res) => {
@@ -46,7 +129,7 @@ router.post('/generateOTP', (req, res) => {
       }
       else {
   
-        res.send(result);
+        res.send({result,user});
         res.end();
       }
     }) 
@@ -155,8 +238,8 @@ router.post('/verifyOTP', (req, res) => {
 
 //   auth:{
 //       // type: "login", // default
-//       Username:'stashook2020@gmail.com',
-//       Password:'Stashook@123'
+//       Username:'
+//       Password:'
 //   },
 // });
 

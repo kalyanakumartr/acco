@@ -1,0 +1,20 @@
+1 not need ac and food
+2. booking summary will include 
+3 login for admin and walk in and admin
+4 monthly took room not show romm
+5 total income balance shhet 
+6 walkin cash ku spreate window
+7 room size not need
+8 need all payment option and discuss what payment need
+9 ai mpoel will include
+10 nri concept and indian 
+11 cleain and dirty ku time 1.30
+12 login first (new user or exting user)
+13 first client emp test pananum side by side 
+14 only one checkin and checkoout
+15 color checange and alram display and pop up message show 
+16 excel sheet share 
+17 automatic after checkout take 2 hours
+18 currently not need split room concept
+19 show all room (2 bhk or 3 bjk)
+
