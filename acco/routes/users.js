@@ -122,20 +122,7 @@ router.get('/roomtype',function(req,res){
 
 //end room type get
 
-// st walkincf
 
-router.post('/walkincf',function(req,res){
-  console.log("Welcome to walk in current and future");
-  /*
-
-
-  */
-  cmd=""
-  res.send("Welcome to walk in current and future");
-})
-
-
-// end walkincf
 
 //otp gen st
 
@@ -445,6 +432,35 @@ router.get('/getplacetovisit', authcheck, function (req, res) {
   }
 })
 
+
+
+// ST ADD FOOD ITEM
+
+router.post('/admin/addfooditem', function (req, res) {
+  try {
+    command = sprintf('INSERT INTO fooditem (fooditemname,foodcategory,avilabletime,price,status) VALUES ("%s","%s","%s",%d,%d)', req.body.fooditemname, req.body.foodcategory, req.body.avilabletime, req.body.price,1);
+    console.log(command);
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
+      }
+      else {
+        // res.send(results);
+        res.status(200).send({ message: "Successfully Add Food item" });
+        // console.log("Done");
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+
+
+//END AD FOOD ITEM
 
 
 
