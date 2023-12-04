@@ -15,6 +15,32 @@ const moment = require('moment');
 const otpGenerator = require('otp-generator');
 
 
+const authcheck = (req, res, next) => {
+  headers = {
+
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": ' <origin>',
+    "Access-Control-Allow-Credentials": true
+  };
+  // console.log(headers);
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(" ")[1];
+  // console.log(token);
+  if (!token) return res.sendStatus(401);
+  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
+
+    if (err) {
+      console.log("error", err);
+      return res.sendStatus(403);
+    }
+    req.userName = obj.username;
+    req.password = obj.password;
+    next();
+
+  })
+}
+
+
 //st auth multiple
 router.post('/auth', async function (request, response) {
   // Capture the input fields
@@ -96,9 +122,45 @@ router.post('/auth', async function (request, response) {
 //end multiple
 
 
+//st frontoff a checkin
+
+router.post('/actualcheckin',authcheck,(req,res)=>{
+  try {
+        var command = sprintf('update booking set acheckin='+"'" + req.body.acheckin +"'"+  ' WHERE email='+'"'+ req.body.email+'"');
+    
+let data = [true, 1];
+    console.log("after", command);
+    con.query(command, data,function (error, result) {
+      console.log("affectedRows",result.affectedRows);
+      if (result.affectedRows<=0) {
+    
+        // res.send({ status: false, message: error });
+        res.send("Check Mail Id");
+      console.log("Check Mail Id");
+      // console.log(error);
+      // throw error;
+      }
+      else {
+        // res.send(result);
+      res.status(200).send("Successfully Actual chekin Update");
+      res.end();
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }  
+})
+
+//end frontoff a checkin
+
+
+
 //st room type get
 
-router.get('/roomtype',function(req,res){
+router.get('/roomtype',authcheck,function(req,res){
   console.log("Welcome to room type");
   try {
     command = 'SELECT * FROM roomtype';
@@ -128,7 +190,7 @@ router.get('/roomtype',function(req,res){
 
 
 
-router.post('/generateOTP', (req, res) => {
+router.post('/generateOTP', authcheck,(req, res) => {
   // var email = req.body;
   var otpCode = Math.floor(100000 + Math.random() * 900000);
   console.log("otpcode", otpCode);
@@ -199,7 +261,7 @@ con.query(cd,function(erro,inseruser){
 });
 //otp gen en st
 
-router.post('/verifyOTP', (req, res) => {
+router.post('/verifyOTP', authcheck,(req, res) => {
   try {
     // var inputotp = req.body.inputotp;
     // console.log(req.body);
@@ -277,31 +339,6 @@ router.post('/verifyOTP', (req, res) => {
 
 //auth login
 
-const authcheck = (req, res, next) => {
-  headers = {
-
-    'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin": ' <origin>',
-    "Access-Control-Allow-Credentials": true
-  };
-  // console.log(headers);
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(" ")[1];
-  // console.log(token);
-  if (!token) return res.sendStatus(401);
-  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
-
-    if (err) {
-      console.log("error", err);
-      return res.sendStatus(403);
-    }
-    req.userName = obj.username;
-    req.password = obj.password;
-    next();
-
-  })
-}
-
 
 //get room split
 router.get('/getroomsplit', authcheck, function (req, res) {
@@ -326,7 +363,7 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 //end get room
 
 //st get room list
-router.get('/getroomlist', function (req, res) {
+router.get('/getroomlist',authcheck, function (req, res) {
   //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
   var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from confirmbooking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
   con.query(cmmd, function (err, result) {
@@ -347,33 +384,33 @@ router.get('/getroomlist', function (req, res) {
 //end get room list
 
 //confirmbooking
-router.post('/confirmbooking', function (req, res) {
-  try {
-    console.log(req.body);
-    var command = sprintf('INSERT INTO confirmbooking (roomid,checkin,checkout,roombhk,noofdays,adults,name,phonenumber,email,price,totalprice,verificationstatus,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.roomid, req.body.checkin, req.body.checkout, req.body.roombhk, req.body.noofdays, req.body.adults, req.body.name, req.body.phonenumber, req.body.email, req.body.price, req.body.totalprice,req.body.verificationstatus,  1);
+// router.post('/confirmbooking', function (req, res) {
+//   try {
+//     console.log(req.body);
+//     var command = sprintf('INSERT INTO confirmbooking (roomid,checkin,checkout,roombhk,noofdays,adults,name,phonenumber,email,price,totalprice,verificationstatus,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.roomid, req.body.checkin, req.body.checkout, req.body.roombhk, req.body.noofdays, req.body.adults, req.body.name, req.body.phonenumber, req.body.email, req.body.price, req.body.totalprice,req.body.verificationstatus,  1);
 
-    console.log("after", command);
-    con.query(command, function (err, result) {
-      if (err) {
-        console.log(err);
-        res.send({ status: false, message: err });
-      }
-      else {
-        res.status(200).send({ "message": "Booking added Successfully" });
-        res.end();
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
-})
+//     console.log("after", command);
+//     con.query(command, function (err, result) {
+//       if (err) {
+//         console.log(err);
+//         res.send({ status: false, message: err });
+//       }
+//       else {
+//         res.status(200).send({ "message": "Booking added Successfully" });
+//         res.end();
+//       }
+//     })
+//   }
+//   catch (e) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+//   }
+// })
 
 
 //to get roomnumber and bhk when floornumber given
-router.get('/getroom', function (req, res) {
+router.get('/getroom', authcheck, function (req, res) {
   console.log("getroom")
   var getroom = "SELECT * FROM floorroommapping"
   con.query(getroom, function (error, result) {
@@ -432,11 +469,40 @@ router.get('/getplacetovisit', authcheck, function (req, res) {
   }
 })
 
+//st get guest detail
+
+router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
+  try {
+    // sdate=req.params.checkin
+    console.log("parms",req.params.checkin);
+    command =( "select * from booking where checkin BETWEEN "+"'"+req.params.checkin+ ' 00:00:01'+ " '"+' AND ' +"'"+req.params.checkin+' 23:59:59'+"'");
+    console.log(command);
+    con.query(command, function (error, results) {
+      console.log("len",results.length);
+      if (results.length>=1) {
+        res.send(results);
+        console.log(results);
+        
+      }
+      else {
+        res.send({ "Message": "Unable to get Date "});
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+
+//end guest detail
 
 
 // ST ADD FOOD ITEM
 
-router.post('/admin/addfooditem', function (req, res) {
+router.post('/admin/addfooditem',authcheck, function (req, res) {
   try {
     command = sprintf('INSERT INTO fooditem (fooditemname,foodcategory,avilabletime,price,status) VALUES ("%s","%s","%s",%d,%d)', req.body.fooditemname, req.body.foodcategory, req.body.avilabletime, req.body.price,1);
     console.log(command);
@@ -562,7 +628,7 @@ const proofupload = multer({
 router.post('/userproof', proofupload.single('images'), userproofimage)
 
 //cancelroombook
-router.post('cancelroombook/:id', function (req, res) {
+router.post('cancelroombook/:id',authcheck, function (req, res) {
   console.log("Welcome to cancel Room Book");
   var id = req.params.id;
   var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND id=' + id;
@@ -643,7 +709,8 @@ router.get('/home', authcheck, function (req, res, next) {
 router.post('/addbooking', authcheck, function (req, res) {
   try {
     console.log(req.body);
-    var command = sprintf('INSERT INTO booking (firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
+    
+    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,noofdays,price,totalprice,verificationstatus,status) VALUES (%d,"%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s",%d)',req.body.userid, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype,req.body.noofdays,req.body.price,req.body.totalprice,res.body.verificationstatus, 1);
 
     console.log("after", command);
     con.query(command, function (err, result) {
@@ -666,7 +733,7 @@ router.post('/addbooking', authcheck, function (req, res) {
 //end add booking
 
 //st update booking
-router.post('/updatebooking', function (req, res) {
+router.post('/updatebooking',authcheck, function (req, res) {
   try {
     console.log(req.body);
     var command = sprintf('update booking set checkin=' + req.body.checkin + ',checkout=' + req.body.checkout + ' WHERE bookingid=' + req.body.bookingid);
@@ -856,7 +923,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 })
 
 //get user detail
-router.get('/getuser', function (req, res) {
+router.get('/getuser',authcheck, function (req, res) {
   try {
     command = 'select * from user';
     con.query(command, function (error, results) {
@@ -920,7 +987,7 @@ router.post('/auth', function (request, response) {
 
 //anupama code 
 
-router.get('/getfloor', function (req, res) {
+router.get('/getfloor',authcheck, function (req, res) {
   console.log("getfloor");
   var tablelist = "SELECT floornumber FROM floor ";
   con.query(tablelist, function (error, result) {
@@ -982,4 +1049,4 @@ module.exports = router;
 
 
 
-module.exports = router;
+// module.exports = router;
