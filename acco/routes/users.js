@@ -728,6 +728,45 @@ router.post('/bookingcancel/:bookingid',authcheck, function (req, res) {
     // if (getresult = true) {
       // console.log(getresult=true || false);
 
+//st user update
+
+router.post('/updateuser/:userid',authcheck, function (req, res) {
+  console.log("Welcome to update user ");
+  var id = req.params.userid;
+  var firstname=req.body.firstname;
+  var lastname=req.body.lastname
+  var address1=req.body.address1
+  var address2=req.body.address2
+  var city=req.body.city
+  var state=req.body.state
+  var country=req.body.country
+  var phonenumber=req.body.phonenumber
+  var email=req.body.email
+  
+
+        var command = 'UPDATE user SET firstname="'+req.body.firstname+'", lastname="'+lastname+'", address1="'+ address1+'",address2="'+address2 +'", city="'+city+' ",state="'+state +'", country="'+country+'", phonenumber="'+ phonenumber+'", email="'+ email+'" WHERE userid='+id+'';
+      console.log(command);
+      let data = [true, 1];
+      con.query(command, data, function (error, result) {
+        // console.log(result.affectedRows);
+        if (result.affectedRows<=0) {
+          res.send({ status: false, message:"No Data Pls check user id or else" });
+          console.log(error);
+          // throw error;
+        }
+        else {
+          res.status(200).send("Successfully update user");
+        };
+      });
+    
+  })
+
+
+
+//end user update
+
+
+
 //booked
 router.post('/roombooked', authcheck, function (req, res) {
   console.log("Welcome to Book page");
