@@ -691,30 +691,42 @@ const proofupload = multer({
 
 router.post('/userproof', proofupload.single('images'), userproofimage)
 
-//cancelroombook
-router.post('cancelroombook/:id',authcheck, function (req, res) {
+//cancelbooking
+
+
+router.post('/bookingcancel/:bookingid',authcheck, function (req, res) {
   console.log("Welcome to cancel Room Book");
-  var id = req.params.id;
-  var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=2 AND id=' + id;
-  con.query(cmd, function (error, getresult) {
-    if (getresult = true) {
-      var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + ' ';
+  var id = req.params.bookingid;
+        var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' +id+ ' ';
+      console.log(command);
       let data = [true, 1];
       con.query(command, data, function (error, result) {
-        if (error) {
-          res.send({ status: false, message: error });
+        // console.log(result);
+        if (result.affectedRows<=0) {
+          res.send({ status: false, message:"No Data Pls check booking id or else" });
           console.log(error);
-          throw error;
+          // throw error;
         }
         else {
           res.status(200).send("Successfully Booking Cancel");
         };
       });
-    }
+    
   })
-});
+// });
+//un wanted code
 
-
+// }
+    // else
+    // {
+    //   res.send("Data Not avilable");
+    // }
+// var cmd = 'SELECT * FROM booking WHERE  bookedstatusid=1 AND bookingid=' + id;
+  // console.log(cmd);
+  // con.query(cmd, function (error, getresult) {
+    // console.log(getresult);
+    // if (getresult = true) {
+      // console.log(getresult=true || false);
 
 //booked
 router.post('/roombooked', authcheck, function (req, res) {
