@@ -123,6 +123,58 @@ router.post('/auth', async function (request, response) {
 
 //end multiple
 
+//st change password
+router.post('/changepassword/:id', (req, res) => {
+  var id = req.params.id;
+  var password = req.body.password;
+  
+
+  var command = 'UPDATE user SET password="' + password +'" WHERE userid = ' + id + '';
+  let data = [true, 1];
+  con.query(command, data, function (error, result) {
+    if (error) {
+      res.send({ status: false, message: error });
+
+      console.log(error);
+      throw error;
+    }
+    else {
+      console.log("Done");
+      res.status(200).send("Successfully password  Update");
+    }
+  });
+
+});
+
+
+// router.post('/changepassword/:userid',authcheck, function (req, res) {
+//   try {
+//     // console.log(req.body);
+//     var command = sprintf('update user set password=' + req.body.password +' WHERE userid=' + req.params.userid);
+//     // lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
+
+//     console.log("after", command);
+//     con.query(command, function (err, result) {
+//       if (err) {
+//         // console.log(err);
+//         res.send({ status: false, message: err });
+//       }
+//       else {
+//         res.status(200).send({ "message": "Change Password Successfully" });
+//         res.end();
+//       }
+//     })
+//   }
+//   catch (e) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+//   }
+// })
+// //end update booking
+
+//end change password
+
 
 //st frontoff a checkin
 
@@ -936,7 +988,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 
 //get booking with user id
 
-//get booking detail
+
 router.get('/getbookingwithuserid/:userid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
