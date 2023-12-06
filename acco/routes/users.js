@@ -13,6 +13,7 @@ const path = require('path');
 const { error, Console } = require('console');
 const moment = require('moment');
 const otpGenerator = require('otp-generator');
+const color=require('colors');
 
 
 const authcheck = (req, res, next) => {
@@ -89,7 +90,8 @@ router.post('/auth', async function (request, response) {
                       // statusId = res[0].appStatusId;
                     
                     // else{}
-                    response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email});
+                    console.log("gggg".bgRed);
+                    response.status(200).send({ accesstoken: accesstoken ,usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email}).green;
                     response.end();
                   }
                   // );
@@ -478,10 +480,20 @@ router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
     command =( "select * from booking where checkin BETWEEN "+"'"+req.params.checkin+ ' 00:00:01'+ " '"+' AND ' +"'"+req.params.checkin+' 23:59:59'+"'");
     console.log(command);
     con.query(command, function (error, results) {
+      console.log(results.acheckin);
       console.log("len",results.length);
+      // console.log(results.acheckin);
+      console.log("acheckin",results.acheckin);
+      var green=results.acheckin<results.checkin
+      console.log("green",green);
+      var red=results.acheckin<results.checkin
+      console.log("RED ",red);
+      var willinform=results.acheckin=0;
+      console.log("will inform",willinform);
+
       if (results.length>=1) {
-        res.send(results);
-        console.log(results);
+      // if(acheckin>checkin){
+        res.send(results)
         
       }
       else {
@@ -922,6 +934,32 @@ router.get('/getbooking', authcheck, function (req, res) {
 
 })
 
+//get booking with user id
+
+//get booking detail
+router.get('/getbookingwithuserid/:userid', authcheck, function (req, res) {
+  try {
+    // id=req.param.userid
+    command = 'select * from booking WHERE userid='+ req.params.userid;
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+
+//end get booking with user id
 //get user detail
 router.get('/getuser',authcheck, function (req, res) {
   try {
