@@ -744,7 +744,7 @@ router.post('/updateuser/:userid',authcheck, function (req, res) {
   var email=req.body.email
   
 
-        var command = 'UPDATE user SET firstname="'+req.body.firstname+'", lastname="'+lastname+'", address1="'+ address1+'",address2="'+address2 +'", city="'+city+' ",state="'+state +'", country="'+country+'", phonenumber="'+ phonenumber+'", email="'+ email+'" WHERE userid='+id+'';
+        var command = 'UPDATE user SET firstname="'+firstname+'", lastname="'+lastname+'", address1="'+ address1+'",address2="'+address2 +'", city="'+city+' ",state="'+state +'", country="'+country+'", phonenumber="'+ phonenumber+'", email="'+ email+'" WHERE userid='+id+'';
       console.log(command);
       let data = [true, 1];
       con.query(command, data, function (error, result) {
