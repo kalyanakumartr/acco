@@ -526,7 +526,7 @@ router.get('/getplacetovisit', authcheck, function (req, res) {
 //st get guest detail
 
 router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
-  // try {
+  try {
     // sdate=req.params.checkin
     console.log("parms",req.params.checkin);
 
@@ -536,16 +536,26 @@ router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
     // const sql="CALL getguestdetailwithcolor('"+ checkin +"')";
     const sql="CALL getguestdetailwithcolor('"+ checkin +"')";
     console.log(sql);
-    const guestres = con.query(sql);
+    // const guestres = con.query(sql);
+    con.query(sql,function(err,result){
+      if(err)
+      {
+      res.send("Err");
+      }
+      else
+      {
+        res.send(result);
+      }
+    });
     // console(guestres);
-    return guestres;
+    // return guestres;
     // res.send(guestres);
-  // }
-  // catch (e) {
-  //   console.log("Catch");
-  //   const statusCode = e.statusCoderes || 500;
-  //   res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  // }
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
 })
 
 
