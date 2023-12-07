@@ -526,42 +526,68 @@ router.get('/getplacetovisit', authcheck, function (req, res) {
 //st get guest detail
 
 router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
-  try {
+  // try {
     // sdate=req.params.checkin
     console.log("parms",req.params.checkin);
-    command =( "select * from booking where checkin BETWEEN "+"'"+req.params.checkin+ ' 00:00:01'+ " '"+' AND ' +"'"+req.params.checkin+' 23:59:59'+"'");
-    console.log(command);
-    con.query(command, function (error, results) {
-      console.log(results.acheckin);
-      console.log("len",results.length);
-      // console.log(results.acheckin);
-      console.log("acheckin",results.acheckin);
-      var green=results.acheckin<results.checkin
-      console.log("green",green);
-      var red=results.acheckin<results.checkin
-      console.log("RED ",red);
-      var willinform=results.acheckin=0;
-      console.log("will inform",willinform);
 
-      if (results.length>=1) {
-      // if(acheckin>checkin){
-        res.send(results)
-        
-      }
-      else {
-        res.send({ "Message": "Unable to get Date "});
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
+    checkin=req.params.checkin
+    // command =( "select * from booking where checkin BETWEEN "+"'"+req.params.checkin+ ' 00:00:01'+ " '"+' AND ' +"'"+req.params.checkin+' 23:59:59'+"'");
+    // console.log(command);
+    // const sql="CALL getguestdetailwithcolor('"+ checkin +"')";
+    const sql="CALL getguestdetailwithcolor('"+ checkin +"')";
+    console.log(sql);
+    const guestres = con.query(sql);
+    // console(guestres);
+    return guestres;
+    // res.send(guestres);
+  // }
+  // catch (e) {
+  //   console.log("Catch");
+  //   const statusCode = e.statusCoderes || 500;
+  //   res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  // }
 })
 
 
 //end guest detail
+
+// code copy 
+// router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
+//   try {
+//     // sdate=req.params.checkin
+//     console.log("parms",req.params.checkin);
+//     command =( "select * from booking where checkin BETWEEN "+"'"+req.params.checkin+ ' 00:00:01'+ " '"+' AND ' +"'"+req.params.checkin+' 23:59:59'+"'");
+//     console.log(command);
+//     con.query(command, function (error, results) {
+//       console.log(results.acheckin);
+//       console.log("len",results.length);
+//       // console.log(results.acheckin);
+//       console.log("acheckin",results.acheckin);
+//       var green=results.acheckin<results.checkin
+//       console.log("green",green);
+//       var red=results.acheckin<results.checkin
+//       console.log("RED ",red);
+//       var willinform=results.acheckin=0;
+//       console.log("will inform",willinform);
+
+//       if (results.length>=1) {
+//       // if(acheckin>checkin){
+//         res.send(results)
+        
+//       }
+//       else {
+//         res.send({ "Message": "Unable to get Date "});
+//       }
+//     })
+//   }
+//   catch (e) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+//   }
+// })
+
+//end copy
 
 
 // ST ADD FOOD ITEM
