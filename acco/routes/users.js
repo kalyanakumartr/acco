@@ -419,7 +419,7 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 //st get room list
 router.get('/getroomlist',authcheck, function (req, res) {
   //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
-  var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from confirmbooking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
+  var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
   con.query(cmmd, function (err, result) {
     console.log("cmd", cmmd);
     if (err) {
@@ -857,12 +857,13 @@ router.get('/home', authcheck, function (req, res, next) {
 );
 
 //add booking
-router.post('/addbooking', authcheck, function (req, res) {
+router.post('/addbooking', function (req, res) {
   try {
-    console.log(req.body);
+    console.log("Body",req.body);
     
-    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,noofdays,price,totalprice,verificationstatus,status) VALUES (%d,"%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s",%d)',req.body.userid, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype,req.body.noofdays,req.body.price,req.body.totalprice,res.body.verificationstatus, 1);
-
+    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid,  req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2,       req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child,       req.body.roomtype,req.body.roomid,req.body.noofdays,req.body.price,req.body.totalprice,req.body.bookedstatusid,req.body.verificationstatus, 1);
+    
+    
     console.log("after", command);
     con.query(command, function (err, result) {
       if (err) {
@@ -876,7 +877,7 @@ router.post('/addbooking', authcheck, function (req, res) {
     })
   }
   catch (e) {
-    console.log("Catch");
+    console.log("Catch",e);
     const statusCode = e.statusCoderes || 500;
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
@@ -1020,7 +1021,7 @@ router.post('/adduser', async function (req, res) {
 
     //end datetime 
     console.log(hashedPassword);
-    var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phoneNumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, dateTime, req.body.phonenumber, req.body.email, dateTime, req.body.username, hashedPassword, hashedCPassword, 1);
+    var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,modifieddate,phonenumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, dateTime, req.body.phonenumber, req.body.email, dateTime, req.body.username, hashedPassword, hashedCPassword, 1);
     console.log(command);
     con.query(command, function (err, mysqlres1) {
       // console.log(v);
