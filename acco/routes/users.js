@@ -67,7 +67,7 @@ router.post('/auth', async function (request, response) {
                 // var appoiid = 0;
                 // var statusId = 0;
 
-                response.status(200).send({accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email});
+                response.status(200).send({accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email,phonenumber:results[0].phonenumber,firstname:results[0].firstname});
                 response.end();
               }
               else if (results[0].roleid == 2) {
