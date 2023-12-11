@@ -214,7 +214,7 @@ let data = [true, 1];
 
 //st room type get
 
-router.get('/roomtype',authcheck,function(req,res){
+router.get('/roomtype',function(req,res){
   console.log("Welcome to room type");
   try {
     command = 'SELECT * FROM roomtype';
@@ -504,7 +504,7 @@ router.get('/getroom', authcheck, function (req, res) {
 //placetovisit
 
 
-router.get('/getplacetovisit', authcheck, function (req, res) {
+router.get('/getplacetovisit', function (req, res) {
   try {
     command = 'select * from placetovisit';
     con.query(command, function (error, results) {
@@ -633,7 +633,7 @@ router.post('/admin/addfooditem',authcheck, function (req, res) {
 
 
 //get food item
-router.get('/getfooditem', authcheck, function (req, res) {
+router.get('/getfooditem',  function (req, res) {
   try {
     command = 'select * from fooditem';
 
