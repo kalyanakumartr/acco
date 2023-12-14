@@ -419,7 +419,10 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 //st get room list
 router.get('/getroomlist',authcheck, function (req, res) {
   //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
-  var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
+  // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
+  // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
+var cmmd=sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,GROUP_CONCAT(roomid) AS roomids from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
+ 
   con.query(cmmd, function (err, result) {
     console.log("cmd", cmmd);
     if (err) {
@@ -525,12 +528,12 @@ router.get('/getplacetovisit', function (req, res) {
 
 //st get guest detail
 
-router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
+router.get('/getguestdetail',authcheck, function (req, res) {
   try {
     // sdate=req.params.checkin
-    console.log("parms",req.params.checkin);
+    console.log("query",req.query.checkin);
 
-    checkin=req.params.checkin
+    checkin=req.query.checkin
     // command =( "select * from booking where checkin BETWEEN "+"'"+req.params.checkin+ ' 00:00:01'+ " '"+' AND ' +"'"+req.params.checkin+' 23:59:59'+"'");
     // console.log(command);
     // const sql="CALL getguestdetailwithcolor('"+ checkin +"')";
@@ -540,7 +543,7 @@ router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
     con.query(sql,function(err,result){
       if(err)
       {
-      res.send("Err");
+      res.send("No Data");
       }
       else
       {
@@ -861,7 +864,7 @@ router.post('/addbooking', function (req, res) {
   try {
     console.log("Body",req.body);
     
-    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid,  req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2,       req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child,       req.body.roomtype,req.body.roomid,req.body.noofdays,req.body.price,req.body.totalprice,req.body.bookedstatusid,req.body.verificationstatus, 1);
+    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid,  req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2,       req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child,       req.body.roomtype,req.body.roomid,req.body.noofdays,req.body.price,req.body.totalprice,req.body.bookedstatusid,req.body.verificationstatus, 1);
     
     
     console.log("after", command);
