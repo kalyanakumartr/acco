@@ -421,18 +421,22 @@ router.get('/getroomlist',authcheck, function (req, res) {
   //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
   // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
   // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
-var cmmd=sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT('[',GROUP_CONCAT(roomno),']') AS roomnos,CONCAT('[',GROUP_CONCAT(roomid),']') AS roomids from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
- 
+// var cmmd=sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT('[',GROUP_CONCAT(roomno),']') AS roomnos,CONCAT('[',GROUP_CONCAT(roomid),']') AS roomids from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
+var cmmd=sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid,':',roomno)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
   con.query(cmmd, function (err, result) {
     console.log("cmd", cmmd);
     if (err) {
       console.log(err);
       res.send(err);
+    
     }
     else {
 
-      console.log(result);
-      res.send(JSON.stringify(result));
+      console.log(result[0].roomnos.split(','));
+      // res.send(JSON.stringify(result[0]));
+      result[0].roomnos=result[0].roomnos.split(',');
+      
+      res.send(result);
       
     }
   })
@@ -1042,7 +1046,7 @@ router.post('/adduser', async function (req, res) {
           res.status(401).send({ "message": err });
         }
         else {
-          if (req.body.roleid = 4)
+          if (req.body.roleid = 3)
             res.status(200).send({ message: "Successfully Register" });
           res.end();
         }
@@ -1050,7 +1054,7 @@ router.post('/adduser', async function (req, res) {
     })
   }
   catch (e) {
-    console.log("Catch");
+    console.log("Catch",e.err);
     const statusCode = e.statusCoderes || 500;
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
