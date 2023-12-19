@@ -124,8 +124,8 @@ router.post('/auth', async function (request, response) {
 //end multiple
 
 //st change password
-router.post('/changepassword/:id', (req, res) => {
-  var id = req.params.id;
+router.post('/changepassword', (req, res) => {
+  var id = req.body.userid;
   var password = req.body.password;
   
 
