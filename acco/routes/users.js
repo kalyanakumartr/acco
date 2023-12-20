@@ -773,9 +773,9 @@ router.post('/bookingcancel/:bookingid',authcheck, function (req, res) {
 
 //st user update
 
-router.post('/updateuser/:userid',authcheck, function (req, res) {
+router.post('/updateuser',authcheck, function (req, res) {
   console.log("Welcome to update user ");
-  var id = req.params.userid;
+  var id = req.body.userid;
   var firstname=req.body.firstname;
   var lastname=req.body.lastname
   var address1=req.body.address1
