@@ -1087,7 +1087,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 router.get('/getbookingwithuserid/:userid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
-    command = 'select * from booking WHERE userid='+ req.params.userid;
+    command = 'select * from booking WHERE userid='+ req.query.userid;
     con.query(command, function (error, results) {
       if (error) {
         res.send("Unable to get Date ")
@@ -1127,6 +1127,59 @@ router.get('/getuser',authcheck, function (req, res) {
   }
 
 })
+
+
+//get user with user id
+
+router.get('/getuserwithuserid/:userid', authcheck, function (req, res) {
+  try {
+    // id=req.param.userid
+    command = 'select * from user WHERE userid='+ req.query.userid;
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+
+
+//end get user id
+//get user detail
+router.get('/getuser',authcheck, function (req, res) {
+  try {
+
+    command = 'select * from user';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+
+
+//end get user id
 
 //auth
 router.post('/auth', function (request, response) {
