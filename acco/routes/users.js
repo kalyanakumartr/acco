@@ -1131,7 +1131,7 @@ router.get('/getuser',authcheck, function (req, res) {
 
 //get user with user id
 
-router.get('/getuserwithuserid/:userid', authcheck, function (req, res) {
+router.get('/getuserwithuserid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
     command = 'select * from user WHERE userid='+ req.query.userid;
