@@ -140,7 +140,7 @@ router.post('/changepassword', (req, res) => {
     }
     else {
       console.log("Done");
-      res.status(200).send("Successfully password  Update");
+      res.status(200).send({ message: "Successfully Changed Password" });
     }
   });
 
@@ -1084,7 +1084,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 //get booking with user id
 
 
-router.get('/getbookingwithuserid/:userid', authcheck, function (req, res) {
+router.get('/getbookingwithuserid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
     command = 'select * from booking WHERE userid='+ req.query.userid;
