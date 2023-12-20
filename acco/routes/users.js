@@ -432,10 +432,12 @@ var cmmd=sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CON
     }
     else {
 
-      console.log(result[0].roomnos.split(','));
+      console.log("roomlist",result[0].roomnos.split(','));
+      console.log("res only",result[1].roomnos.split(','));
       // res.send(JSON.stringify(result[0]));
       result[0].roomnos=result[0].roomnos.split(',');
-      
+      result[1].roomnos=result[1].roomnos.split(',');
+      // result[0].roomtype=result[0].roomtype.split(',');
       res.send(result);
       
     }
