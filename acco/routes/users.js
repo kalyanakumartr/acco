@@ -15,200 +15,8 @@ const moment = require('moment');
 const otpGenerator = require('otp-generator');
 const color = require('colors');
 
+var authcheck = require('./authentication')
 
-const authcheck = (req, res, next) => {
-  headers = {
-
-    'Content-Type': 'application/json',
-    "Access-Control-Allow-Origin": ' <origin>',
-    "Access-Control-Allow-Credentials": true
-  };
-  // console.log(headers);
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(" ")[1];
-  // console.log(token);
-  if (!token) return res.sendStatus(401);
-  jsonwebtoken.verify(token, process.env.ACCESS_TOKEN, (err, obj) => {
-
-    if (err) {
-      console.log("error", err);
-      return res.sendStatus(403);
-    }
-    req.userName = obj.username;
-    req.password = obj.password;
-    next();
-
-  })
-}
-
-
-//st auth multiple
-router.post('/auth', async function (request, response) {
-  // Capture the input fields
-  let username = request.body.username;
-  let password = request.body.password;
-  if (username && password) {
-    con.query('SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username = ?  ', [request.body.username], function (error, results) {
-      if (results.length > 0) {
-        // console.log("Error", error, results[0]);
-        // console.log("Error", error);
-        // console.log(results, "check", results[0].password);
-        // bcrypt
-        //   .compare(request.body.password, results[0].password)
-        //   .then(res => {
-        // console.log("res", res) // return true
-        if (results.length > 0) {
-          const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
-          // console.log("token", accesstoken);
-          var type = '';
-          if (results[0].roleid == 1) {
-
-            type = "Admin"
-            // var appoiid = 0;
-            // var statusId = 0;
-
-            response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname });
-            response.end();
-          }
-          else if (results[0].roleid == 2) {
-
-            type = "Manager"
-            // var appoiid = 0;
-            // var statusId = 0;
-            response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname });
-            response.end();
-          }
-          else {
-            type = "Customer"
-            if (type == "Customer") {
-              // comm = "SELECT * FROM appointment app WHERE app.appPatientId=" + results[0].userId + " AND appStatusId=4";
-              // con.query(comm, function (req, res) {
-              // var appoiid = 0;
-              // var statusId = 0;
-              // if (res.length > 0) {
-              // appoiid = res[0].id;
-              // statusId = res[0].appStatusId;
-
-              // else{}
-              // console.log("gggg".bgRed);
-              response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname });
-              response.end();
-            }
-            // );
-            // }
-          }
-          //
-        }
-        else {
-          response.status(401).send('Incorrect Username and/or Password!');
-          response.end();
-        }
-        //  response.end();
-        // })
-        // .catch(err => console.error(err.message))
-      } else {
-        response.status(401).send('Incorrect Username and/or Password!');
-        response.end();
-      }
-    }
-    );
-  } else {
-    response.status(401).send('Please enter Username and Password!');
-    response.end();
-  }
-});
-
-
-
-
-//end multiple
-
-//st change password
-router.post('/changepassword', (req, res) => {
-  var id = req.body.userid;
-  var password = req.body.password;
-
-
-  var command = 'UPDATE user SET password="' + password + '" WHERE userid = ' + id + '';
-  let data = [true, 1];
-  con.query(command, data, function (error, result) {
-    if (error) {
-      res.send({ status: false, message: error });
-
-      console.log(error);
-      throw error;
-    }
-    else {
-      console.log("Done");
-      res.status(200).send({ message: "Successfully Changed Password" });
-    }
-  });
-
-});
-
-
-// router.post('/changepassword/:userid',authcheck, function (req, res) {
-//   try {
-//     // console.log(req.body);
-//     var command = sprintf('update user set password=' + req.body.password +' WHERE userid=' + req.params.userid);
-//     // lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
-
-//     console.log("after", command);
-//     con.query(command, function (err, result) {
-//       if (err) {
-//         // console.log(err);
-//         res.send({ status: false, message: err });
-//       }
-//       else {
-//         res.status(200).send({ "message": "Change Password Successfully" });
-//         res.end();
-//       }
-//     })
-//   }
-//   catch (e) {
-//     console.log("Catch");
-//     const statusCode = e.statusCoderes || 500;
-//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-//   }
-// })
-// //end update booking
-
-//end change password
-
-
-//st frontoff a checkin
-
-router.post('/actualcheckin', authcheck, (req, res) => {
-  try {
-    var command = sprintf('update booking set acheckin=' + "'" + req.body.acheckin + "'" + ' WHERE email=' + '"' + req.body.email + '"');
-
-    let data = [true, 1];
-    console.log("after", command);
-    con.query(command, data, function (error, result) {
-      console.log("affectedRows", result.affectedRows);
-      if (result.affectedRows <= 0) {
-
-        // res.send({ status: false, message: error });
-        res.send("Check Mail Id");
-        console.log("Check Mail Id");
-        // console.log(error);
-        // throw error;
-      }
-      else {
-        // res.send(result);
-        res.status(200).send("Successfully Actual chekin Update");
-        res.end();
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
-})
-
-//end frontoff a checkin
 
 
 
@@ -367,60 +175,7 @@ router.post('/verifyOTP', authcheck, (req, res) => {
 
 //auth login
 
-
-//get room split
-router.get('/getroomsplit', authcheck, function (req, res) {
-  try {
-    command = 'SELECT * FROM room  WHERE roomsplit=1';
-    con.query(command, function (error, results) {
-      if (error) {
-        res.send({ "Message": "Unable to get Date " });
-      }
-      else {
-        res.send(results);
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
-})
-
-//end get room
-
 //st get room list
-router.get('/getroomlist', authcheck, function (req, res) {
-  //  var cmmd=sprintf("select * from room where basecount<="+req.query.adults + " OR basecount<=4");
-  // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
-  // var cmmd = sprintf("select * from room where (basecount<='" + req.query.adults + "' OR basecount<=4) and roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "'))");
-  // var cmmd=sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT('[',GROUP_CONCAT(roomno),']') AS roomnos,CONCAT('[',GROUP_CONCAT(roomid),']') AS roomids from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
-
-  // select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT('{\'',roomid,'\':',roomno,',checked:false','}')) AS roomnos from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2023-10-28' AND '2023-10-29' OR checkout BETWEEN '2023-10-28' AND '2023-10-29')) GROUP BY rtype,price,roomname
-
-
-  // var cmmd=sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT('{\' 'roomid:',roomno,' CHECKED:FALSE' '}'\)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
-
-  var cmmd = sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT('[',GROUP_CONCAT('{', '\"roomid\":',roomno,',\"CHECKED\":false' '}'),']') AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
-  con.query(cmmd, function (err, result) {
-    console.log("cmd", cmmd);
-    if (err) {
-      console.log(err);
-      res.send(err);
-
-    }
-    else {
-      console.log(result.length);
-      for (let a = 0; a < result.length; a++) {
-        result[a].roomnos = JSON.parse(result[a].roomnos);
-      }
-      res.send(result);
-    }
-  })
-  // res.send(result);
-});
-//end get room list
 
 //confirmbooking
 // router.post('/confirmbooking', function (req, res) {
@@ -448,23 +203,6 @@ router.get('/getroomlist', authcheck, function (req, res) {
 // })
 
 
-//to get roomnumber and bhk when floornumber given
-router.get('/getroom', authcheck, function (req, res) {
-  console.log("getroom")
-  var getroom = "SELECT * FROM floorroommapping"
-  con.query(getroom, function (error, result) {
-    if (error) {
-      console.log(error);
-      res.send("Unable to get data");
-    }
-    else {
-      res.send(result);
-    }
-  });
-});
-
-// get room in room tbl
-// end get room
 
 
 // router.get('/findroom',function(req,res){
@@ -710,32 +448,6 @@ const proofupload = multer({
 
 router.post('/userproof', proofupload.single('images'), userproofimage)
 
-//cancelbooking
-
-
-router.post('/bookingcancel', authcheck, function (req, res) {
-  console.log("Welcome to cancel Room Book");
-  var id = req.body.bookingid;
-  var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + ' ';
-  console.log(command);
-  let data = [true, 1];
-  con.query(command, data, function (error, result) {
-    // console.log(result);
-    if (result.affectedRows <= 0) {
-      res.send({ status: false, message: "No Data Pls check booking id or else" });
-      console.log(error);
-      // throw error;
-    }
-    else {
-      res.status(200).send("Successfully Booking Cancel");
-    };
-  });
-
-})
-
-//end cancel booking with userid
-
-
 //st user update
 
 router.post('/updateuser', authcheck, function (req, res) {
@@ -775,46 +487,6 @@ router.post('/updateuser', authcheck, function (req, res) {
 
 
 
-//booked
-router.post('/roombooked', authcheck, function (req, res) {
-  console.log("Welcome to Book page");
-  // console.log(req.body);
-
-  var getdetails = "SELECT *,false as roombooked FROM booking WHERE bookingid=" + req.body.bookingid;
-
-  con.query(getdetails, function (request, result) {
-    console.log("resu", result[0].adults);
-
-    if (result[0].adults <= 4) {
-
-      console.log("2 bed room Booked");
-      res.send({ "Message": "2 Bed Room Booked" })
-    }
-    else if (result[0].adults >= 4 && result[0].adults <= 6) {
-      console.log("3 bed room Booked");
-      res.send({ "Message": "3 Bed Room Booked" })
-
-    }
-
-    else {
-      console.log("Not Booked");
-      res.send({ "Message": " Not Booked" })
-      res.end();
-    }
-
-    // 
-    // res.end();
-
-  })
-  // console.log(cin);
-  // var gerorderwise= "SELECT * FROM room ORDER BY roomname";
-  // c=con.query(gerorderwise,function(reqq,ress){})
-  // console.log("cin",cin,"c",res[0].roomname,"order",gerorderwise);
-
-
-});
-
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
@@ -828,60 +500,6 @@ router.get('/home', authcheck, function (req, res, next) {
 }
 );
 
-//add booking
-router.post('/addbooking', function (req, res) {
-  try {
-    console.log("Body", req.body);
-
-    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.roomtype, req.body.roomid, req.body.noofdays, req.body.price, req.body.totalprice, req.body.bookedstatusid, req.body.verificationstatus, 1);
-
-
-    console.log("after", command);
-    con.query(command, function (err, result) {
-      if (err) {
-        console.log(err);
-        res.send({ status: false, message: err });
-      }
-      else {
-        res.status(200).send({ "message": "Booking added Successfully" });
-        res.end();
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch", e);
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
-})
-//end add booking
-
-//st update booking
-router.post('/updatebooking', authcheck, function (req, res) {
-  try {
-    console.log(req.body);
-    var command = sprintf('update booking set checkin=' + req.body.checkin + ',checkout=' + req.body.checkout + ' WHERE bookingid=' + req.body.bookingid);
-    // lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
-
-    console.log("after", command);
-    con.query(command, function (err, result) {
-      if (err) {
-        console.log(err);
-        res.send({ status: false, message: err });
-      }
-      else {
-        res.status(200).send({ "message": "Booking Update Successfully" });
-        res.end();
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
-})
-//end update booking
 
 // st cancel booking
 
@@ -1025,53 +643,8 @@ router.post('/adduser', async function (req, res) {
   }
 })
 
-//get booking detail
-router.get('/getbooking', authcheck, function (req, res) {
-  try {
-    command = 'select * from booking ';
-    con.query(command, function (error, results) {
-      if (error) {
-        res.send("Unable to get Date ")
-      }
-      else {
-        res.send(results);
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
-
-})
-
-//get booking with user id
 
 
-router.get('/getbookingwithuserid', authcheck, function (req, res) {
-  try {
-    // id=req.param.userid
-    command = 'select * from booking WHERE userid=' + req.query.userid;
-    con.query(command, function (error, results) {
-      if (error) {
-        res.send("Unable to get Date ")
-      }
-      else {
-        res.send(results);
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
-
-})
-
-
-//end get booking with user id
 //get user detail
 router.get('/getuser', authcheck, function (req, res) {
   try {
@@ -1146,106 +719,6 @@ router.get('/getuser', authcheck, function (req, res) {
 
 //end get user id
 
-//auth
-router.post('/auth', function (request, response) {
-  let username = request.body.userName;
-  let password = request.body.password;
-  // console.log("Check", username, password);
-  // console.log("Check", username, password);
-  // response.setHeader({'Content-Type': 'application/json'});
-  // response.header ({'Content-Type': 'application/json'});
-  if (username && password) {
-    con.query('SELECT *FROM user WHERE username = ?  ', [request.body.userName], function (error, results) {
-      if (results.length > 0) {
-        // console.log("test3");
-        bcrypt
-          .compare(request.body.password, results[0].password)
-          .then(res => {
-            // console.log("test1");
-            if (res && results.length > 0) {
-              const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
-              console.log("token", accesstoken);
-              response.status(200).send({ "message": "Successfully Login", accesstoken: accesstoken, username: results[0].username });
-              // response.send({"message"success to login");
-              response.end();
-
-            }
-            else {
-              response.status(401).send({ "message": "Incorrect Username and/or Password!" });
-              response.end();
-            }
-          })
-          .catch(err => console.error(err.message))
-
-
-      } else {
-        // console.log("test2");
-        response.status(401).send({ "message": "Incorrect Username and/or Password!" });
-        // response.end();
-      }
-    }
-    );
-  }
-})
-
-//anupama code 
-
-router.get('/getfloor', authcheck, function (req, res) {
-  console.log("getfloor");
-  var tablelist = "SELECT floornumber FROM floor ";
-  con.query(tablelist, function (error, result) {
-    if (error) {
-      console.log(error);
-      res.send("Unable to get data");
-    }
-    else {
-      res.send(result);
-    }
-  });
-});
-
-//to get roomnumber and bhk when floornumber given
-router.get('/getroom/:floornumber', authcheck, function (req, res) {
-  console.log("getroom")
-  var getroom = "SELECT * FROM floorroommapping WHERE floornumber=" + req.params.floornumber + '';
-  con.query(getroom, function (error, result) {
-    if (error) {
-      console.log(error);
-      res.send("Unable to get data");
-    }
-    else {
-      res.send(result);
-    }
-  });
-});
-
-router.get('/getbhk/:noofbhk', authcheck, function (req, res) {
-  console.log("getbhk")
-  var getroom = "SELECT * FROM floorroommapping WHERE noofbhk=" + req.params.noofbhk + '';
-  con.query(getroom, function (error, result) {
-    if (error) {
-      console.log(error);
-      res.send("Unable to get data");
-    }
-    else {
-      res.send(result);
-    }
-  });
-});
-
-router.get('/getChargedAmenities', authcheck, function (req, res) {
-  console.log("getchargedAmenities")
-  var getroom = "SELECT * FROM facilitycharges WHERE facilitycategory='Charged Amenities'";
-  con.query(getroom, function (error, result) {
-    if (error) {
-      console.log(error);
-      res.send("Unable to get data");
-    }
-    else {
-      res.send(result);
-    }
-  });
-});
 
 
 module.exports = router;
