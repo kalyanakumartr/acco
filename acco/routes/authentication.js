@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const con = require('../dbconfig');
-
+const moment = require('moment');
+const jsonwebtoken = require('jsonwebtoken');
+const { sprintf } = require('sprintf-js');
 
 
 
@@ -96,23 +98,54 @@ router.post('/auth', async function (request, response) {
             type = "Admin"
             // var appoiid = 0;
             // var statusId = 0;
+            var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
+//     var command = sprintf('INSERT INTO confirmbooking (roomid,checkin,checkout,status) VALUES ("%s", "%s","%s%d)', req.body.roomid, req.body.phonenumber, req.body.verificationstatus,  1);
+console.log(cdatetime);
+console.log(results[0].userid);
+console.log(results[0].username);
+ 
+var userdetail=sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)',results[0].userid,results[0].username,cdatetime,type,1);           con.query(userdetail,function(res,res){
+              // console.log(res);
             response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname });
             response.end();
-          }
+        
+        })
+      }
           else if (results[0].roleid == 2) {
 
             type = "Manager"
             // var appoiid = 0;
             // var statusId = 0;
-            response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname });
+            var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+            console.log(cdatetime);
+            console.log(results[0].userid);
+            console.log(results[0].username);
+                        
+            var userdetail=sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)',results[0].userid,results[0].username,cdatetime,type,1);
+            con.query(userdetail,function(res,res){
+              // console.log("ma",res);
+              response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname });
             response.end();
+          })
           }
+
           else {
             type = "Customer"
             if (type == "Customer") {
+              var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+              console.log(cdatetime);
+              console.log(results[0].userid);
+              console.log(results[0].username);
+                          
+              var userdetail=sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)',results[0].userid,results[0].username,cdatetime,type,1);
+              con.query(userdetail,function(res,res){
+              
               response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname });
               response.end();
+              })
             }
           }
         }
@@ -137,10 +170,33 @@ router.post('/auth', async function (request, response) {
 
 //end multiple
 
+//st get logindetail
+
+router.get('/getlogin', function (req, res) {
+  try {
+    command = 'select * from logindetail';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+
+//end get logindetail
 
 
 //st change password
-router.post('/changepassword', (req, res) => {
+router.post('/changepassword',authcheck, (req, res) => {
     var id = req.body.userid;
     var password = req.body.password;
   
@@ -165,9 +221,6 @@ router.post('/changepassword', (req, res) => {
   
   //end change password
   
-
-
-
 
 
 module.exports = router;
