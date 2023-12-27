@@ -237,6 +237,46 @@ router.post('/addbooking', function (req, res) {
 //end add booking
 
 
+
+//add booking with child age
+router.post('/addbookingwithchild', function (req, res) {
+  try {
+    console.log("Body", req.body);
+
+    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES   (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child,req.body.childage, req.body.roomtype, req.body.roomid,req.body.noofdays, req.body.price, req.body.totalprice, req.body.bookedstatusid, req.body.verificationstatus, 1);
+    
+    console.log("after", command);
+    // console.log("child",result[0].child);
+    con.query(command, function (err, result) {
+    
+      // if(req.body.child<2)
+      // {
+        // var getbookfield='select bookingid,userid'
+      // var com = sprintf('INSERT INTO childdetail (bookingid,userid,childname,childage,status) VALUES   (%d,%d,"%s",%d,%b)',req.body.bookingid, req.body.userid,  req.body.childname, req.body.childage,1);
+      // console.log(com);
+
+      // console.log("child",result);
+      console.log(err);
+      if (err) {
+        console.log("Error",err);
+        res.send({ status: false, message: err });
+      }
+      else {
+        res.status(200).send({ "message": "Booking added Successfully" });
+        res.end();
+      }
+    // }
+    })
+  }
+  catch (e) {
+    console.log("Catch", e);
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+//end add booking
+
+
 //st update booking
 router.post('/updatebooking', authcheck, function (req, res) {
   try {
