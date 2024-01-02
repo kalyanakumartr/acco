@@ -6,6 +6,36 @@ var sprintf = require('sprintf-js').sprintf;
 
 
 
+
+//st tariff
+
+router.get('/gettariff',function(req,res){
+  console.log("Welcome to Tariff");
+  try {
+    command = 'SELECT * FROM tariffdetail';
+    con.query(command, function (error, result) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
+      }
+      else {
+        res.send(result);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+// }) 
+
+
+//end tariff
+
+
 //st room type get
 
 router.get('/roomtype', function (req, res) {
@@ -212,8 +242,8 @@ router.post('/roombooked', authcheck, function (req, res) {
 router.post('/addbooking', function (req, res) {
   try {
     console.log("Body", req.body);
-
-    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.roomtype, req.body.roomid, req.body.noofdays, req.body.price, req.body.totalprice, req.body.bookedstatusid, req.body.verificationstatus, 1);
+    
+    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.roomtype, req.body.roomid, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus, 1);
 
 
     console.log("after", command);

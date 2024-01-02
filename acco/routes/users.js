@@ -646,25 +646,25 @@ router.post('/adduser', async function (req, res) {
 
 
 //get user detail
-router.get('/getuser', authcheck, function (req, res) {
-  try {
-    command = 'select * from user';
-    con.query(command, function (error, results) {
-      if (error) {
-        res.send("Unable to get Date ")
-      }
-      else {
-        res.send(results);
-      }
-    })
-  }
-  catch (e) {
-    console.log("Catch");
-    const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
-  }
+// router.get('/getuser', authcheck, function (req, res) {
+//   try {
+//     command = 'select * from user';
+//     con.query(command, function (error, results) {
+//       if (error) {
+//         res.send("Unable to get Date ")
+//       }
+//       else {
+//         res.send(results);
+//       }
+//     })
+//   }
+//   catch (e) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+//   }
 
-})
+// })
 
 
 //get user with user id
