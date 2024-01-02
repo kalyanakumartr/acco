@@ -14,10 +14,13 @@ router.post('/updatetariff',function(req,res){
     // lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,roomtype,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adult, req.body.child, req.body.roomtype, 1);
 
     console.log("after", command);
-    con.query(command, function (err, result) {
-      if (err) {
+    let data = [true, 1];
+    con.query(command, data,function (err, result) {
+    //   if (err) {
+        console.log(result.affectedRows);
+        if (result.affectedRows <= 0) {
         console.log(err);
-        res.send({ status: false, message: err });
+        res.send({ status: false, message: "Pls check Tariff ID"});
       }
       else {
         res.status(200).send({ "message": "Traiff  Update Successfully" });
