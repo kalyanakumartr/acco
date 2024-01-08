@@ -6,6 +6,42 @@ var sprintf = require('sprintf-js').sprintf;
 
 
 
+//st search booking info
+
+router.get('/searchbookinginfo',function(req,res){
+console.log("Welcome to search");
+cmd='select * from booking where bookedstatusid=1 ';
+
+console.log(req.query.bookingid,req.query.email,req.query.phonenumber);
+if(req.query.bookingid!=undefined){
+  cmd=cmd+ ' and bookingid='+req.query.bookingid+' ';
+}
+if(req.query.email!=undefined){
+
+  cmd=cmd+ (req.query.bookingid==undefined?' And ': ' OR ')+' email="'+req.query.email+'"';
+}
+if(req.query.phonenumber!=undefined){
+  cmd=cmd+ (req.query.bookingid!=undefined?' OR ': req.query.email==undefined?' And ': ' OR ')+' phonenumber='+req.query.phonenumber+' ';
+}
+console.log(cmd);
+con.query(cmd,function(err,result){
+  if(err){
+    console.log("Err");
+    res.send("No Data");
+  }
+  else
+  {
+    console.log(result);
+    res.send(result);
+  }
+})
+});
+
+
+//end search booking info
+
+
+
 
 //st tariff
 
