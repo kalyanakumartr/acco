@@ -17,7 +17,6 @@ if(req.query.bookingid!=undefined){
   cmd=cmd+ ' and bookingid='+req.query.bookingid+' ';
 }
 if(req.query.email!=undefined){
-
   cmd=cmd+ (req.query.bookingid==undefined?' And ': ' OR ')+' email="'+req.query.email+'"';
 }
 if(req.query.phonenumber!=undefined){
@@ -119,7 +118,8 @@ router.get('/getroomlist', function (req, res) {
         res.send({ "Message": "Unable to get Date " });
       }
       else {
-            res.send({"roomlist":getroomtype});
+       re= await pool.query(getroomtype);
+            res.send 
       
       }
     })
@@ -292,6 +292,11 @@ router.post('/addbooking', function (req, res) {
 
 
     console.log("after", command);
+    if(req.body.lastname==undefined){
+      command=command+(req.body.lastname==undefined?'Not Undefine': 'Null');
+    }
+    
+    console.log(req.body.lastname);
     con.query(command, function (err, result) {
       if (err) {
         console.log(err);
