@@ -107,7 +107,7 @@ router.get('/getroomlist', function (req, res) {
     cout=req.query.checkout;
     adultin=req.query.adults;
     
-    cmd='CALL getroomlistsp (?,?,?,?)'
+    cmd='CALL getroomlistsp (?,?,?,?)';
     console.log("cmd",cin,cout,rtid,adultin)
     // cmd='select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) AS roomcount from room  where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'" OR checkout BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'"))AND roomname=name ) AS avilable from tariffdetail where roomtypeid='+rid+' AND (headcount='+req.query.adults+' OR headcount>=4)';
      con.query(cmd,[cin,cout,rtid,adultin] ,function (err, getroomtype) {
