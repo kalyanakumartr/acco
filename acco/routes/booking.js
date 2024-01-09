@@ -317,7 +317,7 @@ router.post('/addbookingwithchild', function (req, res) {
   try {
     console.log("Body", req.body);
 
-    var command = sprintf('INSERT INTO booking (userid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES   (%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.roomid, req.body.noofdays, req.body.price, req.body.totalprice, req.body.bookedstatusid, req.body.verificationstatus, 1);
+    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES   (%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, 1,req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.roomid, req.body.noofdays, req.body.price, req.body.totalprice, req.body.bookedstatusid, req.body.verificationstatus, 1);
 
     console.log("after", command);
     // console.log("child",result[0].child);
@@ -411,7 +411,8 @@ router.get('/getbooking', authcheck, function (req, res) {
 router.get('/getbookingwithuserid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
-    command = 'select * from booking WHERE userid=' + req.query.userid;
+    command = 'select * from booking WHERE userid=' + req.query.userid +' ORDER BY checkin';
+    console.log(command);
     con.query(command, function (error, results) {
       if (error) {
         res.send("Unable to get Date ")
