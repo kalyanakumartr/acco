@@ -1,3 +1,65 @@
+new 09-01
+BEGIN
+   DECLARE done INT DEFAULT FALSE;
+   DECLARE roomname1 varchar(50);
+	DECLARE avail1  INT;
+	DECLARE available  INT;
+	DECLARE n INT DEFAULT 0;
+	DECLARE i INT DEFAULT 0;
+	DECLARE cur1 CURSOR FOR  SELECT roomname, COUNT(roomname) as available FROM room where STATUS=1  GROUP BY roomname;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+		DROP TEMPORARY TABLE IF EXISTS temp_table;
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_table
+(	name varchar(50),
+  des VARCHAR(100),
+  price DOUBLE,
+  maintenance DOUBLE,
+  tax DOUBLE,
+  headcount INT, 
+  totalamount DOUBLE,
+  discount DOUBLE,
+  roomtypeid INT,
+  avail INT  ,
+    PRIMARY KEY (name) USING BTREE
+ 	 );
+	
+
+SET @Comma = ', ';
+SET @Count = 0;
+SELECT COUNT( distinct roomname) FROM room where STATUS=1  INTO n;
+SET i=1;
+/*SET GLOBAL log_bin_trust_function_creators = "1";*/
+OPEN cur1;
+   read_loop: LOOP
+	    FETCH cur1 INTO roomname1, avail1;
+	    
+
+		if(roomname1 ='2BHK') then 
+		INSERT INTO temp_table SELECT name,des,price,maintenance,tax,headcount,totalamount,discount,roomtypeid, (avail1 -
+			(SELECT sum(bhk2count) AS 2bhk  from booking WHERE (checkin  BETWEEN cin AND cout OR checkout BETWEEN cin AND cout ) )  )
+			from tariffdetail where roomtypeid=rtid AND  (headcount=adultin OR headcount=4);
+
+		elseif (roomname1 ='3BHK') then 
+				INSERT INTO temp_table SELECT name,des,price,maintenance,tax,headcount,totalamount,discount,roomtypeid, (avail1 -
+			(SELECT sum(bhk3count) AS 3bhk  from booking WHERE (checkin  BETWEEN cin AND cout OR checkout BETWEEN cin AND cout ) )  )
+			from tariffdetail where roomtypeid=rtid AND NAME='3BHK';
+		End IF;	
+	IF i>=n or done THEN
+      LEAVE read_loop;
+    END IF;
+    SET i = i + 1;
+  END LOOP;
+  CLOSE cur1;
+SELECT * from temp_table;
+DROP TEMPORARY TABLE IF EXISTS temp_table;
+END
+
+
+
+
+
+
 BEGIN
    DECLARE done INT DEFAULT FALSE;
    DECLARE roomname1 varchar(50);
