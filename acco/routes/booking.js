@@ -118,8 +118,7 @@ router.get('/getroomlist', function (req, res) {
         res.send({ "Message": "Unable to get Date " });
       }
       else {
-       re= await pool.query(getroomtype);
-            res.send 
+            res.send(getroomtype);
       
       }
     })
