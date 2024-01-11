@@ -28,6 +28,79 @@
 
 
 
+router.post('/actualcheckin',  function(req, res)  {
+  try {
+    // will give email and phone no 
+    var command='select * from booking where bookingid='+req.query.bookingid+'';
+    con.query(command,function(getreq,getres){
+      if(getres.affectedRows>=1)
+      {
+        
+      console.log("aff row",getres.affectedRows);
+      console.log(command);
+      console.log(getres);
+//will inclde or get 3bhcount
+        if(getres[0].bhk2count>=1 & getres[0].bhk2count<=9 )
+          {
+            //will include time for cin and cout
+            cin=moment(getres[0].checkin).format('YYYY-MM-DD');
+            // cout=moment(getres[0].checkout).format('YYYY-MM-DD HH:mm:ss');
+            
+            cout=moment(getres[0].checkout).format('YYYY-MM-DD');
+            console.log(cin);
+            console.log(cout);
+            console.log(getres[0].bhk2count);
+            var getcmd='select COUNT(roomname) AS roomcount,rtype ,price,roomname ,json_array(GROUP_CONCAT(roomno)) AS roomno,GROUP_CONCAT(roomid) AS roomids from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '+cin+' AND '+cout+' OR checkout BETWEEN '+cin+' AND '+cout+')) GROUP BY rtype,price,roomname'
+            console.log("getcmd",getcmd);       
+            con.query(getcmd,function(err,gresu){
+              //not in booking tblla  get room id
+              // console.log("room id",getres[0].roomid);
+
+              //tamil spreTE API
+              //  1-101 CHECK KEY VALUE
+              // ID CARD UPLOAD AONTOER API 
+              // var command = sprintf('update booking set acheckin=' + "'" + req.query.acheckin + "'," + ' bhk2count='+getres[0].bhk2count+', bhk3count='+getres[0].bhk3count+' WHERE bookingid=' + req.query.bookingid +'');
+              var command = sprintf('update booking set acheckin=' + "'" + req.query.acheckin + "'," + ' bhk2count='+getres[0].bhk2count+', bhk3count='+getres[0].bhk3count+' WHERE bookingid=' + req.query.bookingid +'');
+  console.log("part 3",command);          
+  
+    let data = [true, 1];
+    console.log("after", command);
+    con.query(command, data, function (error, updateresult) {
+      // console.log("affectedRows", updateresult.affectedRows);
+        if (error) {
+res.send("Check Mail Id");
+        console.log("Check Mail Id");
+        }
+      else {
+            console.log("3 part result",gresu);
+            res.status(200).send({"First Part ":getres,"Roomlist":gresu,updateresult});
+          }
+          })
+        })
+        //   
+    
+  }
+  else
+  {
+    console.log("Something wrong");
+  }
+}
+else{
+  console.log("aff row",getres.affectedRows);
+  res.send("Check Booking Id");
+}
+  })}
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+//end frontoff a checkin
+
+
+
 
 // guest api 
 
