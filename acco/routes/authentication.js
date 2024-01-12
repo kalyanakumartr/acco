@@ -203,7 +203,6 @@ router.get('/getlogin', function (req, res) {
 
 //end get logindetail
 
-
 //st change password
 router.post('/changepassword', authcheck, (req, res) => {
   var id = req.body.userid;
