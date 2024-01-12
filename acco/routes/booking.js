@@ -10,6 +10,33 @@ const fs = require('fs');
 
 
 
+//st checkinconfirm 
+
+router.post('/checkinconfirm', function (req, res) {
+  console.log("Body",req.body);
+  console.log("Welcome to checkinconfirm");
+  // 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + '  and userid=' + uid + '';
+  var cmd = 'UPDATE booking SET roomid="'+ req.body.roomid+'" where bookingid='+ req.body.bookingid + '';
+  console.log(cmd);
+  let data = [true, 1];
+  con.query(cmd, data, function (error, result) {
+    console.log("aff",result.affectedRows);
+      if (result.affectedRows >= 1) {
+        
+      res.status(200).send("Successfully Confirm Booking");
+
+    }
+    else {
+      res.send({ status: false, message: "No Data Pls check booking id or else" });
+      console.log(error);
+    }
+  });
+
+})
+
+
+
+//end checkinconfirm 
 
 //st get roomlist
 
