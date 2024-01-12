@@ -162,38 +162,8 @@ router.post('/verifyOTP', authcheck, (req, res) => {
 //otp very
 
 
-//send email st
+// //send email st
 
-router.post('/sendEmail', async function(req,res){
-
-  try{
-
-    const transporter = nodemailer.createTransport({
-      host: process.env.HOST,
-      service: process.env.SERVICE,
-      port: 465,
-      secure: true,
-      auth: {
-          user: process.env.USER,
-          pass: process.env.PASS,
-      },
-  });
-    await transporter.sendMail({
-      from: process.env.USER,
-      to: ["muthu@stashook.com","muthuslm2006@gmail.com"],
-      // to: +req.body.email+,
-           subject:"Test",
-      text: "Subject"
-  });
-
-  console.log("email sent sucessfully");
-  res.send("email sent sucessfully");
-  // res.end();
-  }
-  catch (error) {
-    console.log(error, "email not sent")
-}
-});
 // router.post('/sendemail',async function(req,res){
 // const{ from,to,subject,text}=req.body;
 // const data={from,to,subject,text}
