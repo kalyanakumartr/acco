@@ -10,6 +10,47 @@ const fs = require('fs');
 
 
 
+
+//st get roomlist
+
+router.get('/getroomslist', function (req, res) {
+  try {
+    var cmd = 'select * from booking where bookingid=' + req.query.bookingid + '';
+    console.log(cmd);
+    con.query(cmd, function (getbooerr, getboores) {
+      console.log("Data Length", getboores.length);
+      if (getboores.length >= 1) {
+        if (getboores[0].bhk2count >= 1 & getboores[0].bhk2count <= 9 || getboores[0].bhk3count >= 1 & getboores[0].bhk3count <= 9)
+          console.log("bhk2count");
+        var command = "select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid,':',roomno)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname";
+        console.log(command);
+        con.query(command, function (err, result) {
+          if (err) {
+            res.send("err");
+          }
+          else {
+            console.log("getres", result);
+            res.send(result);
+          }
+        });
+      }
+      else {
+        res.send("Check booking id");
+        console.log("Not Booking id");
+
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+
+  }
+})
+
+//end get room list
+
 // addimagetodatabase table for userimage
 //storage
 
@@ -78,32 +119,31 @@ router.get('/getidproofimage', function (req, res) {
 
 //st search booking info
 
-router.get('/searchbookinginfo',function(req,res){
-console.log("Welcome to search");
-cmd='select * from booking where bookedstatusid=1 ';
+router.get('/searchbookinginfo', function (req, res) {
+  console.log("Welcome to search");
+  cmd = 'select * from booking where bookedstatusid=1 ';
 
-console.log(req.query.bookingid,req.query.email,req.query.phonenumber);
-if(req.query.bookingid!=undefined){
-  cmd=cmd+ ' and bookingid='+req.query.bookingid+' ';
-}
-if(req.query.email!=undefined){
-  cmd=cmd+ (req.query.bookingid==undefined?' And ': ' OR ')+' email="'+req.query.email+'"';
-}
-if(req.query.phonenumber!=undefined){
-  cmd=cmd+ (req.query.bookingid!=undefined?' OR ': req.query.email==undefined?' And ': ' OR ')+' phonenumber='+req.query.phonenumber+' ';
-}
-console.log(cmd);
-con.query(cmd,function(err,result){
-  if(err){
-    console.log("Err");
-    res.send("No Data");
+  console.log(req.query.bookingid, req.query.email, req.query.phonenumber);
+  if (req.query.bookingid != undefined) {
+    cmd = cmd + ' and bookingid=' + req.query.bookingid + ' ';
   }
-  else
-  {
-    console.log(result);
-    res.send(result);
+  if (req.query.email != undefined) {
+    cmd = cmd + (req.query.bookingid == undefined ? ' And ' : ' OR ') + ' email="' + req.query.email + '"';
   }
-})
+  if (req.query.phonenumber != undefined) {
+    cmd = cmd + (req.query.bookingid != undefined ? ' OR ' : req.query.email == undefined ? ' And ' : ' OR ') + ' phonenumber=' + req.query.phonenumber + ' ';
+  }
+  console.log(cmd);
+  con.query(cmd, function (err, result) {
+    if (err) {
+      console.log("Err");
+      res.send("No Data");
+    }
+    else {
+      console.log(result);
+      res.send(result);
+    }
+  })
 });
 
 
@@ -172,24 +212,24 @@ router.get('/roomtype', function (req, res) {
 router.get('/getroomlist', function (req, res) {
   console.log("Welcome to getroomlist");
   try {
-    rtid=req.query.roomtypeid;
-    cin=req.query.checkin;
-    cout=req.query.checkout;
-    adultin=req.query.adults;
-    
-    cmd='CALL getroomlistsp (?,?,?,?)';
-    console.log("cmd",cin,cout,rtid,adultin)
-    // cmd='select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) AS roomcount from room  where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'" OR checkout BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'"))AND roomname=name ) AS avilable from tariffdetail where roomtypeid='+rid+' AND (headcount='+req.query.adults+' OR headcount>=4)';
-     con.query(cmd,[cin,cout,rtid,adultin] ,function (err, getroomtype) {
+    rtid = req.query.roomtypeid;
+    cin = req.query.checkin;
+    cout = req.query.checkout;
+    adultin = req.query.adults;
 
-      console.log(cmd,"data", getroomtype);
+    cmd = 'CALL getroomlistsp (?,?,?,?)';
+    console.log("cmd", cin, cout, rtid, adultin)
+    // cmd='select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) AS roomcount from room  where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'" OR checkout BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'"))AND roomname=name ) AS avilable from tariffdetail where roomtypeid='+rid+' AND (headcount='+req.query.adults+' OR headcount>=4)';
+    con.query(cmd, [cin, cout, rtid, adultin], function (err, getroomtype) {
+
+      console.log(cmd, "data", getroomtype);
       if (err) {
         console.log(err);
         res.send({ "Message": "Unable to get Date " });
       }
       else {
-            res.send(getroomtype);
-      
+        res.send(getroomtype);
+
       }
     })
   }
@@ -224,78 +264,76 @@ router.get('/getroom', authcheck, function (req, res) {
 
 //st frontoff a checkin
 
-router.post('/actualcheckin',  function(req, res)  {
+router.post('/actualcheckin', function (req, res) {
   try {
     // will give email and phone no 
-    var command='select * from booking where bookingid='+req.query.bookingid+'';
-    con.query(command,function(geterr,getres){
-      if(geterr.affectedRows>=1)
-      {
+    var command = 'select * from booking where bookingid=' + req.query.bookingid + '';
+    con.query(command, function (geterr, getres) {
+      if (geterr.affectedRows >= 1) {
         console.log(getres.affectedRows)
-        res.send({"Result":getres});
-      
+        res.send({ "Result": getres });
+
       }
-      else
-      {
-        
-      console.log("Error",geterr);
-      res.send("Err");
-        }
+      else {
+
+        console.log("Error", geterr);
+        res.send("Err");
+      }
     })
   }
 
-//       console.log(getres);
-// //will inclde or get 3bhcount
-//         if(getres[0].bhk2count>=1 & getres[0].bhk2count<=9 )
-//           {
-//             //will include time for cin and cout
-//             cin=moment(getres[0].checkin).format('YYYY-MM-DD');
-//             // cout=moment(getres[0].checkout).format('YYYY-MM-DD HH:mm:ss');
-            
-//             cout=moment(getres[0].checkout).format('YYYY-MM-DD');
-//             console.log(cin);
-//             console.log(cout);
-//             console.log(getres[0].bhk2count);
-//             var getcmd='select COUNT(roomname) AS roomcount,rtype ,price,roomname ,json_array(GROUP_CONCAT(roomno)) AS roomno,GROUP_CONCAT(roomid) AS roomids from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '+cin+' AND '+cout+' OR checkout BETWEEN '+cin+' AND '+cout+')) GROUP BY rtype,price,roomname'
-//             console.log("getcmd",getcmd);       
-//             con.query(getcmd,function(err,gresu){
-//               //not in booking tblla  get room id
-//               // console.log("room id",getres[0].roomid);
+  //       console.log(getres);
+  // //will inclde or get 3bhcount
+  //         if(getres[0].bhk2count>=1 & getres[0].bhk2count<=9 )
+  //           {
+  //             //will include time for cin and cout
+  //             cin=moment(getres[0].checkin).format('YYYY-MM-DD');
+  //             // cout=moment(getres[0].checkout).format('YYYY-MM-DD HH:mm:ss');
 
-//               //tamil spreTE API
-//               //  1-101 CHECK KEY VALUE
-//               // ID CARD UPLOAD AONTOER API 
-//               // var command = sprintf('update booking set acheckin=' + "'" + req.query.acheckin + "'," + ' bhk2count='+getres[0].bhk2count+', bhk3count='+getres[0].bhk3count+' WHERE bookingid=' + req.query.bookingid +'');
-//               var command = sprintf('update booking set acheckin=' + "'" + req.query.acheckin + "'," + ' bhk2count='+getres[0].bhk2count+', bhk3count='+getres[0].bhk3count+' WHERE bookingid=' + req.query.bookingid +'');
-//   console.log("part 3",command);          
-  
-//     let data = [true, 1];
-//     console.log("after", command);
-//     con.query(command, data, function (error, updateresult) {
-//       // console.log("affectedRows", updateresult.affectedRows);
-//         if (error) {
-// res.send("Check Mail Id");
-//         console.log("Check Mail Id");
-//         }
-//       else {
-//             console.log("3 part result",gresu);
-//             res.status(200).send({"First Part ":getres,"Roomlist":gresu,updateresult});
-//           }
-//           })
-//         })
-//         //   
-    
-//   }
-//   else
-//   {
-//     console.log("Something wrong");
-//   }
-// }
-// else{
-//   console.log("aff row",getres.affectedRows);
-//   res.send("Check Booking Id");
-// }
-//   })}
+  //             cout=moment(getres[0].checkout).format('YYYY-MM-DD');
+  //             console.log(cin);
+  //             console.log(cout);
+  //             console.log(getres[0].bhk2count);
+  //             var getcmd='select COUNT(roomname) AS roomcount,rtype ,price,roomname ,json_array(GROUP_CONCAT(roomno)) AS roomno,GROUP_CONCAT(roomid) AS roomids from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '+cin+' AND '+cout+' OR checkout BETWEEN '+cin+' AND '+cout+')) GROUP BY rtype,price,roomname'
+  //             console.log("getcmd",getcmd);       
+  //             con.query(getcmd,function(err,gresu){
+  //               //not in booking tblla  get room id
+  //               // console.log("room id",getres[0].roomid);
+
+  //               //tamil spreTE API
+  //               //  1-101 CHECK KEY VALUE
+  //               // ID CARD UPLOAD AONTOER API 
+  //               // var command = sprintf('update booking set acheckin=' + "'" + req.query.acheckin + "'," + ' bhk2count='+getres[0].bhk2count+', bhk3count='+getres[0].bhk3count+' WHERE bookingid=' + req.query.bookingid +'');
+  //               var command = sprintf('update booking set acheckin=' + "'" + req.query.acheckin + "'," + ' bhk2count='+getres[0].bhk2count+', bhk3count='+getres[0].bhk3count+' WHERE bookingid=' + req.query.bookingid +'');
+  //   console.log("part 3",command);          
+
+  //     let data = [true, 1];
+  //     console.log("after", command);
+  //     con.query(command, data, function (error, updateresult) {
+  //       // console.log("affectedRows", updateresult.affectedRows);
+  //         if (error) {
+  // res.send("Check Mail Id");
+  //         console.log("Check Mail Id");
+  //         }
+  //       else {
+  //             console.log("3 part result",gresu);
+  //             res.status(200).send({"First Part ":getres,"Roomlist":gresu,updateresult});
+  //           }
+  //           })
+  //         })
+  //         //   
+
+  //   }
+  //   else
+  //   {
+  //     console.log("Something wrong");
+  //   }
+  // }
+  // else{
+  //   console.log("aff row",getres.affectedRows);
+  //   res.send("Check Booking Id");
+  // }
+  //   })}
   catch (e) {
     console.log("Catch");
     const statusCode = e.statusCoderes || 500;
@@ -407,26 +445,26 @@ router.post('/addbookingwithchild', function (req, res) {
   try {
     // console.log("Body", req.body);
 
-    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,bhk2count,bhk3count,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES   (%d,%d,%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, 1,req.body.bhk2count,req.body.bhk3count,req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus, 1);
+    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,bhk2count,bhk3count,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES   (%d,%d,%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, 1, req.body.bhk2count, req.body.bhk3count, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus, 1);
 
     console.log("after", command);
-    
-     con.query(command, function (err, result) {
-      
+
+    con.query(command, function (err, result) {
+
       console.log(result, 'Last insert ID in User:', result.insertId);
       // var getres='select * from booking where userid='+req.body.userid;
       // con.query(getres,function(geterr,gerresult){
       // console.log("bid",result);
       // console.log("bid1",gerresult);
-      
-      console.log("Error",err);
+
+      console.log("Error", err);
       if (err) {
         console.log("Error", err);
         res.send({ status: false, message: err });
       }
       else {
         // console.log("Bookingid",gerresult[0].bookingid);
-        res.status(200).send({ "message": "Booking added Successfully","BookingId ":result.insertId});
+        res.status(200).send({ "message": "Booking added Successfully", "BookingId ": result.insertId });
 
         // res.status(200).send({ "message": "Booking added Successfully",Bookingid:gerresult[0].bookingid,phonenumber:gerresult[0].phonenumber});
       }
@@ -502,7 +540,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 router.get('/getbookingwithuserid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
-    command = 'select * from booking WHERE userid=' + req.query.userid +' ORDER BY checkin';
+    command = 'select * from booking WHERE userid=' + req.query.userid + ' ORDER BY checkin';
     console.log(command);
     con.query(command, function (error, results) {
       if (error) {
@@ -617,7 +655,7 @@ router.post('/addbooking', function (req, res) {
   try {
     console.log("Body", req.body);
 
-    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, 1,req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child,req.body.childage, req.body.roomtype, req.body.roomid, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus, 1);
+    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,roomid,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES (%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, 1, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.roomid, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus, 1);
 
 
     console.log("after", command);
