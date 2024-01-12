@@ -18,6 +18,30 @@ const color = require('colors');
 var authcheck = require('./authentication')
 
 
+//st forgot password
+router.post('/forgotpassword', function (req, res) {
+  var email = req.body.email;
+  var password = req.body.password;
+  var command = 'UPDATE user SET password="' + password + '" WHERE email = "' + email + '"';
+  let data = [true, 1];
+  con.query(command, data, function (error, result) {
+    if (result.affectedRows >= 1) {
+      console.log("Done");
+      res.status(200).send({ message: "Successfully Changed Password" });
+
+    }
+    else {
+      res.status(400).send({ status: false, message: "Pls check Email Id" });
+      console.log("Pls check Email Id");
+
+    }
+  });
+
+});
+
+
+//end change password
+
 
 
 
