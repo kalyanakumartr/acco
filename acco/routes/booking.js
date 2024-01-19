@@ -15,8 +15,10 @@ const fs = require('fs');
 router.post('/checkinconfirm', function (req, res) {
   console.log("Body",req.body);
   console.log("Welcome to checkinconfirm");
+  ain=moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  console.log(ain);
   // 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + '  and userid=' + uid + '';
-  var cmd = 'UPDATE booking SET roomid="'+ req.body.roomid+'" where bookingid='+ req.body.bookingid + '';
+  var cmd = 'UPDATE booking SET roomid="'+ req.body.roomid+'",acheckin="'+ain+ '" where bookingid= '+ req.body.bookingid + '';
   console.log(cmd);
   let data = [true, 1];
   con.query(cmd, data, function (error, result) {
