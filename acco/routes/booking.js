@@ -25,6 +25,7 @@ router.post('/checkinconfirm', function (req, res) {
         
       res.status(200).send("Successfully Confirm Booking");
 
+      //else
     }
     else {
       res.send({ status: false, message: "No Data Pls check booking id or else" });
