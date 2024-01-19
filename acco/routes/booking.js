@@ -10,6 +10,35 @@ const fs = require('fs');
 
 
 
+
+//st new logic
+
+router.get('/getlogic',function(req,res){
+  var cmd='select * from logic where adult='+req.query.adult+'';
+  con.query(cmd,function(err,result){
+    if (result.length >= 1) {
+    if(err)
+    {
+      console.log("Error");
+      res.send("No Data");
+    }
+    else
+    {
+      console.log(result);
+      res.send(result);
+    }
+  }
+
+else
+{
+  console.log("Error pls check adult");
+      res.send("Pls check Adult no"); 
+}
+})
+})
+
+//end new logic
+
 //st checkinconfirm 
 
 router.post('/checkinconfirm', function (req, res) {
