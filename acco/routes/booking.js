@@ -7,14 +7,47 @@ const moment = require('moment');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const nodemailer = require("nodemailer");
 
 
+
+router.post('/sendEmail', async function(req,res){
+
+  try{
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.HOST,
+      service: process.env.SERVICE,
+      port: 465,
+      secure: true,
+      auth: {
+          user: process.env.USER,
+          pass: process.env.PASS,
+      },
+  });
+    await transporter.sendMail({
+      from: process.env.USER,
+      to: ["muthu@stashook.com","balajiabiksha@gmail.com"],
+      // to: +req.body.email+,
+           subject:"Test",
+      text: "Subject"
+  });
+
+  console.log("email sent sucessfully");
+  res.send("email sent sucessfully");
+  // res.end();
+  }
+  catch (error) {
+    console.log(error, "email not sent")
+}
+});
 
 
 //st new logic
 
 router.get('/getlogic',function(req,res){
   var cmd='select * from logic where adult='+req.query.adult+'';
+  console.log("cmd",cmd);
   con.query(cmd,function(err,result){
     if (result.length >= 1) {
     if(err)
@@ -25,6 +58,7 @@ router.get('/getlogic',function(req,res){
     else
     {
       console.log(result);
+      
       res.send(result);
     }
   }
