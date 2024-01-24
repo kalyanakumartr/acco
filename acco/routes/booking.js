@@ -9,7 +9,35 @@ const path = require('path');
 const fs = require('fs');
 const nodemailer = require("nodemailer");
 
+//st email verify
+router.get('/emailverify',function(req,res){
+  var cmd='select * from booking  where email='+req.query.email+' order by bookingid desc';
+  console.log("cmd",cmd);
+  con.query(cmd,function(err,result){
+    if (result.length >= 1) {
+    if(err)
+    {
+      console.log("Error");
+      res.send("No Data");
+    }
+    else
+    {
+      console.log(result);
+      
+      res.send(result);
+    }
+  }
 
+else
+{
+  console.log("Error pls check Email");
+      res.send("Pls check Email"); 
+}
+})
+})
+
+
+//end email verify
 
 router.post('/sendEmail', async function(req,res){
 
