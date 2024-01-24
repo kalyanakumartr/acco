@@ -124,7 +124,7 @@ router.get('/getroomslist', function (req, res) {
         // con.query(cmd, [cin, cout, rtid, adultin], function (err, getroomtype) {
     
         console.log(command);
-        con.query(command, [cin,cout],function (err, result) {
+        con.query(command, [cin , cout],function (err, result) {
           if (err) {
             res.send("err");
           }
