@@ -10,38 +10,38 @@ const fs = require('fs');
 const nodemailer = require("nodemailer");
 
 //st email verify
-router.get('/emailverify',function(req,res){
-  var cmd='select * from booking  where email='+req.query.email+' order by bookingid desc';
-  console.log("cmd",cmd);
-  con.query(cmd,function(err,result){
-    if (result.length >= 1) {
-    if(err)
-    {
-      console.log("Error");
-      res.send("No Data");
-    }
-    else
-    {
-      console.log(result);
-      
-      res.send(result);
-    }
-  }
+router.get('/emailverify', function (req, res) {
+  var cmd = 'select * from user where phonenumber=' + req.query.phonenumber + '';
+  console.log("cmd", cmd);
+  con.query(cmd, function (err, result) {
+    if (result) {
+      if (err) {
+        console.log("Error");
+        res.send("No Data");
+      }
+      else {
+        console.log(result);
 
-else
-{
-  console.log("Error pls check Email");
-      res.send("Pls check Email"); 
-}
-})
-})
+        res.send(result);
+      }}
+  
+
+ else
+      {
+        //   console.log("Error pls check Email");
+        res.send("Pls check Email");
+      }
+    }
+  
+)})
+
 
 
 //end email verify
 
-router.post('/sendEmail', async function(req,res){
+router.post('/sendEmail', async function (req, res) {
 
-  try{
+  try {
 
     const transporter = nodemailer.createTransport({
       host: process.env.HOST,
@@ -49,54 +49,51 @@ router.post('/sendEmail', async function(req,res){
       port: 465,
       secure: true,
       auth: {
-          user: process.env.USER,
-          pass: process.env.PASS,
+        user: process.env.USER,
+        pass: process.env.PASS,
       },
-  });
+    });
     await transporter.sendMail({
       from: process.env.USER,
-      to: ["muthu@stashook.com","balajiabiksha@gmail.com"],
+      to: ["muthu@stashook.com", "balajiabiksha@gmail.com"],
       // to: +req.body.email+,
-           subject:"Test",
+      subject: "Test",
       text: "Subject"
-  });
+    });
 
-  console.log("email sent sucessfully");
-  res.send("email sent sucessfully");
-  // res.end();
+    console.log("email sent sucessfully");
+    res.send("email sent sucessfully");
+    // res.end();
   }
   catch (error) {
     console.log(error, "email not sent")
-}
+  }
 });
 
 
 //st new logic
 
-router.get('/getlogic',function(req,res){
-  var cmd='select * from logic where adult='+req.query.adult+'';
-  console.log("cmd",cmd);
-  con.query(cmd,function(err,result){
+router.get('/getlogic', function (req, res) {
+  var cmd = 'select * from logic where adult=' + req.query.adult + '';
+  console.log("cmd", cmd);
+  con.query(cmd, function (err, result) {
     if (result.length >= 1) {
-    if(err)
-    {
-      console.log("Error");
-      res.send("No Data");
-    }
-    else
-    {
-      console.log(result);
-      
-      res.send(result);
-    }
-  }
+      if (err) {
+        console.log("Error");
+        res.send("No Data");
+      }
+      else {
+        console.log(result);
 
-else
-{
-  console.log("Error pls check adult");
-      res.send("Pls check Adult no"); 
-}
-})
+        res.send(result);
+      }
+    }
+
+    else {
+      console.log("Error pls check adult");
+      res.send("Pls check Adult no");
+    }
+  })
 })
 
 //end new logic
@@ -104,18 +101,18 @@ else
 //st checkinconfirm 
 
 router.post('/checkinconfirm', function (req, res) {
-  console.log("Body",req.body);
+  console.log("Body", req.body);
   console.log("Welcome to checkinconfirm");
-  ain=moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  ain = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   console.log(ain);
   // 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + '  and userid=' + uid + '';
-  var cmd = 'UPDATE booking SET roomid="'+ req.body.roomid+'",acheckin="'+ain+ '" where bookingid= '+ req.body.bookingid + '';
+  var cmd = 'UPDATE booking SET roomid="' + req.body.roomid + '",acheckin="' + ain + '" where bookingid= ' + req.body.bookingid + '';
   console.log(cmd);
   let data = [true, 1];
   con.query(cmd, data, function (error, result) {
-    console.log("aff",result.affectedRows);
-      if (result.affectedRows >= 1) {
-        
+    console.log("aff", result.affectedRows);
+    if (result.affectedRows >= 1) {
+
       res.status(200).send("Successfully Confirm Booking");
 
       //else
@@ -145,14 +142,14 @@ router.get('/getroomslist', function (req, res) {
           console.log("bhk2count");
         // var command = "select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid)) AS roomid,CONCAT(GROUP_CONCAT(roomno)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname";
         command = 'CALL spgetroom (?,?)';
-        cin=req.query.checkin;
-        cout=req.query.checkout;
+        cin = req.query.checkin;
+        cout = req.query.checkout;
         console.log("command", cin, cout)
         // cmd='select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) AS roomcount from room  where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'" OR checkout BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'"))AND roomname=name ) AS avilable from tariffdetail where roomtypeid='+rid+' AND (headcount='+req.query.adults+' OR headcount>=4)';
         // con.query(cmd, [cin, cout, rtid, adultin], function (err, getroomtype) {
-    
+
         console.log(command);
-        con.query(command, [cin , cout],function (err, result) {
+        con.query(command, [cin, cout], function (err, result) {
           if (err) {
             res.send("err");
           }
