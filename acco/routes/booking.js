@@ -11,7 +11,7 @@ const nodemailer = require("nodemailer");
 
 //st email verify
 router.get('/emailverify',function(req,res){
-  var cmd='select * from user  where email='+req.query.email+'';
+  var cmd='select * from user  where phonenumber='+req.query.phonenumber+'';
   console.log("cmd",cmd);
   con.query(cmd,function(err,result){
     if (result.length >= 1) {
