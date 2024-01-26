@@ -11,7 +11,7 @@ const nodemailer = require("nodemailer");
 
 //st email verify
 router.get('/emailverify',function(req,res){
-  var cmd='select * from booking  where email='+req.query.email+' order by bookingid desc';
+  var cmd='select * from user  where email='+req.query.email+'';
   console.log("cmd",cmd);
   con.query(cmd,function(err,result){
     if (result.length >= 1) {
