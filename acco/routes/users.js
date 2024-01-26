@@ -62,7 +62,7 @@ router.post('/generateOTP', authcheck, (req, res) => {
   con.query("select userid,count(email) count from user where email=?", [req.body.email], async (error, result) => {
     console.log("Error", error, result[0].count, result[0].userid);
     if (result[0].count > 0) {
-      //   res.send({ status: true, message: "Already email id exist give correct email id " })
+      //   res.send({ status: true, message: "Already email id exist giv e correct email id " })
       //   return;
       console.log("Already email id exist give correct email id", result[0].userid)
       user = result[0].userid;
@@ -581,43 +581,38 @@ router.post('/updateuserimage', upload.single('images'), createimage)
 
 router.post('/adduser', async function (req, res) {
   try {
-    console.log("body", req.body);
+    // console.log("body", req.body);
+  
+    con.query("select count(email) count from user where email=?", [req.body.email], async (error, result) => {
+      console.log("Error", error, result[0].count);
+      if (result[0].count > 0) {
+        res.send({ status: true, message: "Already email id exist give correct email id " })
+        console.log("Already email id exist give correct email id")
+        return;
+      }
+      else {
+  
     let hashedPassword = await bcrypt.hash(req.body.password, 8);
     let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
     console.log(hashedPassword);
-    //datetime st
-    // var datetime=new  GETDATE();
-    // console.log("date",datetime);
-    var date_ob = new Date();
+     var date_ob = new Date();
     var day = ("0" + date_ob.getDate()).slice(-2);
     var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
     var year = date_ob.getFullYear();
-
-    // var date = year + "-" + month + "-" + day;
-    // console.log(date);
-
     var hours = date_ob.getHours();
     var minutes = date_ob.getMinutes();
     var seconds = date_ob.getSeconds();
-
     var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
     console.log(dateTime);
-
-
-
-    //end datetime 
     console.log(hashedPassword);
     var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,pincode,modifieddate,phonenumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, dateTime, req.body.phonenumber, req.body.email, dateTime, req.body.username, hashedPassword, hashedCPassword, 1);
     console.log(command);
     con.query(command, function (err, mysqlres1) {
-      // console.log(v);
       if (err) throw err;
       console.log("Error", err);
       userid = mysqlres1.insertId
       console.log(userid);
-      // console.log(mysqlres1, 'Last insert ID in User:', mysqlres1.insertId);  
       var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid, 1);
-      // var command1=sprintf('INSERT INTO idproof (userid,status) VALUES (%d  ,%b)',  userid,1);
       con.query(command, function (err, mysqlres2) {
         console.log("role", command);
         // console.log("proof",command1);
@@ -632,6 +627,8 @@ router.post('/adduser', async function (req, res) {
       })
     })
   }
+}
+)}
   catch (e) {
     console.log("Catch", e.err);
     const statusCode = e.statusCoderes || 500;
