@@ -294,6 +294,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS temp_table
 	`bookingid` int ,
   `userid` int ,
   `modeoftypeid` INT ,
+  `bhk1count` INT ,
   `bhk2count` INT ,
   `bhk3count` INT ,
   `firstname` varchar(50) ,
@@ -341,7 +342,7 @@ OPEN cur1;
 			select count(*) into @Count from temp_table where bookingid =bookId;
 			if (@Count=0) then
 					
-				INSERT INTO temp_table ( `bookingid`,  `userid`, `modeoftypeid` ,`bhk2count`,`bhk3count`,`firstname` ,  `lastname` ,  `email` ,  `phonenumber` ,
+				INSERT INTO temp_table ( `bookingid`,  `userid`, `modeoftypeid` ,  `bhk1count`,`bhk2count`,`bhk3count`,`firstname` ,  `lastname` ,  `email` ,  `phonenumber` ,
 				  `address1` ,  `address2`,  `city` ,  `state` ,  `country`,  `pincode` ,  `checkin` ,  `checkout` ,  `acheckin` ,
 				  `adults` ,  `child` ,   `childage` ,  `roomtype`,  `roomid` ,   `roomnos` ,  `bed` ,  `imageUrl` ,    `noofdays`,  `price` ,   `tax` ,  `totalprice`,  `bookedstatusid` ,
 				  `verificationstatus`,  `status`, 	`color`) (select *,  @color from booking where bookingid = bookId);
