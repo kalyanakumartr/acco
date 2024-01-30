@@ -156,7 +156,9 @@ router.get('/getroomslist', function (req, res) {
             res.send("err");
           }
           else {
-            console.log("getres", result);
+            result[0][0].roomid=result[0][0].roomid.replaceAll("\"", "");
+            result[0][0].roomnos=result[0][0].roomnos.replaceAll("\"", "");
+            console.log("-",result,"getres");
             res.send(result);
           }
         });
