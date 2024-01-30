@@ -422,7 +422,7 @@ const userproofimage = async (req, res, next) => {
   }
   console.log("Filename", req.file.filename);
 
-  let result = await con.query("update user set idproof='" + req.file.filename + "' WHERE proofid=" + req.body.idproof, function (err, rows) {
+  let result = await con.query("update user set idproof='" + req.file.filename + "' WHERE idproof=" + req.body.idproof, function (err, rows) {
     if (err) {
       console.log(err);
       res.send({
@@ -471,7 +471,7 @@ router.post('/updateuser', authcheck, function (req, res) {
       // throw error;
     }
     else {
-      res.status(200).send("Successfully update user");
+      res.status(200).send({message:"Successfully update user"});
     };
   });
 
