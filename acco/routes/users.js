@@ -466,7 +466,7 @@ router.post('/updateuser', authcheck, function (req, res) {
   con.query(command, data, function (error, result) {
     // console.log(result.affectedRows);
     if (result.affectedRows <= 0) {
-      res.send({ status: false, message: "No Data Pls check user id or else" });
+      res.send({ status: false, message: "No Email Pls check Email" });
       console.log(error);
       // throw error;
     }

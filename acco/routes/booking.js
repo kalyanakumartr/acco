@@ -76,26 +76,64 @@ router.post('/sendEmail', async function (req, res) {
 //st new logic
 
 router.get('/getlogic', function (req, res) {
-  var cmd = 'select * from logic where adult=' + req.query.adult + '';
-  console.log("cmd", cmd);
-  con.query(cmd, function (err, result) {
-    if (result.length >= 1) {
-      if (err) {
-        console.log("Error");
-        res.send("No Data");
+  // var cmd = 'select * from logic where adult=' + req.query.adult + '';
+  // console.log("cmd", cmd);
+  // con.query(cmd, function (err, result) {
+  //   if (result.length >= 1) {
+  //     if (err) {
+  //       console.log("Error");
+  //       res.send("No Data");
+  //     }
+  //     else {
+  //       console.log(result);
+
+  //       res.send(result);
+  //     }
+  //   }
+
+  //   else {
+  //     console.log("Error pls check adult");
+  //     res.send("Pls check Adult no");
+  //   }
+  // })
+  try {
+    var cmd = 'select * from booking where bookingid=' + req.query.bookingid + '';
+    console.log(cmd);
+    cin=req.query.cin;
+    cout=req.query.cout;
+    con.query(cmd, function (getbooerr, getboores) {
+      console.log("Data Length", getboores.length);
+      if (getboores.length >= 1) {
+
+    adultcount=getboores[0].adults;
+    console.log("adul",adultcount);
+       command = 'CALL spandroomlist (?,?,?)';
+        console.log("command", cin, cout,adultcount)
+        con.query(command, [cin, cout,adultcount], function (err, result) {
+          if (err) {
+            console.log("err",err);
+            res.send("err");
+          }
+          else {
+            console.log(result);
+            res.send(result);
+          }
+        });
       }
       else {
-        console.log(result);
+        res.send("Check booking id");
+        console.log("Not Booking id");
 
-        res.send(result);
       }
-    }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
 
-    else {
-      console.log("Error pls check adult");
-      res.send("Pls check Adult no");
-    }
-  })
+  }
+
 })
 
 //end new logic
@@ -144,6 +182,7 @@ router.get('/getroomslist', function (req, res) {
           console.log("bhk2count");
         // var command = "select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid)) AS roomid,CONCAT(GROUP_CONCAT(roomno)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname";
         command = 'CALL spgetroom (?,?)';
+        
         cin = req.query.checkin;
         cout = req.query.checkout;
         console.log("command", cin, cout)
