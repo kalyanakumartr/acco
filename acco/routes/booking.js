@@ -97,7 +97,9 @@ router.get('/getlogic', function (req, res) {
   //   }
   // })
   try {
-    var cmd = 'select * from booking where bookingid=' + req.query.bookingid + '';
+      var cmd = 'select * from logic where adult=' + req.query.adult + '';
+
+    // var cmd = 'select * from booking where bookingid=' + req.query.bookingid + '';
     console.log(cmd);
     cin=req.query.cin;
     cout=req.query.cout;
@@ -105,7 +107,7 @@ router.get('/getlogic', function (req, res) {
       console.log("Data Length", getboores.length);
       if (getboores.length >= 1) {
 
-    adultcount=getboores[0].adults;
+    adultcount=getboores[0].adult;
     console.log("adul",adultcount);
        command = 'CALL spandroomlist (?,?,?)';
         console.log("command", cin, cout,adultcount)
