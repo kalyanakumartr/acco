@@ -97,7 +97,7 @@ router.get('/getlogic', function (req, res) {
   //   }
   // })
   try {
-      var cmd = 'select * from logic where adult=' + req.query.adult + '';
+      var cmd = 'select * from logic where adult=' + req.query.adult +  ' ' ;
 
     // var cmd = 'select * from booking where bookingid=' + req.query.bookingid + '';
     console.log(cmd);
@@ -155,8 +155,8 @@ router.post('/checkinconfirm', function (req, res) {
     console.log("aff", result.affectedRows);
     if (result.affectedRows >= 1) {
 
-      res.status(200).send("Successfully Confirm Booking");
-
+      res.status(200).send({message:"Successfully Confirm Booking"});
+    
       //else
     }
     else {
@@ -544,9 +544,9 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 
 router.post('/bookingcancel', authcheck, function (req, res) {
   console.log("Welcome to cancel Room Book");
-  var id = req.query.bookingid;
-  var uid = req.query.userid;
-  var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + '  and userid=' + uid + '';
+  // var id = req.query.bookingid;
+  // var uid = req.query.userid;
+  var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + req.body.bookingid + '  and userid=' + req.body.userid + '';
   console.log(command);
   let data = [true, 1];
   con.query(command, data, function (error, result) {
@@ -557,7 +557,7 @@ router.post('/bookingcancel', authcheck, function (req, res) {
       // throw error;
     }
     else {
-      res.status(200).send("Successfully Booking Cancel");
+      res.status(200).send({message:"Successfully Booking Cancel"});
     };
   });
 
