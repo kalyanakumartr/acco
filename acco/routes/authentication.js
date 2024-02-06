@@ -83,11 +83,14 @@ const authcheck = (req, res, next) => {
 
 //st auth multiple
 router.post('/auth', async function (request, response) {
+  try{
   // Capture the input fields
   let username = request.body.username;
   let password = request.body.password;
   if (username && password) {
-    con.query('SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username = ?  ', [request.body.username], function (error, results) {
+    cmd ='SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username ="'+request.body.username+'"and password="'+request.body.password+'"';
+    con.query(cmd,function (error, results) {
+      console.log(cmd)
       if (results.length > 0) {
         if (results.length > 0) {
           const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
@@ -171,6 +174,13 @@ router.post('/auth', async function (request, response) {
   } else {
     response.status(401).send('Please enter Username and Password!');
     response.end();
+  }
+  }
+  catch(e)
+  {
+  console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
 });
 
