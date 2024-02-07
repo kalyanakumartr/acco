@@ -710,7 +710,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 router.get('/getbookingwithuserid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
-    command = 'select * from booking WHERE userid=' + req.query.userid + ' ORDER BY checkin';
+    command = 'select * from booking WHERE userid=' + req.query.userid + ' and bookedstatusid=1 ORDER BY checkin';
     console.log(command);
     con.query(command, function (error, results) {
       if (error) {
@@ -730,6 +730,32 @@ router.get('/getbookingwithuserid', authcheck, function (req, res) {
 })
 
 //end get booking with user id
+
+// st get canceledbooking with user id
+
+router.get('/getcanceledbooking', authcheck, function (req, res) {
+  try {
+    // id=req.param.userid
+    command = 'select * from booking WHERE userid=' + req.query.userid + ' and bookedstatusid=2 ORDER BY checkin';
+    console.log(command);
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+//end canceledbooking with user id
 
 //anupama code 
 //get floor
