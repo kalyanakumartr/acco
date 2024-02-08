@@ -4,6 +4,8 @@ const con = require('../dbconfig');
 const moment = require('moment');
 const jsonwebtoken = require('jsonwebtoken');
 const { sprintf } = require('sprintf-js');
+const bcrypt = require('bcryptjs');
+
 
 
 
@@ -36,51 +38,6 @@ const authcheck = (req, res, next) => {
 //end 
 
 
-
-//auth
-// router.post('/auth', function (request, response) {
-//   let username = request.body.userName;
-//   let password = request.body.password;
-//   // console.log("Check", username, password);
-//   // console.log("Check", username, password);
-//   // response.setHeader({'Content-Type': 'application/json'});
-//   // response.header ({'Content-Type': 'application/json'});
-//   if (username && password) {
-//     con.query('SELECT *FROM user WHERE username = ?  ', [request.body.userName], function (error, results) {
-//       if (results.length > 0) {
-//         // console.log("test3");
-//         bcrypt
-//           .compare(request.body.password, results[0].password)
-//           .then(res => {
-//             // console.log("test1");
-//             if (res && results.length > 0) {
-//               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
-//               console.log("token", accesstoken);
-//               response.status(200).send({ "message": "Successfully Login", accesstoken: accesstoken, username: results[0].username });
-//               // response.send({"message"success to login");
-//               response.end();
-
-//             }
-//             else {
-//               response.status(401).send({ "message": "Incorrect Username and/or Password!" });
-//               response.end();
-//             }
-//           })
-//           .catch(err => console.error(err.message))
-
-
-//       } else {
-//         // console.log("test2");
-//         response.status(401).send({ "message": "Incorrect Username and/or Password!" });
-//         // response.end();
-//       }
-//     }
-//     );
-//   }
-// })
-
-
-
 //st auth multiple
 router.post('/auth', async function (request, response) {
   try{
@@ -88,11 +45,15 @@ router.post('/auth', async function (request, response) {
   let username = request.body.username;
   let password = request.body.password;
   if (username && password) {
-    cmd ='SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username ="'+request.body.username+'"and password="'+request.body.password+'"';
+    cmd ='SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username ="'+request.body.username+'"';
     con.query(cmd,function (error, results) {
       console.log(cmd)
       if (results.length > 0) {
-        if (results.length > 0) {
+          bcrypt
+          .compare(request.body.password, results[0].password)
+          .then(res => {
+            if (res & results.length > 0) {
+        
           const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
           // console.log("token", accesstoken);
           var type = '';
@@ -165,11 +126,12 @@ router.post('/auth', async function (request, response) {
           response.status(401).send('Incorrect Username and/or Password!');
           response.end();
         }
-      } else {
-        response.status(401).send('Incorrect Username and/or Password!');
-        response.end();
-      }
-    }
+      // } else {
+      //   response.status(401).send('Incorrect Username and/or Password!');
+      //   response.end();
+      // }
+      })
+    }}
     );
   } else {
     response.status(401).send('Please enter Username and Password!');
@@ -188,6 +150,51 @@ router.post('/auth', async function (request, response) {
 
 
 //end multiple
+
+
+//auth
+// router.post('/auth', function (request, response) {
+//   let username = request.body.userName;
+//   let password = request.body.password;
+//   // console.log("Check", username, password);
+//   // console.log("Check", username, password);
+//   // response.setHeader({'Content-Type': 'application/json'});
+//   // response.header ({'Content-Type': 'application/json'});
+//   if (username && password) {
+//     con.query('SELECT *FROM user WHERE username = ?  ', [request.body.userName], function (error, results) {
+//       if (results.length > 0) {
+//         // console.log("test3");
+//         bcrypt
+//           .compare(request.body.password, results[0].password)
+//           .then(res => {
+//             // console.log("test1");
+//             if (res && results.length > 0) {
+//               const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
+//               console.log("token", accesstoken);
+//               response.status(200).send({ "message": "Successfully Login", accesstoken: accesstoken, username: results[0].username });
+//               // response.send({"message"success to login");
+//               response.end();
+
+//             }
+//             else {
+//               response.status(401).send({ "message": "Incorrect Username and/or Password!" });
+//               response.end();
+//             }
+//           })
+//           .catch(err => console.error(err.message))
+
+
+//       } else {
+//         // console.log("test2");
+//         response.status(401).send({ "message": "Incorrect Username and/or Password!" });
+//         // response.end();
+//       }
+//     }
+//     );
+//   }
+// })
+
+
 
 //st get logindetail
 
