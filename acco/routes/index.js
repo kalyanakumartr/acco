@@ -6,7 +6,40 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+
+
+const { createInvoice } = require("./invoice.js");
+
+const invoice = {
+  shipping: {
+    name: "John Doe",
+    address: "1234 Main Street",
+    city: "San Francisco",
+    state: "CA",
+    country: "US",
+    postal_code: 94111
+  },
+  items: [
+    {
+      Checkin: "2024-8-2",
+      Checkout: "2024-8-4",
+      Description: "Toner Cartridge",
+      TotalDays: 2,
+      Discount:0,
+      Maintenance:0,
+      Subtotal:2000
+
+    }
+  ],
+  subtotal: 2000,
+  GST: 23,
+  invoice_nr: 1234
+};
+
+createInvoice(invoice);
+
 module.exports = router;
+
 
 
 

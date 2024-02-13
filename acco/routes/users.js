@@ -9,13 +9,19 @@ const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
 const multer = require('multer');
 const path = require('path');
+var fs = require('fs');
 // const otpgen=require('otp-generator');
 const { error, Console } = require('console');
 const moment = require('moment');
 const otpGenerator = require('otp-generator');
 const color = require('colors');
+const PDFDocument = require('pdfkit');
+
 
 var authcheck = require('./authentication')
+
+// router.post('/generateinvoice', authcheck, (req, res) => {
+
 
 
 //st forgot password
