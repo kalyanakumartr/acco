@@ -710,7 +710,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 router.get('/getbookingwithuserid', authcheck, function (req, res) {
   try {
     // id=req.param.userid
-    command = 'select * from booking WHERE userid=' + req.query.userid + 'and bookedstatusid=1 ORDER BY checkin';
+    command = 'select * from booking WHERE userid=' + req.query.userid + ' and bookedstatusid=1 ORDER BY checkin';
     console.log(command);
     con.query(command, function (error, results) {
       if (error) {
