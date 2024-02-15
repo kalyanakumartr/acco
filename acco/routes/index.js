@@ -19,19 +19,22 @@ const invoice = {
     country: "US",
     postal_code: 94111
   },
-  items: [
+  items: 
     {
       Checkin: "2024-8-2",
       Checkout: "2024-8-4",
       Description: "Toner Cartridge",
       TotalDays: 2,
-      Discount:0,
-      Maintenance:0,
+      flat2BHK:1,
+      flat3BHK:2,
+      extrabed:1,
       Subtotal:2000
 
-    }
-  ],
+    },
+  
   subtotal: 2000,
+  Maintenance:200,
+  discount:24,
   GST: 23,
   invoice_nr: 1234
 };

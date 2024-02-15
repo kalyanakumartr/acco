@@ -50,9 +50,9 @@ function generateCustomerInformation(doc, invoice) {
         // .text("Balance Due:", 50, customerInformationTop + 30)
         // .text(
         //     formatCurrency(invoice.subtotal - invoice.paid),
-            // 150,
-            // customerInformationTop + 30
-        
+        // 150,
+        // customerInformationTop + 30
+
 
         .font("Helvetica-Bold")
         .text(invoice.shipping.name, 300, customerInformationTop)
@@ -82,60 +82,60 @@ function generateInvoiceTable(doc, invoice) {
         invoiceTableTop,
         "Checkin",
         "Checkout",
-        "Description",
+        "2BHK",
+        "3BHK",
+        "Extra Bed",
         "Total Days",
-        "Discount",
-        "Maintenance",
         "Sub-total",
     );
     generateHr(doc, invoiceTableTop + 20);
     doc.font("Helvetica");
 
-    for (i = 0; i < invoice.items.length; i++) {
-        const item = invoice.items[i];
-        const position = invoiceTableTop + (i + 1) * 30;
-        generateTableRow(
-            doc,
-            position,
-            item.Checkin,
-            item.Checkout,
-            item.Description,
-            //   formatCurrency(item.amount / item.quantity),
-            item.TotalDays,
-            item.Discount,
-            item.Maintenance,
-            item.Subtotal
-
-
-
-
-            //   formatCurrency(item.amount),
-
-        );
-
-        generateHr(doc, position + 20);
-    }
-
-    const subtotalPosition = invoiceTableTop + (i + 1) * 30;
+    const item = invoice.items;
+    const position = invoiceTableTop + 40;
     generateTableRow(
         doc,
-        subtotalPosition,
+        position,
+        item.Checkin,
+        item.Checkout,
+        item.flat2BHK,
+        item.flat3BHK,
+        item.extrabed,
+        item.TotalDays,
+        item.Subtotal
+
+
+
+
+        //   formatCurrency(item.amount),
+
+    );
+
+    generateHr(doc, position + 20);
+
+
+    const subtotalPosition = invoiceTableTop + 70;
+    doc.font("Helvetica-Bold");
+    generateTableRow(
+        doc,
+        subtotalPosition + 10,
         "",
         "",
         "Subtotal",
         "",
-        formatCurrency(invoice.subtotal)
+        invoice.subtotal
     );
 
-    const paidToDatePosition = subtotalPosition + 20;
+    const paidToDatePosition = subtotalPosition + 35;
+    doc.font("Helvetica-Bold");
     generateTableRow(
         doc,
         paidToDatePosition,
         "",
         "",
-        "GST",
+        "Maintenance",
         "",
-        formatCurrency(invoice.GST)
+        invoice.maintenance
     );
 
     const duePosition = paidToDatePosition + 25;
@@ -145,9 +145,31 @@ function generateInvoiceTable(doc, invoice) {
         duePosition,
         "",
         "",
+        "Discount",
+        "",
+       invoice.discount
+    );
+
+    const GstPosition = duePosition + 20;
+    generateTableRow(
+        doc,
+        GstPosition,
+        "",
+        "",
+        "GST",
+        "",
+        invoice.GST
+    );
+
+    const totalPosition = GstPosition + 20;
+    generateTableRow(
+        doc,
+        totalPosition,
+        "",
+        "",
         "Total",
         "",
-        formatCurrency(invoice.subtotal + invoice.GST)
+        formatCurrency((invoice.subtotal + invoice.maintenance + invoice.GST) - invoice.discount)
     );
     doc.font("Helvetica");
 }
@@ -176,12 +198,12 @@ function generateTableRow(
 ) {
     doc
         .fontSize(10)
-        .text(Checkin, 50, y)
-        .text(Checkout, 100, y)
-        .text(Description, 180, y )
-        .text(TotalDays, 310, y )
-        .text(Discount, 370, y )
-        .text(Maintenance, 430, y)
+        .text(Checkin, 70, y)
+        .text(Checkout, 140, y)
+        .text(Description, 210, y)
+        .text(TotalDays, 280, y)
+        .text(Discount, 350, y)
+        .text(Maintenance, 420, y)
         .text(Subtotal, 500, y);
 
 }
