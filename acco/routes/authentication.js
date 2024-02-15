@@ -221,12 +221,13 @@ router.get('/getlogin', function (req, res) {
 //end get logindetail
 
 //st change password
-router.post('/changepassword', authcheck, (req, res) => {
+router.post('/changepassword', authcheck, async (req, res) => {
   var id = req.body.userid;
-  var password = req.body.password;
+  // var password = req.body.password;
+  let Password = await bcrypt.hash(req.body.password, 8);
 
 
-  var command = 'UPDATE user SET password="' + password + '" WHERE userid = ' + id + '';
+  var command = 'UPDATE user SET password="' + Password + '" WHERE userid = ' + id + '';
   let data = [true, 1];
   con.query(command, data, function (error, result) {
     if (error) {
