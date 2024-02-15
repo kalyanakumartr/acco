@@ -1,3 +1,5 @@
+INSERT INTO menuitem(productid,menuqty,menudate,status) VALUES (10,20,"2024-02-12",1);
+
 select * from logic where adult=0
 
 CALL `spgetroom`('2023-12-27', '2023-12-28')
@@ -83,6 +85,7 @@ update booking set roomid='1:101,2:202' where bookingid=25
 select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid,':',roomno)) AS roomnos from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2024-03-27' AND '2024-03-28' OR checkout BETWEEN '2024-03-27' AND '2024-03-28')) GROUP BY rtype,price,roomname
 
 
+TRUNCATE user
 SELECT roomid FROM booking
 
 select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid,':',roomno)) AS roomnos from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2024-03-27' AND '2024-03-28' OR checkout BETWEEN '2024-03-27' AND '2024-03-28')) GROUP BY rtype,price,roomname
@@ -109,7 +112,13 @@ ALTER TABLE user
                            DEFAULT CURRENT_TIMESTAMP
                            ON UPDATE CURRENT_TIMESTAMP;
 
+ALTER TABLE productdetail
+     CHANGE modifieddate
+            modifieddate TIMESTAMP NOT NULL
+                           DEFAULT CURRENT_TIMESTAMP
+                           ON UPDATE CURRENT_TIMESTAMP;
 
+SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username ="muthu"and password="muthu"
 
 
 flush PRIVILEGES;
@@ -155,3 +164,15 @@ select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,
 SELECT IFNULL(sum(bhk2count),0)  from booking WHERE (checkin  BETWEEN checkin AND checkout OR checkout BETWEEN checkin AND checkout ) 			from tariffdetail where roomtypeid=1 AND NAME='2BHK'
 
 select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) AS roomcount from room  where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN checkin AND checkout OR checkout BETWEEN checkin AND checkout))AND roomname=name ) AS avilable from tariffdetail where roomtypeid=1;
+
+
+
+CALL `spgetroom`('2024-03-27', '2024-03-28' );
+
+CALL `getguestdetailwithcolor`('2024-03-27')
+
+CALL `getguestdetailwithcolor`('2023-12-27')
+
+
+
+select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid)) AS roomid,CONCAT(GROUP_CONCAT(roomno)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2024-03-27' AND '2024-03-28' OR checkout BETWEEN '2024-03-27' AND '2024-03-28')) GROUP BY rtype,price,roomname
