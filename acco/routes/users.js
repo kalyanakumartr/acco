@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require("nodemailer");
 const jsonwebtoken = require('jsonwebtoken');
 const con = require('../dbconfig');
+var email=require('./email');
 const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
 const multer = require('multer');
@@ -798,6 +799,58 @@ router.get('/getuser', authcheck, function (req, res) {
 
 
 
+
+//add contactus
+
+router.post('/addcontact', async function (req, res) {
+  try {
+    console.log("body", req.body);
+      var command = sprintf('INSERT INTO contactus (name,email,phonenumber,city,message,status) VALUES ("%s","%s","%s","%s","%s",%b)', req.body.name, req.body.email, req.body.phonenumber, req.body.city, req.body.message,  1);
+    console.log(command);
+    con.query(command, function (err, mysqlres1) {
+        if (err) {
+          res.status(401).send({ "message": err });
+        }
+        else {
+            res.status(200).send({ message: "Successfully Add" });
+          res.end();
+        }
+      })
+    
+  }
+
+  catch (e) {
+    console.log("Catch", e.err);
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+//end add contact
+
+//st get contat
+router.get('/getcontact', authcheck, function (req, res) {
+  try {
+
+    command = 'select * from contactus';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send({"message":results});
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+//end contact
 module.exports = router;
 
 
