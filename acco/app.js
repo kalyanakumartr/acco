@@ -13,7 +13,7 @@ var bookRouter=require('./routes/booking');
 var authRouter=require('./routes/authentication');
 // var pdfRouter=require('./routes/createpdf');
 const router = require('./routes/users');
-
+var genpdfRouter=require('./routes/genpdf');
 var app = express();
 
 // view engine setup
@@ -42,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/booking',bookRouter);
+app.use('/genpdf',genpdfRouter);
 // app.use('/createpdf',pdfRouter);
 app.use('/admin',adminRouter);
 app.use('/authentication',authRouter);
