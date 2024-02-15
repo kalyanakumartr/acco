@@ -2,12 +2,12 @@
 var router = express.Router();
 const con = require('../dbconfig');
 const moment = require('moment');
-var sprintf = require('sprintf');
+// var sprintf = require('sprintf');
 const nodemailer = require("nodemailer");
 
 
 router.get('/generateOTP', (req, res) => {
-
+console.log("Welcome to create OTP");
     // var email = req.body;
     var otpCode = Math.floor(100000 + Math.random() * 900000);
     console.log("otpcode", otpCode);
@@ -15,7 +15,7 @@ router.get('/generateOTP', (req, res) => {
     var tentime = moment(Date.now()).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
     console.log("ten", tentime);
     console.log("ctime",ctime)
-    var cmd='UPDATE otpstore SET otpno="'+otpCode+'",otpctime="'+ctime+'",otpetime="'+tentime+'" WHERE email="'+req.query.email+'"';
+    var cmd='UPDATE otpstore SET otp="'+otpCode+'",otpctime="'+ctime+'",otpetime="'+tentime+'" WHERE email="'+req.query.email+'"';
     console.log(cmd);
     let data = [true, 1];
     con.query(cmd,data,async function(err,result){

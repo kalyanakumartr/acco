@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require("nodemailer");
 const jsonwebtoken = require('jsonwebtoken');
 const con = require('../dbconfig');
+var email=require('./email');
 const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
 const multer = require('multer');
