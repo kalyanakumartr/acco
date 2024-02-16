@@ -698,6 +698,7 @@ router.post('/adduser', async function (req, res) {
       userid = mysqlres1.insertId
       console.log(userid);
       var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid, 1);
+      var commd='up'
       con.query(command, function (err, mysqlres2) {
         console.log("role", command);
         // console.log("proof",command1);
@@ -706,14 +707,25 @@ router.post('/adduser', async function (req, res) {
         }
         else {
           if (req.body.roleid = 3)
-            res.status(200).send({ message: "Successfully Register" });
+            var cmmd=sprintf('insert into otpstore (userid,name,otptype,status) values (%d,"%s","%s",%d)',userid,req.body.firstname,"email",1);
+          console.log(cmmd);
+            con.query(cmmd,function(oerr,ores){
+              if(oerr) {
+                res.status(401).send({ "message": err });
+              }
+              else {
+                  res.status(200).send({ message: "Successfully Register" });
           res.end();
-        }
-      })
+              }
+        })
+      }
+      
     })
-  }
+  })
+}}
+)
 }
-)}
+
   catch (e) {
     console.log("Catch", e.err);
     const statusCode = e.statusCoderes || 500;

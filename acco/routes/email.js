@@ -86,7 +86,15 @@ console.log("Welcome to create OTP");
       otp = req.body.inputotp
       console.log("otp", otp);
       // console.log(userid);
-      var cmmd = ('select count(otpno) as counting from otpstore where email="' + req.body.email +'" AND otpetime>"' + ctime + '" AND otpno=' + otp + '');
+      var commd='select userid from user where email="'+req.body.email+'"';
+      con.query(commd,function(gererr,getres){
+        console.log(commd);
+        // console.log(getres[0].userid);
+        var uid=getres[0].userid;
+        console.log("userid",getres[0].userid);
+        console.log(uid);
+  
+      var cmmd = ('select count(otp) as counting from otpstore where userid="' + uid +'" AND otpetime>"' + ctime + '" AND otp=' + otp + '');
       console.log("cmd", cmmd);
       con.query(cmmd, function (error, result) {
         console.log("count", result[0].counting);
@@ -99,7 +107,8 @@ console.log("Welcome to create OTP");
           res.send({ status: false, message: "Expired OTP Or Unable to get data" });
         }
       })
-    }
+    })
+  }
     catch (err) {
       console.log("Catch");
       const statusCode = e.statusCoderes || 500;
