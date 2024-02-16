@@ -15,7 +15,15 @@ console.log("Welcome to create OTP");
     var tentime = moment(Date.now()).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
     console.log("ten", tentime);
     console.log("ctime",ctime)
-    var cmd='UPDATE otpstore SET otp="'+otpCode+'",otpctime="'+ctime+'",otpetime="'+tentime+'" WHERE email="'+req.query.email+'"';
+    // SELECT userid FROM user WHERE email=
+    var commd='select userid from user where email="'+req.query.email+'"';
+    con.query(commd,function(gererr,getres){
+      console.log(commd);
+      // console.log(getres[0].userid);
+      var uid=getres[0].userid;
+      console.log("userid",getres[0].userid);
+      console.log(uid);
+    var cmd='UPDATE otpstore SET otp="'+otpCode+'",otpctime="'+ctime+'",otpetime="'+tentime+'" WHERE userid='+uid+'';
     console.log(cmd);
     let data = [true, 1];
     con.query(cmd,data,async function(err,result){
@@ -58,6 +66,7 @@ console.log("Welcome to create OTP");
         // }
       }
   })
+})
   }
   );
   
