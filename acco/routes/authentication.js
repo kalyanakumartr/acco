@@ -123,7 +123,7 @@ router.post('/auth', async function (request, response) {
 
         }
         else {
-          response.status(401).send('Incorrect Username and/or Password!');
+          response.status(401).send({message:"Incorrect Username and/or Password!"});
           response.end();
         }
       // } else {
@@ -134,7 +134,7 @@ router.post('/auth', async function (request, response) {
     }}
     );
   } else {
-    response.status(401).send('Please enter Username and Password!');
+    response.status(401).send({message:'Please enter Username and Password!'});
     response.end();
   }
   }

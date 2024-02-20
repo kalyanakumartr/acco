@@ -26,10 +26,13 @@ var authcheck = require('./authentication')
 
 
 //st forgot password
-router.post('/forgotpassword', function (req, res) {
+router.post('/forgotpassword',async function (req, res)  {
   var email = req.body.email;
-  var password = req.body.password;
-  var command = 'UPDATE user SET password="' + password + '" WHERE email = "' + email + '"';
+  // var password = req.body.password;
+  let hashedPassword = await bcrypt.hash(req.body.password, 8);
+  let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
+  var command = 'UPDATE user SET password="' + hashedPassword + '",cpassword="'+hashedCPassword+'" WHERE email = "' + email + '"';
+  console.log("command"+command)
   let data = [true, 1];
   con.query(command, data, function (error, result) {
     if (result.affectedRows >= 1) {
