@@ -4,9 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 // const cors = require("cors");
-
+var roomRouter=require('./routes/room');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var logicRouter = require('./routes/logic');
+
 var adminRouter=require('./routes/admin');
 var emailRouter=require('./routes/email');
 var bookRouter=require('./routes/booking');
@@ -43,7 +45,9 @@ app.use('/invoice',invoiceRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/booking',bookRouter);
+app.use('/logic',logicRouter);
 app.use('/genpdf',genpdfRouter);
+app.use('/room',roomRouter);
 app.use('/email', emailRouter);
 // app.use('/createpdf',pdfRouter);
 app.use('/admin',adminRouter);

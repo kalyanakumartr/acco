@@ -240,7 +240,7 @@ const fs = require("fs");
 const PDFDocument = require("pdfkit");
 var express = require('express');
 var router = express.Router();
-var createInvoice=require('./index');
+// var createInvoice=require('./index');
 
 
 
@@ -284,7 +284,10 @@ const invoice = {
 
 
 
-router.get('/getpdf',function createInvoice(invoice,res,res) {
+// router.get('/getpdf',function createInvoice(invoice) {
+   
+router.get('/getpdf',function (req,res) {
+    console.log("res",res);
     console.log("Welcome to PDF Create");
     let doc = new PDFDocument({ size: "A4", margin: 50 });
 
@@ -392,21 +395,21 @@ function generateInvoiceTable(doc, invoice) {
         doc,
         position,
         // Checkin,
-        // item.Checkin,
-        // item.Checkout,
-        // item.flat2BHK,
-        // item.flat3BHK,
-        // item.extrabed,
-        // item.TotalDays,
-        // item.Subtotal
+        item.Checkin,
+        item.Checkout,
+        item.flat2BHK,
+        item.flat3BHK,
+        item.extrabed,
+        item.TotalDays,
+        item.Subtotal
 
-        invoice.Checkin,
-        invoice.Checkout,
-        invoice.flat2BHK,
-        invoice.flat3BHK,
-        invoice.extrabed,
-        invoice.TotalDays,
-        invoice.Subtotal
+        // invoice.Checkin,
+        // invoice.Checkout,
+        // invoice.flat2BHK,
+        // invoice.flat3BHK,
+        // invoice.extrabed,
+        // invoice.TotalDays,
+        // invoice.Subtotal
 
 
 

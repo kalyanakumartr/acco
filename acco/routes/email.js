@@ -123,4 +123,70 @@ console.log("Welcome to create OTP");
   // end verify otp
   
   //end otp verify
+
+//st email verify
+router.get('/emailverify',function(req,res){
+  var cmd='select * from user  where phonenumber='+req.query.phonenumber+'';
+  console.log("cmd",cmd);
+  con.query(cmd,function(err,result){
+    if (result.length >= 1) {
+    if(err)
+    {
+      console.log("Error");
+      res.send("No Data");
+    }
+    else
+    {
+      console.log(result);
+      
+      res.send(result);
+    }
+  }
+
+ else
+      {
+        //   console.log("Error pls check Email");
+        res.send("Pls check Email");
+      }
+    }
+  
+)})
+
+
+
+//end email verify
+
+router.post('/sendEmail', async function (req, res) {
+
+  try {
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.HOST,
+      service: process.env.SERVICE,
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    });
+    await transporter.sendMail({
+      from: process.env.USER,
+      to: ["muthu@stashook.com", "balajiabiksha@gmail.com"],
+      // to: +req.body.email+,
+      subject: "Test",
+      text: "Subject"
+    });
+
+    console.log("email sent sucessfully");
+    res.send("email sent sucessfully");
+    // res.end();
+  }
+  catch (error) {
+    console.log(error, "email not sent")
+  }
+});
+
+
+
   module.exports = router;
