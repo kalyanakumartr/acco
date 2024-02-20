@@ -14,6 +14,7 @@ var authRouter=require('./routes/authentication');
 // var pdfRouter=require('./routes/createpdf');
 const router = require('./routes/users');
 var genpdfRouter=require('./routes/genpdf');
+var invoiceRouter=require('./routes/invoice');
 var app = express();
 
 // view engine setup
@@ -38,7 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/invoice',invoiceRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/booking',bookRouter);
