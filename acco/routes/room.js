@@ -38,7 +38,11 @@ router.get('/getroomslist', function (req, res) {
             }
             else {
               result[0][0].roomid=result[0][0].roomid.replaceAll("\"", "");
-              result[0][0].roomnos=result[0][0].roomnos.replaceAll("\"", "");
+              result[0][0].roomnos=result[0][0].roomnos.replaceAll("\"", ""); 
+              result[0][1].roomid=result[0][0].roomid.replaceAll("\"", "");
+              result[0][1].roomnos=result[0][0].roomnos.replaceAll("\"", "");
+              console.log("0",result[0][0]);
+              console.log("1",result[0][1]);
               console.log("-",result,"getres");
               res.send(result);
             }
