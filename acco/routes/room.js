@@ -293,3 +293,24 @@ router.get('/getfloor', authcheck, function (req, res) {
   
 
 module.exports = router;
+
+
+
+
+// router.get('/findroom',function(req,res){
+// var get = "SELECT roomno FROM floorroommapping"
+// getroom.find()
+// .then(roomno=>{
+//   res.json(roomno)
+// })
+// .catch(error=>{
+//   res.json({error})
+// })
+// })
+
+// //
+// st extra bill 
+
+
+
+// end extra bill

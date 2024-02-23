@@ -190,3 +190,166 @@ router.post('/sendEmail', async function (req, res) {
 
 
   module.exports = router;
+
+
+
+
+
+
+
+  
+
+// //otp gen st
+
+
+
+// router.post('/generateOTP', authcheck, (req, res) => {
+//   // var email = req.body;
+//   var otpCode = Math.floor(100000 + Math.random() * 900000);
+//   console.log("otpcode", otpCode);
+//   var mysqlTimestamp = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+//   var tensqlTimestamp = moment(Date.now()).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+//   console.log("ten", tensqlTimestamp);
+
+
+//   con.query("select userid,count(email) count from user where email=?", [req.body.email], async (error, result) => {
+//     console.log("Error", error, result[0].count, result[0].userid);
+//     if (result[0].count > 0) {
+//       //   res.send({ status: true, message: "Already email id exist giv e correct email id " })
+//       //   return;
+//       console.log("Already email id exist give correct email id", result[0].userid)
+//       user = result[0].userid;
+//       console.log(user);
+//       // res.send(userid);
+//       // return;
+//       var comm = sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', user, req.body.name, req.body.phonenumber, otpCode, req.body.otptype, mysqlTimestamp, tensqlTimestamp, 1);
+//       console.log("before", comm);
+//       con.query(comm, function (err, result) {
+//         if (err) {
+//           // console.log(err);
+//           res.send({ status: false, message: err });
+//         }
+//         else {
+
+//           res.send({ result, user });
+//           res.end();
+//         }
+//       })
+//     }
+//     else {
+//       var otpn = otpGenerator.generate(8, { upperCaseAlphabets: true, lowerCaseAlphabets: true, specialChars: true });
+//       console.log("newotp : ", otpn);
+//       fname = req.body.name;
+//       email = req.body.email;
+//       pno = req.body.phonenumber;
+//       var cmdate = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+//       var cd = sprintf('INSERT INTO user (firstname,modifieddate,phoneNumber,email,createddate,username,status) values ("%s","%s","%s","%s","%s","%s",%d)', fname, cmdate, pno, email, cmdate, fname, 1);
+
+//       console.log("after in", cd);
+//       con.query(cd, function (erro, inseruser) {
+//         // con.query("select userid,count(email) count from user where email=?", [req.body.email], async (error, result) => {
+//         // var suser=('select userid from user where email='+req.body.email);
+//         // con.query(suser,function(error, afterresult)  {
+//         con.query("select userid,count(email) count from user where email=?", [req.body.email], async (error, afterresult) => {
+//           var user = afterresult[0].userid
+//           console.log("after user", user);
+//           var comm = sprintf('INSERT INTO otpstore (userid,name,phonenumber,otp,otptype,otpctime,otpetime,status) VALUES (%d, "%s","%s",%d,"%s","%s","%s",%d)', user, req.body.name, req.body.phonenumber, otpCode, req.body.otptype, mysqlTimestamp, tensqlTimestamp, 1);
+
+//           console.log("after email ", comm);
+//           con.query(comm, function (err, result) {
+//             if (err) {
+//               // console.log(err);
+//               res.send({ status: false, message: err });
+//             }
+//             else {
+
+//               res.send(result);
+//               res.end();
+//             }
+//           })
+//         })
+//       })
+//     }
+//   });
+// });
+// //otp gen en st
+
+// router.post('/verifyOTP', authcheck, (req, res) => {
+//   try {
+//     // var inputotp = req.body.inputotp;
+//     // console.log(req.body);
+//     // var cmd = ('select count(otp,otpetime from otpstore where userid=' + req.body.userid);
+//     usrid = req.body.userid;
+//     console.log(usrid);
+//     ctime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+//     console.log(ctime);
+//     otp = req.body.inputotp
+//     console.log("otp", otp);
+//     // console.log(userid);
+//     var cmmd = ("select count(otp) as count from otpstore where userid=" + req.body.userid + " AND otpetime>'" + ctime + "' AND otp='" + otp + "'");
+//     console.log("cmd", cmmd);
+//     con.query(cmmd, function (error, result) {
+//       console.log("count", result);
+//       if (result[0].count > 0) {
+//         res.send({ status: true, message: "Successfully Verify " });
+//       }
+//       else {
+//         console.log("Error", error)
+//         // res.send({ "Message": "Unable to get Date " });
+//         res.send({ status: false, message: "Expired OTP Or Unable to get data" });
+//       }
+//     })
+//   }
+//   catch (err) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+
+//   }
+
+// })
+
+// //otp gen en end
+
+
+// //otp very
+
+
+
+
+// //send email st
+
+// router.post('/sendemail',async function(req,res){
+// const{ from,to,subject,text}=req.body;
+// const data={from,to,subject,text}
+
+// const r=await nodemailer.send(data);
+// // const data={
+// //   "from":"stashook2020@gmail.com",
+// //     "to": "muthu@stashook.com",
+// //     "subject": "Hellow world!",
+// //     "text": "test"
+
+// // }
+
+
+// })
+// var sender=nodemailer.createTransport({
+//   service:"gmail",
+//   host: "smtp.gmail.com",
+//   port:587,
+//   secure: false,
+
+//   auth:{
+//       // type: "login", // default
+//       Username:'
+//       Password:'
+//   },
+// });
+
+
+// res.send(r);
+
+// //send email stop
+
+//auth login

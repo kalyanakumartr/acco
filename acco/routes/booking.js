@@ -449,3 +449,73 @@ router.post('/oldactualcheckin', authcheck, (req, res) => {
 
 //end frontoff a checkin
 module.exports = router;
+
+
+
+//st get room list
+
+//confirmbooking
+// router.post('/confirmbooking', function (req, res) {
+//   try {
+//     console.log(req.body);
+//     var command = sprintf('INSERT INTO confirmbooking (roomid,checkin,checkout,roombhk,noofdays,adults,name,phonenumber,email,price,totalprice,verificationstatus,status) VALUES ("%s", "%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d)', req.body.roomid, req.body.checkin, req.body.checkout, req.body.roombhk, req.body.noofdays, req.body.adults, req.body.name, req.body.phonenumber, req.body.email, req.body.price, req.body.totalprice,req.body.verificationstatus,  1);
+
+//     console.log("after", command);
+//     con.query(command, function (err, result) {
+//       if (err) {
+//         console.log(err);
+//         res.send({ status: false, message: err });
+//       }
+//       else {
+//         res.status(200).send({ "message": "Booking added Successfully" });
+//         res.end();
+//       }
+//     })
+//   }
+//   catch (e) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+//   }
+// })
+
+
+
+// code copy 
+// router.get('/getguestdetail/:checkin',authcheck, function (req, res) {
+//   try {
+//     // sdate=req.params.checkin
+//     console.log("parms",req.params.checkin);
+//     command =( "select * from booking where checkin BETWEEN "+"'"+req.params.checkin+ ' 00:00:01'+ " '"+' AND ' +"'"+req.params.checkin+' 23:59:59'+"'");
+//     console.log(command);
+//     con.query(command, function (error, results) {
+//       console.log(results.acheckin);
+//       console.log("len",results.length);
+//       // console.log(results.acheckin);
+//       console.log("acheckin",results.acheckin);
+//       var green=results.acheckin<results.checkin
+//       console.log("green",green);
+//       var red=results.acheckin<results.checkin
+//       console.log("RED ",red);
+//       var willinform=results.acheckin=0;
+//       console.log("will inform",willinform);
+
+//       if (results.length>=1) {
+//       // if(acheckin>checkin){
+//         res.send(results)
+
+//       }
+//       else {
+//         res.send({ "Message": "Unable to get Date "});
+//       }
+//     })
+//   }
+//   catch (e) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+//   }
+// })
+
+//end copy
+
