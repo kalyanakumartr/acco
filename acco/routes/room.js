@@ -37,21 +37,12 @@ router.get('/getroomslist', function (req, res) {
               res.send("err");
             }
             else {
-              var i=0;
-              for(var obj in result[0]){
-                console.log("obj",result[0][obj]);
-                // console.log("obj1",obj[i]);
-                result[0][obj].roomid=result[0][obj].roomid.replaceAll("\"", "");
-                result[0][obj].roomnos=result[0][obj].roomnos.replaceAll("\"", ""); 
-              //  i++;
-              };
-
-              // result[0][0].roomid=result[0][0].roomid.replaceAll("\"", "");
-              // result[0][0].roomnos=result[0][0].roomnos.replaceAll("\"", ""); 
-              // result[0][1].roomid=result[0][1].roomid.replaceAll("\"", "");
-              // result[0][1].roomnos=result[0][1].roomnos.replaceAll("\"", "");
-              // console.log("0",result[0][0]);
-              // console.log("1",result[0][1]);
+              result[0][0].roomid=result[0][0].roomid.replaceAll("\"", "");
+              result[0][0].roomnos=result[0][0].roomnos.replaceAll("\"", ""); 
+              result[0][1].roomid=result[0][0].roomid.replaceAll("\"", "");
+              result[0][1].roomnos=result[0][0].roomnos.replaceAll("\"", "");
+              console.log("0",result[0][0]);
+              console.log("1",result[0][1]);
               console.log("-",result,"getres");
               res.send(result);
             }
