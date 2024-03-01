@@ -1,0 +1,33 @@
+BEGIN
+SET @bhk2available=0;
+SET @bhk3available=0;
+
+SET @bhk2roomcount = 0;
+SET @bhk3roomcount = 0;
+SET @bookedIds = 0;
+SELECT COUNT(*) into @bhk2available FROM room WHERE rtype=2;
+
+SELECT COUNT(*) into @bhk3available FROM room WHERE rtype=3;
+
+SET @SQL_QUERY1 =CONCAT('SELECT (',@bhk2available,'-(if(SUM(bhk1count) IS NULL ,0, SUM(bhk1count)))+(if(SUM(bhk2count) IS NULL ,0, SUM(bhk2count)))) into @bhk2roomcount from booking where   (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\'  )');
+/* correct 
+SET @SQL_QUERY1 =CONCAT('SELECT (',@bhk2available,'-(if(SUM(bhk2count) IS NULL ,0, SUM(bhk2count)))) into @bhk2roomcount from booking where   (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\'  )');
+*/
+/*(if(SUM(bhk2count) IS NULL ,0, SUM(bhk2count))) into @bhk2roomcount from booking where   (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\'  )');
+*/
+SET @SQL_QUERY2 =CONCAT('SELECT (',@bhk3available,'-(if(SUM(bhk3count) IS NULL ,0, SUM(bhk3count)))) into @bhk3roomcount from booking where   (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\'  )');
+/*
+SELECT  @SQL_QUERY2, @SQL_QUERY1;
+*/
+	PREPARE stmt3 FROM @SQL_QUERY2;
+	EXECUTE stmt3;
+	DEALLOCATE PREPARE stmt3;
+	
+	PREPARE stmt4 FROM @SQL_QUERY1;
+	EXECUTE stmt4;
+	DEALLOCATE PREPARE stmt4;
+
+/*SELECT @bhk2roomcount,@bhk3roomcount;
+*/
+SELECT * FROM logic WHERE adult=adultcount AND bhktype1+bhktype2<=@bhk2roomcount AND bhktype3<=@bhk3roomcount ;
+END
