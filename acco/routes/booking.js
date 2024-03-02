@@ -10,6 +10,37 @@ const fs = require('fs');
 const nodemailer = require("nodemailer");
 
 
+
+// st ge image
+
+
+router.get('/getimage', function (req, res) {
+  var getresisterQ = "SELECT imageUrl FROM booking WHERE bookingid=" + req.query.bookingid;
+  con.query(getresisterQ, function (error, result) {
+    console.log("len",result.length);
+    // if (result.length<=1){
+     if(error){
+            console.log(error);
+      res.send("Unable to get data");
+    }
+    else{
+      
+        console.log("userimage", result);
+        const imagefile = fs.readFileSync('C:/images/' + result[0].imageUrl);
+        const bl = Buffer.from(imagefile, 'binary');
+        res.send({ "FileName1": result[0].imageUrl, "file": bl });
+      
+    }
+  // }
+    
+  });
+});
+
+//end get image
+
+
+
+
 //st checkinconfirm 
 
 router.post('/checkinconfirm', function (req, res) {
