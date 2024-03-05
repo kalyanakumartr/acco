@@ -221,29 +221,76 @@ router.get('/getlogin', function (req, res) {
 //end get logindetail
 
 //st change password
-router.post('/changepassword',  async (req, res) => {
+router.post('/changepassword',  async (req, resu) => {
   var id = req.body.userid;
-  // var password = req.body.password;
-  let Password = await bcrypt.hash(req.body.password, 8);
-  let Cpassword= await bcrypt.hash(req.body.cpassword,8)
-
-
-  var command = 'UPDATE user SET password="' + Password + '",cpassword="' + Cpassword + '" WHERE userid = ' + id + '';
+var cmmd='select password from user where userid='+id+'';
+con.query(cmmd,function(getpasserr,getpassres)
+{   if(getpasserr){
+resu.send("Som Err");  }
+    else(
+      bcrypt
+      .compare(req.body.oldpassword, getpassres[0].password)
+      .then(res => {
+       console.log("Welcome");    console.log(cmmd);
+  console.log("database password ",getpassres[0].password) // res.send("Correct");
+// var Password = bcrypt.hash(req.body.password,8); 
+//  var Cpassword= bcrypt.hash(req.body.cpassword,8);
+  // console.log("Password",Password,"CPassword",Cpassword);
+  var command = 'UPDATE user SET password="' + bcrypt.hash(req.body.password,8) + '",cpassword="' + bcrypt.hash(req.body.cpassword,8) + '" WHERE userid = ' + req.body.userid + '';
   let data = [true, 1];
   con.query(command, data, function (error, result) {
     if (error) {
-      res.send({ status: false, message: error });
-
+      resu.send({ status: false, message: error });
       console.log(error);
-      throw error;
-    }
+      throw error;     }
     else {
+      console.log(command);
       console.log("Done");
-      res.status(200).send({ message: "Successfully Changed Password" });
-    }
-  });
-
+      resu.status(200).send({ message: "Successfully Changed Password" });     }
+  })
+}))
+}); 
 });
+
+
+// );
+// });
+// "oldpassword":"admin",
+//     "password":"admin1",
+//     "cpassword":"admin1"
+   
+//   var opassword=req.body.oldpassword;
+//     if(getpassres[0].password==opassword){
+//     console.log("cmd",cmmd);
+//     console.log("getpass",getpassres);
+//     // var opassword=bcrypt.hash(req.body.oldpassword,8);
+  
+
+//   // let Password = bcrypt.hash(req.body.password, 8);
+//   // let Cpassword=  bcrypt.hash(req.body.cpassword,8)
+//   let Password = req.body.password;
+//   let Cpassword= req.body.cpassword;
+  
+//   var command = 'UPDATE user SET password="' + Password + '",cpassword="' + Cpassword + '" WHERE userid = ' + id + '';
+//   let data = [true, 1];
+//   con.query(command, data, function (error, result) {
+//     if (error) {
+//       res.send({ status: false, message: error });
+//       console.log(error);
+//       throw error;
+//     }
+//     else {
+//       console.log("Done");
+//       res.status(200).send({ message: "Successfully Changed Password" });
+//     }
+//   });
+// }
+// else{
+//   res.send({ message: "Pls check Old password " })
+// }
+
+// });
+// });
 
 
 //end change password

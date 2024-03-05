@@ -103,6 +103,7 @@ router.get('/getguestbookingstatuscancel', function (req, res) {
         res.send("No Data");
       }
       else {
+        console.log()
         res.send(result);
       }
     });
