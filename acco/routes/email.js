@@ -99,7 +99,7 @@ console.log("Welcome to create OTP");
       con.query(cmmd, function (error, result) {
         console.log("count", result[0].counting);
         if (result[0].counting >= 1) {
-          res.send({ status: true, message: "Successfully Verify " });
+          res.send({ status: true, message: "Phonenumber verified successfully " });
         }
         else {
           console.log("Error", error)

@@ -30,7 +30,7 @@ router.get('/getlogic', function (req, res) {
           con.query(command, [cin, cout,adultcount], function (err, result) {
             if (err) {
               console.log("err",err);
-              res.send("err");
+              res.send("We are Sorry! currently all rooms are occupied .");
             }
             else {
               console.log(result);
@@ -39,7 +39,7 @@ router.get('/getlogic', function (req, res) {
           });
         }
         else {
-          res.send("Check booking id");
+          res.send("We are Sorry! currently all rooms are occupied .");
           console.log("Not Booking id");
   
         }

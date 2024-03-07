@@ -40,107 +40,110 @@ const authcheck = (req, res, next) => {
 
 //st auth multiple
 router.post('/auth', async function (request, response) {
-  try{
-  // Capture the input fields
-  let username = request.body.username;
-  let password = request.body.password;
-  if (username && password) {
-    cmd ='SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username ="'+request.body.username+'"';
-    con.query(cmd,function (error, results) {
-      console.log(cmd)
-      if (results.length > 0) {
+  try {
+    // Capture the input fields
+    let username = request.body.username;
+    let password = request.body.password;
+    if (username && password) {
+      cmd = 'SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username ="' + request.body.username + '"';
+      con.query(cmd, function (error, results) {
+        console.log(cmd)
+        if (results.length > 0) {
           bcrypt
-          .compare(request.body.password, results[0].password)
-          .then(res => {
-            if (res & results.length > 0) {
-        
-          const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
-          // console.log("token", accesstoken);
-          var type = '';
-          if (results[0].roleid == 1) {
-            type = "Admin"
-            var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            console.log(cdatetime);
-            console.log(results[0].userid);
-            console.log(results[0].username);
-            var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1); con.query(userdetail, function (res, res) {
-              response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname,roleid: results[0].roleid ,message: "Admin Login Sucessfully" });
-              response.end();
-            })
-          }
-          else if (results[0].roleid == 2) {
-            type = "Manager"
-            var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            .compare(request.body.password, results[0].password)
+            .then(res => {
+              if (res & results.length > 0) {
 
-            console.log(cdatetime);
-            console.log(results[0].userid);
-            console.log(results[0].username);
+                const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
+                // console.log("token", accesstoken);
+                var type = '';
+                if (results[0].roleid == 1) {
+                  type = "Admin"
+                  var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                  console.log(cdatetime);
+                  console.log(results[0].userid);
+                  console.log(results[0].username);
+                  var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1); con.query(userdetail, function (res, res) {
+                    response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: "Admin Login Sucessfully" });
+                    response.end();
+                  })
+                }
+                else if (results[0].roleid == 2) {
+                  type = "Manager"
+                  var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-            var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
-            con.query(userdetail, function (res, res) {
-              // console.log("ma",res);
-              response.status(200).send({  accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname,roleid: results[0].roleid,message: "Manager Login Sucessfully "});
-              response.end();
-            })
-          }
+                  console.log(cdatetime);
+                  console.log(results[0].userid);
+                  console.log(results[0].username);
 
-          else if(results[0].roleid == 3){
-            type = "Customer"
-            if (type == "Customer") {
-              var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                  var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
+                  con.query(userdetail, function (res, res) {
+                    // console.log("ma",res);
+                    response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: "Manager Login Sucessfully " });
+                    response.end();
+                  })
+                }
 
-              console.log(cdatetime);
-              console.log(results[0].userid);
-              console.log(results[0].username);
+                else if (results[0].roleid == 3) {
+                  type = "Customer"
+                  if (type == "Customer") {
+                    var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
-              var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
-              con.query(userdetail, function (res, res) {
+                    console.log(cdatetime);
+                    console.log(results[0].userid);
+                    console.log(results[0].username);
 
-                response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname,roleid: results[0].roleid,message: " Customer Login Sucessfully " });
+                    var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
+                    con.query(userdetail, function (res, res) {
+
+                      response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: " Customer Login Sucessfully " });
+                      response.end();
+                    })
+                  }
+                }
+                else {
+                  type = "FrontOfficeExecutive"
+                  if (type == "FrontOfficeExecutive") {
+                    var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                    console.log(cdatetime);
+                    console.log(results[0].userid);
+                    console.log(results[0].username);
+
+                    var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
+                    con.query(userdetail, function (res, res) {
+
+                      response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: " FrontOfficeExecutive Login Sucessfully " });
+                      response.end();
+                    })
+                  }
+
+                }
+
+
+              }
+              else {
+                // response.status(401).send({ message: "Incorrect Username and/or Password!" });
+                response.status(401).send({ message: "Invalid credentials,please check your username and password" });
+
+                
                 response.end();
-              })
-            }
-          }
-          else{
-            type = "FrontOfficeExecutive"
-            if (type == "FrontOfficeExecutive") {
-              var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-
-              console.log(cdatetime);
-              console.log(results[0].userid);
-              console.log(results[0].username);
-
-              var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
-              con.query(userdetail, function (res, res) {
-
-                response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname,roleid: results[0].roleid,message: " FrontOfficeExecutive Login Sucessfully "});
-                response.end();
-              })
-            }
-
-          }
-
-
+              }
+              // } else {
+              //   response.status(401).send('Incorrect Username and/or Password!');
+              //   response.end();
+              // }
+            })
         }
-        else {
-          response.status(401).send({message:"Incorrect Username and/or Password!"});
-          response.end();
-        }
-      // } else {
-      //   response.status(401).send('Incorrect Username and/or Password!');
-      //   response.end();
-      // }
-      })
-    }}
-    );
-  } else {
-    response.status(401).send({message:'Please enter Username and Password!'});
-    response.end();
+      }
+      );
+    } else {
+      response.status(401).send({ message: 'Invalid credentials,please check your username and password!' });
+      response.end();
+    }
   }
-  }
-  catch(e)
-  {
-  console.log("Catch");
+  catch (e) {
+    console.log("Catch");
     const statusCode = e.statusCoderes || 500;
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
@@ -221,36 +224,52 @@ router.get('/getlogin', function (req, res) {
 //end get logindetail
 
 //st change password
-router.post('/changepassword',  async (req, resu) => {
+router.post('/changepassword', async (req, resu) => {
   var id = req.body.userid;
-var cmmd='select password from user where userid='+id+'';
-con.query(cmmd,function(getpasserr,getpassres)
-{   if(getpasserr){
-resu.send("Som Err");  }
-    else(
+  var cmmd = 'select password from user where userid=' + id + '';
+  con.query(cmmd, function (getpasserr, getpassres) {
+    if (getpasserr) {
+      resu.send("Som Err");
+    }
+    else (
       bcrypt
-      .compare(req.body.oldpassword, getpassres[0].password)
-      .then(res => {
-       console.log("Welcome");    console.log(cmmd);
-  console.log("database password ",getpassres[0].password) // res.send("Correct");
-// var Password = bcrypt.hash(req.body.password,8); 
-//  var Cpassword= bcrypt.hash(req.body.cpassword,8);
-  // console.log("Password",Password,"CPassword",Cpassword);
-  var command = 'UPDATE user SET password="' + bcrypt.hash(req.body.password,8) + '",cpassword="' + bcrypt.hash(req.body.cpassword,8) + '" WHERE userid = ' + req.body.userid + '';
-  let data = [true, 1];
-  con.query(command, data, function (error, result) {
-    if (error) {
-      resu.send({ status: false, message: error });
-      console.log(error);
-      throw error;     }
-    else {
-      console.log(command);
-      console.log("Done");
-      resu.status(200).send({ message: "Successfully Changed Password" });     }
+        .compare(req.body.oldpassword, getpassres[0].password, function (errr, cresu) {
+          if (cresu) {
+            console.log("Welcome"); console.log(cmmd);
+            console.log("database password ", getpassres[0].password) // res.send("Correct");
+            var Password = bcrypt.hash(req.body.password, 8);
+            var Cpassword = bcrypt.hash(req.body.cpassword, 8);
+            console.log("Password", Password, "CPassword", Cpassword);
+            //   var Password = req.body.password; 
+            //  var Cpassword= req.body.cpassword;
+            var command = 'UPDATE user SET password="' + Password + '",cpassword="' + Cpassword + '" WHERE userid = ' + req.body.userid + '';
+            let data = [true, 1];
+            con.query(command, data, function (error, result) {
+              if (error) {
+                resu.send({ status: false, message: error });
+                console.log(error);
+                throw error;
+              }
+              else {
+                console.log(command);
+                console.log("Done");
+                resu.status(200).send({ message: "Successfully Changed Password" });
+              }
+            })
+          }
+          else {
+            resu.status(200).send({ message: "Some Pls check old password" });
+          }
+
+        }))
   })
-}))
-}); 
-});
+})
+// if()
+// .then(res => {
+
+// }))
+// }); 
+// });
 
 
 // );
@@ -258,19 +277,19 @@ resu.send("Som Err");  }
 // "oldpassword":"admin",
 //     "password":"admin1",
 //     "cpassword":"admin1"
-   
+
 //   var opassword=req.body.oldpassword;
 //     if(getpassres[0].password==opassword){
 //     console.log("cmd",cmmd);
 //     console.log("getpass",getpassres);
 //     // var opassword=bcrypt.hash(req.body.oldpassword,8);
-  
+
 
 //   // let Password = bcrypt.hash(req.body.password, 8);
 //   // let Cpassword=  bcrypt.hash(req.body.cpassword,8)
 //   let Password = req.body.password;
 //   let Cpassword= req.body.cpassword;
-  
+
 //   var command = 'UPDATE user SET password="' + Password + '",cpassword="' + Cpassword + '" WHERE userid = ' + id + '';
 //   let data = [true, 1];
 //   con.query(command, data, function (error, result) {

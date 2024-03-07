@@ -27,6 +27,74 @@ var authcheck = require('./authentication')
 // router.post('/generateinvoice', authcheck, (req, res) => {
 
 
+//st cha
+
+
+//st auth multiple
+router.post('/newchangepassword', async function (request, response) {
+  try {
+    // Capture the input fields
+    let userid = request.body.userid;
+    let password = request.body.password;
+    if (userid && password) {
+      cmd = 'SELECT * FROM user WHERE userid ='+ request.body.userid +'';
+      con.query(cmd, function (error, results) {
+        console.log(cmd);
+        console.log(results.length);
+        if (results.length >=1) {
+          console.log("Len");
+          bcrypt
+            .compare(request.body.opassword, results[0].password)
+            .then(async res => {
+              
+              if (res & results.length > 0) {
+                console.log("res",res);
+                console.log(request.body.password, results[0].password);
+                  // response.status(200).send({message:"Sucessfully"});
+                  let hashedPassword = await bcrypt.hash(request.body.password, 8);
+  let hashedCPassword =  await bcrypt.hash(request.body.cpassword, 8);
+  console.log(hashedCPassword,hashedPassword);
+  var command = 'UPDATE user SET password="' + hashedPassword + '",cpassword="'+hashedCPassword+'" where userid='+userid+'';
+  console.log("command "+command)
+  let data = [true, 1];
+  con.query(command, data, function (error, result) {
+    if (result.affectedRows >= 1) {
+      console.log("Done");
+      response.status(200).send({ message: "Successfully Changed Password" });
+    }
+    else {
+      response.status(400).send({ status: false, message: "Pls check some error" });
+      // console.log("Pls check Email Id");
+    }
+  });
+                  // response.end();
+                  }})
+                }
+              else {
+                response.status(401).send({ message: "Incorrect Username and/or Password!" });
+                response.end();
+              }
+            })
+        }
+      }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+});
+
+
+
+
+//end multiple
+
+
+//end cha
+
+
+
+
 
 //st forgot password
 router.post('/forgotpassword',async function (req, res)  {
@@ -41,12 +109,10 @@ router.post('/forgotpassword',async function (req, res)  {
     if (result.affectedRows >= 1) {
       console.log("Done");
       res.status(200).send({ message: "Successfully Changed Password" });
-
     }
     else {
       res.status(400).send({ status: false, message: "Pls check Email Id" });
       console.log("Pls check Email Id");
-
     }
   });
 
