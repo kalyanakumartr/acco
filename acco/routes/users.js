@@ -5,9 +5,9 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require("nodemailer");
 const jsonwebtoken = require('jsonwebtoken');
 const con = require('../dbconfig');
-const room=require('./room');
-var email=require('./email');
-const logic=require('./logic');
+const room = require('./room');
+var email = require('./email');
+const logic = require('./logic');
 
 const Country = require('country-state-city').Country;
 const State = require('country-state-city').State;
@@ -37,46 +37,51 @@ router.post('/newchangepassword', async function (request, response) {
     let userid = request.body.userid;
     let password = request.body.password;
     if (userid && password) {
-      cmd = 'SELECT * FROM user WHERE userid ='+ request.body.userid +'';
+      cmd = 'SELECT * FROM user WHERE userid =' + request.body.userid + '';
       con.query(cmd, function (error, results) {
         console.log(cmd);
         console.log(results.length);
-        if (results.length >=1) {
+        if (results.length >= 1) {
           console.log("Len");
           bcrypt
             .compare(request.body.opassword, results[0].password)
             .then(async res => {
-              
+
               if (res & results.length > 0) {
-                console.log("res",res);
+                console.log("res", res);
                 console.log(request.body.password, results[0].password);
-                  // response.status(200).send({message:"Sucessfully"});
-                  let hashedPassword = await bcrypt.hash(request.body.password, 8);
-  let hashedCPassword =  await bcrypt.hash(request.body.cpassword, 8);
-  console.log(hashedCPassword,hashedPassword);
-  var command = 'UPDATE user SET password="' + hashedPassword + '",cpassword="'+hashedCPassword+'" where userid='+userid+'';
-  console.log("command "+command)
-  let data = [true, 1];
-  con.query(command, data, function (error, result) {
-    if (result.affectedRows >= 1) {
-      console.log("Done");
-      response.status(200).send({ message: "Successfully Changed Password" });
-    }
-    else {
-      response.status(400).send({ status: false, message: "Pls check some error" });
-      // console.log("Pls check Email Id");
-    }
-  });
-                  // response.end();
-                  }})
-                }
+                // response.status(200).send({message:"Sucessfully"});
+                let hashedPassword = await bcrypt.hash(request.body.password, 8);
+                let hashedCPassword = await bcrypt.hash(request.body.cpassword, 8);
+                console.log(hashedCPassword, hashedPassword);
+                var command = 'UPDATE user SET password="' + hashedPassword + '",cpassword="' + hashedCPassword + '" where userid=' + userid + '';
+                console.log("command " + command)
+                let data = [true, 1];
+                con.query(command, data, function (error, result) {
+                  if (result.affectedRows >= 1) {
+                    console.log("Done");
+                    response.status(200).send({ message: "Successfully Changed Password" });
+                  }
+                  else {
+                    response.status(400).send({ status: false, message: "Pls check some error" });
+                    // console.log("Pls check Email Id");
+                  }
+                });
+                // response.end();
+              }
               else {
                 response.status(401).send({ message: "Incorrect Username and/or Password!" });
                 response.end();
               }
             })
         }
-      }
+        else {
+          response.status(401).send({ message: "Incorrect Username and/or Password!" });
+          response.end();
+        }
+      })
+    }
+  }
   catch (e) {
     console.log("Catch");
     const statusCode = e.statusCoderes || 500;
@@ -97,13 +102,13 @@ router.post('/newchangepassword', async function (request, response) {
 
 
 //st forgot password
-router.post('/forgotpassword',async function (req, res)  {
+router.post('/forgotpassword', async function (req, res) {
   var email = req.body.email;
   // var password = req.body.password;
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
   let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
-  var command = 'UPDATE user SET password="' + hashedPassword + '",cpassword="'+hashedCPassword+'" WHERE email = "' + email + '"';
-  console.log("command"+command)
+  var command = 'UPDATE user SET password="' + hashedPassword + '",cpassword="' + hashedCPassword + '" WHERE email = "' + email + '"';
+  console.log("command" + command)
   let data = [true, 1];
   con.query(command, data, function (error, result) {
     if (result.affectedRows >= 1) {
@@ -393,7 +398,7 @@ router.post('/updateuser', authcheck, function (req, res) {
       // throw error;
     }
     else {
-      res.status(200).send({message:"Successfully update user"});
+      res.status(200).send({ message: "Successfully update user" });
     };
   });
 
@@ -504,7 +509,7 @@ router.post('/updateuserimage', upload.single('images'), createimage)
 router.post('/adduser', async function (req, res) {
   try {
     // console.log("body", req.body);
-  
+
     con.query("select count(email) count from user where email=?", [req.body.email], async (error, result) => {
       console.log("Error", error, result[0].count);
       if (result[0].count > 0) {
@@ -513,55 +518,56 @@ router.post('/adduser', async function (req, res) {
         return;
       }
       else {
-  
-    let hashedPassword = await bcrypt.hash(req.body.password, 8);
-    let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
-    console.log(hashedPassword);
-     var date_ob = new Date();
-    var day = ("0" + date_ob.getDate()).slice(-2);
-    var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    var year = date_ob.getFullYear();
-    var hours = date_ob.getHours();
-    var minutes = date_ob.getMinutes();
-    var seconds = date_ob.getSeconds();
-    var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-    console.log(dateTime);
-    console.log(hashedPassword);
-    var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,pincode,modifieddate,phonenumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, dateTime, req.body.phonenumber, req.body.email, dateTime, req.body.username, hashedPassword, hashedCPassword, 1);
-    console.log(command);
-    con.query(command, function (err, mysqlres1) {
-      if (err) throw err;
-      console.log("Error", err);
-      userid = mysqlres1.insertId
-      console.log(userid);
-      var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid, 1);
-      var commd='up'
-      con.query(command, function (err, mysqlres2) {
-        console.log("role", command);
-        // console.log("proof",command1);
-        if (err) {
-          res.status(401).send({ "message": err });
-        }
-        else {
-          if (req.body.roleid = 3)
-            var cmmd=sprintf('insert into otpstore (userid,name,otptype,status) values (%d,"%s","%s",%d)',userid,req.body.firstname,"email",1);
-          console.log(cmmd);
-            con.query(cmmd,function(oerr,ores){
-              if(oerr) {
-                res.status(401).send({ "message": err });
-              }
-              else {
+
+        let hashedPassword = await bcrypt.hash(req.body.password, 8);
+        let hashedCPassword = await bcrypt.hash(req.body.cpassword, 8);
+        console.log(hashedPassword);
+        var date_ob = new Date();
+        var day = ("0" + date_ob.getDate()).slice(-2);
+        var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        var year = date_ob.getFullYear();
+        var hours = date_ob.getHours();
+        var minutes = date_ob.getMinutes();
+        var seconds = date_ob.getSeconds();
+        var dateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+        console.log(dateTime);
+        console.log(hashedPassword);
+        var command = sprintf('INSERT INTO user (firstname,lastname,address1,address2,city,state,country,pincode,modifieddate,phonenumber,email,createddate,username,password,cpassword,status) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%b)', req.body.firstname, req.body.lastname, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, dateTime, req.body.phonenumber, req.body.email, dateTime, req.body.username, hashedPassword, hashedCPassword, 1);
+        console.log(command);
+        con.query(command, function (err, mysqlres1) {
+          if (err) throw err;
+          console.log("Error", err);
+          userid = mysqlres1.insertId
+          console.log(userid);
+          var command = sprintf('INSERT INTO userrolemap (userid ,roleid,status) VALUES (%d,%d,%b)', userid, req.body.roleid, 1);
+          var commd = 'up'
+          con.query(command, function (err, mysqlres2) {
+            console.log("role", command);
+            // console.log("proof",command1);
+            if (err) {
+              res.status(401).send({ "message": err });
+            }
+            else {
+              if (req.body.roleid = 3)
+                var cmmd = sprintf('insert into otpstore (userid,name,otptype,status) values (%d,"%s","%s",%d)', userid, req.body.firstname, "email", 1);
+              console.log(cmmd);
+              con.query(cmmd, function (oerr, ores) {
+                if (oerr) {
+                  res.status(401).send({ "message": err });
+                }
+                else {
                   res.status(200).send({ message: "Successfully Register" });
-          res.end();
-              }
+                  res.end();
+                }
+              })
+            }
+
+          })
         })
       }
-      
-    })
-  })
-}}
-)
-}
+    }
+    )
+  }
 
   catch (e) {
     console.log("Catch", e.err);
@@ -654,18 +660,18 @@ router.get('/getuser', authcheck, function (req, res) {
 router.post('/addcontact', async function (req, res) {
   try {
     console.log("body", req.body);
-      var command = sprintf('INSERT INTO contactus (name,email,phonenumber,city,message,status) VALUES ("%s","%s","%s","%s","%s",%b)', req.body.name, req.body.email, req.body.phonenumber, req.body.city, req.body.message,  1);
+    var command = sprintf('INSERT INTO contactus (name,email,phonenumber,city,message,status) VALUES ("%s","%s","%s","%s","%s",%b)', req.body.name, req.body.email, req.body.phonenumber, req.body.city, req.body.message, 1);
     console.log(command);
     con.query(command, function (err, mysqlres1) {
-        if (err) {
-          res.status(401).send({ "message": err });
-        }
-        else {
-            res.status(200).send({ message: "Successfully Add" });
-          res.end();
-        }
-      })
-    
+      if (err) {
+        res.status(401).send({ "message": err });
+      }
+      else {
+        res.status(200).send({ message: "Successfully Add" });
+        res.end();
+      }
+    })
+
   }
 
   catch (e) {
@@ -687,7 +693,7 @@ router.get('/getcontact', authcheck, function (req, res) {
         res.send("Unable to get Date ")
       }
       else {
-        res.send({"message":results});
+        res.send({ "message": results });
       }
     })
   }
