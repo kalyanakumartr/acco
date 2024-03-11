@@ -47,46 +47,31 @@ router.post('/auth', async function (request, response) {
     if (username && password) {
       cmd = 'SELECT *FROM user as usr, userrolemap as urm WHERE usr.userid=urm.userid AND username ="' + request.body.username + '"';
       con.query(cmd, function (error, results) {
-        console.log(cmd)
+        console.log(cmd);
+        // console.log(results);
         if (results.length > 0) {
-          bcrypt
-            .compare(request.body.password, results[0].password)
-            .then(res => {
-              if (res & results.length > 0) {
+          try {
+            bcrypt
+              .compare(request.body.password, results[0].password)
+              .then(res => {
+                if (res & results.length > 0) {
 
-                const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
-                // console.log("token", accesstoken);
-                var type = '';
-                if (results[0].roleid == 1) {
-                  type = "Admin"
-                  var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-                  console.log(cdatetime);
-                  console.log(results[0].userid);
-                  console.log(results[0].username);
-                  var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1); con.query(userdetail, function (res, res) {
-                    response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: "Admin Login Sucessfully" });
-                    response.end();
-                  })
-                }
-                else if (results[0].roleid == 2) {
-                  type = "Manager"
-                  var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-
-                  console.log(cdatetime);
-                  console.log(results[0].userid);
-                  console.log(results[0].username);
-
-                  var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
-                  con.query(userdetail, function (res, res) {
-                    // console.log("ma",res);
-                    response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: "Manager Login Sucessfully " });
-                    response.end();
-                  })
-                }
-
-                else if (results[0].roleid == 3) {
-                  type = "Customer"
-                  if (type == "Customer") {
+                  const accesstoken = jsonwebtoken.sign({ username, password }, process.env.ACCESS_TOKEN);
+                  // console.log("token", accesstoken);
+                  var type = '';
+                  if (results[0].roleid == 1) {
+                    type = "Admin"
+                    var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                    console.log(cdatetime);
+                    console.log(results[0].userid);
+                    console.log(results[0].username);
+                    var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1); con.query(userdetail, function (res, res) {
+                      response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: "Admin Login Sucessfully" });
+                      response.end();
+                    })
+                  }
+                  else if (results[0].roleid == 2) {
+                    type = "Manager"
                     var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 
                     console.log(cdatetime);
@@ -95,57 +80,85 @@ router.post('/auth', async function (request, response) {
 
                     var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
                     con.query(userdetail, function (res, res) {
-
-                      response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: " Customer Login Sucessfully " });
+                      // console.log("ma",res);
+                      response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: "Manager Login Sucessfully " });
                       response.end();
                     })
                   }
+
+                  else if (results[0].roleid == 3) {
+                    type = "Customer"
+                    if (type == "Customer") {
+                      var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                      console.log(cdatetime);
+                      console.log(results[0].userid);
+                      console.log(results[0].username);
+
+                      var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
+                      con.query(userdetail, function (res, res) {
+
+                        response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: " Customer Login Sucessfully " });
+                        response.end();
+                      })
+                    }
+                  }
+                  else {
+                    type = "FrontOfficeExecutive"
+                    if (type == "FrontOfficeExecutive") {
+                      var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+
+                      console.log(cdatetime);
+                      console.log(results[0].userid);
+                      console.log(results[0].username);
+
+                      var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
+                      con.query(userdetail, function (res, res) {
+
+                        response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: " FrontOfficeExecutive Login Sucessfully " });
+                        response.end();
+                      })
+                    }
+
+                  }
+
+
                 }
                 else {
-                  type = "FrontOfficeExecutive"
-                  if (type == "FrontOfficeExecutive") {
-                    var cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+                  // response.status(401).send({ message: "Incorrect Username and/or Password!" });
+                  response.status(401).send({ message: "Invalid credentials,please check your username and password" });
 
-                    console.log(cdatetime);
-                    console.log(results[0].userid);
-                    console.log(results[0].username);
 
-                    var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1);
-                    con.query(userdetail, function (res, res) {
-
-                      response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, message: " FrontOfficeExecutive Login Sucessfully " });
-                      response.end();
-                    })
-                  }
-
+                  response.end();
                 }
+                // } else {
+                //   response.status(401).send('Incorrect Username and/or Password!');
+                //   response.end();
+                // }
+              })
 
-
-              }
-              else {
-                // response.status(401).send({ message: "Incorrect Username and/or Password!" });
-                response.status(401).send({ message: "Invalid credentials,please check your username and password" });
-
-                
-                response.end();
-              }
-              // } else {
-              //   response.status(401).send('Incorrect Username and/or Password!');
-              //   response.end();
-              // }
-            })
+          } catch (e) {
+            console.log("Catch");
+            const statusCode = e.statusCoderes || 500;
+            res.status(statusCode, "Error").json({ success: 0, message: "Invalid credentials check username and password pls ", status: statusCode });
+          }
+        }
+        //check
+        else {
+          response.status(401).send({ message: "Invalid credentials,please check your username and password!" });
+          response.end();
         }
       }
       );
     } else {
-      response.status(401).send({ message: 'Invalid credentials,please check your username and password!' });
+      response.status(401).send({ message: "Invalid credentials,please check your username and password!" });
       response.end();
     }
   }
   catch (e) {
     console.log("Catch");
     const statusCode = e.statusCoderes || 500;
-    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+    res.status(statusCode, "Error").json({ success: 0, message: "Invalid credentials check username and password pls ", status: statusCode });
   }
 });
 
