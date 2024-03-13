@@ -499,10 +499,36 @@ router.get('/getmaintenance', function (req, res) {
 
 
 //st get maintenance
-  
+
 
 
 //end get maintenance
+
+// st checkout and status chage housekeep
+router.post('/actualcheckout',(req,res)=>{
+  console.log("Welcome to A Check Out");
+  // update booking set acheckin=' + "'" + req.body.acheckin + "'" + ' WHERE email=' + '"' + req.body.email + '"');
+  command = sprintf('update booking set acheckout=' + '"' + req.body.acheckout + '"'+' ,bookedstatusid='+4+' WHERE bookingid=' + req.body.bookingid + '');
+
+  let data = [true, 1];
+  console.log("after", command);
+  con.query(command, data, function (error, result) {
+    console.log("affectedRows", result.affectedRows);
+    if (result.affectedRows <= 0) {
+      res.send("Check Mail Id");
+      console.log("Check Mail Id");
+     }
+    else {
+      // res.send(result);
+      res.status(200).send("Successfully Actual checkout Update");
+      res.end();
+    }
+  })
+})
+
+
+// end  checkout and status chage housekeep
+
 //st frontoff a checkin
 
 router.post('/oldactualcheckin', authcheck, (req, res) => {
