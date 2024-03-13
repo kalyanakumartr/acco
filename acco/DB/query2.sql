@@ -1,10 +1,13 @@
 INSERT INTO menuitem(productid,menuqty,menudate,status) VALUES (10,20,"2024-02-12",1);
 
+UPDATE otpstore SET otp="566641",otpctime="2024-02-15 12:03:35",otpetime="2024-02-15 12:13:35" WHERE email="muthuslm2006@gmail.com"
+
+
 select * from logic where adult=0
 
 CALL `spgetroom`('2023-12-27', '2023-12-28')
 
-select COUNT(roomname) AS roomcount,rtype ,price,roomname,CONCAT(GROUP_CONCAT(roomid)) AS roomid,CONCAT(GROUP_CONCAT(roomno)) AS roomnos from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2024-04-27' AND '2024-04-28' OR checkout BETWEEN '2024-04-27' AND '2024-04-28')) GROUP BY rtype,price,roomname
+select COUNT(roomname) AS roomcount,rtype ,price,roomname,CONCAT(GROUP_CONCAT(roomid)) AS roomid,CONCAT(GROUP_CONCAT(roomno)) AS roomnos from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2024-02-27' AND '2024-02-28' OR checkout BETWEEN '2024-02-27' AND '2024-02-28')) GROUP BY rtype,price,roomname
 
 select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid,':',roomno)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2024-03-27' AND '2024-03-28' OR checkout BETWEEN '2024-03-27' AND '2024-03-28')) GROUP BY rtype,price,roomname
 
