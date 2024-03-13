@@ -1,0 +1,2404 @@
+{
+	"info": {
+		"_postman_id": "520e1000-e3bb-4319-9dfc-d2020f76d42d",
+		"name": "ACCO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21730236"
+	},
+	"item": [
+		{
+			"name": "adduser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"nagam2\",\r\n    \"lastname\": \"n\",    \r\n    \"address1\":\"51\",\r\n    \"address2\":\"a\",\r\n    \"city\":\"namakkal\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\", \r\n    \"modifieddate\":\"2010-10-24 12:12\",\r\n    \"phonenumber\":\"9876545667\",\r\n    \"email\":\"nagam2@gmail.com\",  \r\n       \"userName\":\"muthu\",\r\n     \"password\":\"muthu\",\r\n     \"cpassword\":\"muthu\",\r\n     \"roleid\":4\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/adduser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"adduser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addmaintenance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"nagam2\",\r\n    \"lastname\": \"n\",    \r\n    \"address1\":\"51\",\r\n    \"address2\":\"a\",\r\n    \"city\":\"namakkal\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\", \r\n    \"modifieddate\":\"2010-10-24 12:12\",\r\n    \"phonenumber\":\"9876545667\",\r\n    \"email\":\"nagam2@gmail.com\",  \r\n       \"userName\":\"muthu\",\r\n     \"password\":\"muthu\",\r\n     \"cpassword\":\"muthu\",\r\n     \"roleid\":4\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/booking/addmaintenance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"addmaintenance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contactus",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Muthalagan\",\r\n    \"email\": \"muthu@stashook.com\",    \r\n    \"phonenumber\":\"98876543\",\r\n    \"city\":\"Namakkal\",\r\n    \"message\":\" Good Service \"\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/addcontact",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"addcontact"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send smsopy",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/sendsms/sendsms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"sendsms",
+						"sendsms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otpgen",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/email/generateOTP?email=muthuslm2006@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"email",
+						"generateOTP"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "muthuslm2006@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "invoice",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/invoice/getpdf?bookid=27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"invoice",
+						"getpdf"
+					],
+					"query": [
+						{
+							"key": "bookid",
+							"value": "27"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otpgen Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/getcontact",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getcontact"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateuser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"uma\",\r\n    \"lastname\": \"b\",    \r\n    \"address1\":\"41\",\r\n    \"address2\":\"a\",\r\n    \"city\":\"namakkal\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\", \r\n    \"phonenumber\":\"9940975265\",\r\n    \"email\":\"arjunuma@gmail.com\"\r\n    \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/updateuser/16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"updateuser",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acheckin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/actualcheckin?bookingid=40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"actualcheckin"
+					],
+					"query": [
+						{
+							"key": "acheckin",
+							"value": "2024-01-27 15:00:00",
+							"disabled": true
+						},
+						{
+							"key": "bhk2count",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "bookingid",
+							"value": "40"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new logic",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/logic/getlogic?adult=10&cin=2024-04-27&cout=2024-04-28",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"logic",
+						"getlogic"
+					],
+					"query": [
+						{
+							"key": "adultcount",
+							"value": "12",
+							"disabled": true
+						},
+						{
+							"key": "adult",
+							"value": "10"
+						},
+						{
+							"key": "cin",
+							"value": "2024-04-27"
+						},
+						{
+							"key": "cout",
+							"value": "2024-04-28"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getlogicwithuserid",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getlogic?adult=12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getlogic"
+					],
+					"query": [
+						{
+							"key": "acheckin",
+							"value": "2024-01-27 15:00:00",
+							"disabled": true
+						},
+						{
+							"key": "bhk2count",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "adult",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getlogicnew",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/logic/getlogic?adult=12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"logic",
+						"getlogic"
+					],
+					"query": [
+						{
+							"key": "acheckin",
+							"value": "2024-01-27 15:00:00",
+							"disabled": true
+						},
+						{
+							"key": "bhk2count",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "adult",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addfood",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fooditemname\":\"Corn Soup\",\r\n    \"foodcategory\": \"Chinese\",    \r\n    \"avilabletime\":\"11 to 11\",\r\n    \"price\":200\r\n    \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/admin/addfooditem",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"admin",
+						"addfooditem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendEmail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"to\":[\"muthu@stashook.com\",\"muthuslm2006@gmail.com\"],\r\n    \"subject\":\"Welcome\",\r\n    \"text\":\"Test\"\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/sendEmail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"sendEmail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otpgen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"muthu@stashook.com\"\r\n   \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/generateOTP",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"generateOTP"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verifyotp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userid\":8,\r\n    \"inputotp\":875523\r\n   \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/verifyOTP",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"verifyOTP"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bookingcancel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/booking/bookingcancel?bookingid=12&userid=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"bookingcancel"
+					],
+					"query": [
+						{
+							"key": "bookingid",
+							"value": "12"
+						},
+						{
+							"key": "userid",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkinconfirm",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookingid\":\"25\",\r\n    \"roomid\":\"1:101,2:202,3:303\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3001/booking/checkinconfirm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"checkinconfirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateuserimage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/stashook/oudatha/BE/oudatha/images/image_1693491580291.jpg"
+						},
+						{
+							"key": "userid",
+							"value": "8",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/updateuserimage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"updateuserimage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "idbookingproof",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/stashook/oudatha/BE/oudatha/images/image_1693491580291.jpg"
+						},
+						{
+							"key": "userid",
+							"value": "8",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/updateuserimage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"updateuserimage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "proofimage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/stashook/oudatha/BE/oudatha/images/image_1693491580291.jpg"
+						},
+						{
+							"key": "userid",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "proofname",
+							"value": "id card",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/userproof",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"userproof"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addtraiff",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/stashook/oudatha/BE/oudatha/images/image_1693491580291.jpg"
+						},
+						{
+							"key": "userid",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "proofname",
+							"value": "id card",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/userproof",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"userproof"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update traiff",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tariffid\":8,\r\n    \"name\":\"kalai\",\r\n    \"price\":1000.00,\r\n    \"tax\":0.0,\r\n    \"discount\":0.0,\r\n    \"totalamount\":1000.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/admin/updatetariff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"admin",
+						"updatetariff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otpgen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/stashook/oudatha/BE/oudatha/images/image_1693491580291.jpg"
+						},
+						{
+							"key": "userid",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "proofname",
+							"value": "id card",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/userproof",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"userproof"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addbooking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userid\":6,\r\n    \"firstname\":\"Muthu\",\r\n    \r\n    \"email\":\"muthu@stashook.com\",\r\n    \"phonenumber\":\"98765432\",\r\n    \"address1\":\"Muthu\",\r\n    \"address2\":\"muthu@stashook.com\",\r\n    \"city\":\"TN\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"TN\",\r\n    \"pincode\":\"55555\",\r\n    \"checkin\":\"2024-01-25 03:00\" ,\r\n    \"checkout\":\"2024-01-28 04:00\",\r\n    \"adults\":\"2\",\r\n    \"child\":\"1\",\r\n    \"roomtype\":\"Service Apartments\",\r\n    \"roomid\":2 ,\r\n    \"noofdays\":2,\r\n    \"price\":1199,\r\n    \"totalprice\":1199,\r\n    \"verificationstatus\":\"ok\"\r\n    \r\n}   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/booking/addbooking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"addbooking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addbooking Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userid\":7,\r\n    \"firstname\":\"Tamil\",\r\n    \"lastname\":\"Test1\",\r\n    \"email\":\"tamil@stashook.com\",\r\n    \"phonenumber\":\"444444\",\r\n    \"address1\":\"Test1\",\r\n    \"address2\":\"Test1\",\r\n    \"city\":\"Test1\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\",\r\n    \"pincode\":\"55555\",\r\n    \"checkin\":\"2023-12-28 03:00\" ,\r\n    \"checkout\":\"2023-12-29 04:00\",\r\n    \"adults\":\"2\",\r\n    \"child\":\"3\",\r\n    \"childage\":[5,8,9],\r\n    \"roomtype\":1,\r\n    \"roomid\":\"4\",\r\n    \"noofdays\":1,\r\n    \"price\":2899,\r\n    \"totalprice\":2899,\r\n      \"verificationstatus\":\"Checked\"\r\n\r\n    \r\n}   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/booking/addbookingwithchild",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"addbookingwithchild"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "roombooked",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"Arjun\",\r\n    \"lastname\":\"Test1\",\r\n    \"email\":\"muthu@stashook.com\",\r\n    \"phonenumber\":\"444444\",\r\n    \"address1\":\"Test1\",\r\n    \"address2\":\"Test1\",\r\n    \"city\":\"Test1\",\r\n    \"state\":\"TN\",\r\n    \"country\":\"India\",\r\n    \"pincode\":\"55555\",\r\n    \"checkin\":\"2023-09-02 03:00\" ,\r\n    \"checkout\":\"2023-10-10 04:00\",\r\n    \"adults\":\"2\",\r\n    \"child\":\"1\",\r\n    \"roomtype\":\"Service Apartments\"\r\n    \r\n}   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/roombooked",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"roombooked"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroomslist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/room/getroomslist?bookingid=25&checkin=2024-03-27&checkout=2024-03-28",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"room",
+						"getroomslist"
+					],
+					"query": [
+						{
+							"key": "bookingid",
+							"value": "25"
+						},
+						{
+							"key": "checkin",
+							"value": "2024-03-27"
+						},
+						{
+							"key": "checkout",
+							"value": "2024-03-28"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getbookingimahe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getuserimage?bookingid=27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getuserimage"
+					],
+					"query": [
+						{
+							"key": "bookingid",
+							"value": "27"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroomslist Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getroomslist?bookingid=76",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getroomslist"
+					],
+					"query": [
+						{
+							"key": "bookingid",
+							"value": "76"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "emailverify",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getroomslist?bookingid=76",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getroomslist"
+					],
+					"query": [
+						{
+							"key": "bookingid",
+							"value": "76"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"accesstoken\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"token\", jsonData.accesstoken);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"admin\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/authentication/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"authentication",
+						"auth"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "auth",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"muthu\",\r\n    \"password\":\"muthu\"\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"auth"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "252"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"fc-g3mg2sjuaHxDUVGeHlvtmu1nVZw\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 07:05:40 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accesstoken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im11dGh1IiwicGFzc3dvcmQiOiJtdXRodSIsImlhdCI6MTcwMTc1OTk0MH0.NT_IAlUfQd_gGUXktpI3tisuPiu-OnKFh-XsGxNNRu8\",\n    \"usertype\": \"Customer\",\n    \"username\": \"muthu\",\n    \"userid\": 6,\n    \"email\": \"muthu@gmail.com\"\n}"
+				}
+			]
+		},
+		{
+			"name": "changepassword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"accesstoken\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"token\", jsonData.accesstoken);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userid\":7,\r\n    \"oldpassword\":\"aadmin\",\r\n    \"password\":\"tamil2\",\r\n    \"cpassword\":\"tamil2\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/newchangepassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"newchangepassword"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "auth",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"muthu\",\r\n    \"password\":\"muthu\"\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"auth"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "252"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"fc-g3mg2sjuaHxDUVGeHlvtmu1nVZw\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 07:05:40 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accesstoken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im11dGh1IiwicGFzc3dvcmQiOiJtdXRodSIsImlhdCI6MTcwMTc1OTk0MH0.NT_IAlUfQd_gGUXktpI3tisuPiu-OnKFh-XsGxNNRu8\",\n    \"usertype\": \"Customer\",\n    \"username\": \"muthu\",\n    \"userid\": 6,\n    \"email\": \"muthu@gmail.com\"\n}"
+				}
+			]
+		},
+		{
+			"name": "forgotpassword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"accesstoken\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"token\", jsonData.accesstoken);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userid\":6,\r\n    \"password\":\"muthu1\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/changepassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"changepassword"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "auth",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"muthu\",\r\n    \"password\":\"muthu\"\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"auth"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "252"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"fc-g3mg2sjuaHxDUVGeHlvtmu1nVZw\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 05 Dec 2023 07:05:40 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accesstoken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im11dGh1IiwicGFzc3dvcmQiOiJtdXRodSIsImlhdCI6MTcwMTc1OTk0MH0.NT_IAlUfQd_gGUXktpI3tisuPiu-OnKFh-XsGxNNRu8\",\n    \"usertype\": \"Customer\",\n    \"username\": \"muthu\",\n    \"userid\": 6,\n    \"email\": \"muthu@gmail.com\"\n}"
+				}
+			]
+		},
+		{
+			"name": "localhost",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get room type",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3001/users/roomtype",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"roomtype"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "searchbookinginfo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3001/booking/searchbookinginfo?bookingid=45&email&phonenumber",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"searchbookinginfo"
+					],
+					"query": [
+						{
+							"key": "bookingid",
+							"value": "45"
+						},
+						{
+							"key": "email",
+							"value": null
+						},
+						{
+							"key": "phonenumber",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "booksample",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3001/users/sample",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"sample"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getguestdetail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getguestdetail/2023-10-28",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getguestdetail",
+						"2023-10-28"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getguestbookingonly",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getguestbookingstatuscancel?checkin=2024-03-27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getguestbookingstatuscancel"
+					],
+					"query": [
+						{
+							"key": "checkin",
+							"value": "2024-03-27"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getuser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getidproofimage",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getbookinguserid",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getuser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getfloor",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getfloor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getfloor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get id proof",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getidproof?bookingid=27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getidproof"
+					],
+					"query": [
+						{
+							"key": "bookingid",
+							"value": "27"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroom",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getroom",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getroom"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroomsplit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getroomsplit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getroomsplit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "oldgetroomslist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/oldgetroomlist?checkin=2023-12-28&checkout=2023-12-29",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"oldgetroomlist"
+					],
+					"query": [
+						{
+							"key": "checkin",
+							"value": "2023-12-28"
+						},
+						{
+							"key": "checkout",
+							"value": "2023-12-29"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroomslist",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getroomslist?cin=2024-03-27&cout=2024-03-28&bookingid=25&adultcount=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getroomslist"
+					],
+					"query": [
+						{
+							"key": "checkin",
+							"value": "2023-12-28",
+							"disabled": true
+						},
+						{
+							"key": "roomtypeid",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "adults",
+							"value": "4",
+							"disabled": true
+						},
+						{
+							"key": "cin",
+							"value": "2024-03-27"
+						},
+						{
+							"key": "cout",
+							"value": "2024-03-28"
+						},
+						{
+							"key": "bookingid",
+							"value": "25"
+						},
+						{
+							"key": "adultcount",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroomslist SP",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/spgetroomlist?checkin=2024-01-13&checkout=2024-01-14&roomtypeid=1&adults=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"spgetroomlist"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "checkin",
+							"value": "2024-01-13"
+						},
+						{
+							"key": "checkout",
+							"value": "2024-01-14"
+						},
+						{
+							"key": "roomtypeid",
+							"value": "1"
+						},
+						{
+							"key": "adults",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findroom",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/findroom",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"findroom"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get trariff",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/gettariff",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"gettariff"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getlogindetail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/authentication/getlogin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"authentication",
+						"getlogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getroom/:floornumber",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/booking/getroom/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"booking",
+						"getroom",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getChargedAmenities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getChargedAmenities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getChargedAmenities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getbhk/:noofbhk",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getbhk/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getbhk",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getfooditem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getfooditem",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getfooditem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getrole",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/getrole",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getrole"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getplacetovisit",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/users/getplacetovisit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getplacetovisit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get booking",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/users/getbooking",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users",
+						"getbooking"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
