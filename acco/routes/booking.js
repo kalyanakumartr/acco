@@ -453,7 +453,7 @@ router.post('/addmaintenance',(req,res)=>{
   console.log("welcome to add maintenance");
   console.log("Body", req.body);
 
-  var command = sprintf('INSERT INTO maintenance (roomid,maintenancetypeid,fromdate,todate,reason,status) VALUES (%d,%d,"%s","%s","%s",%d)', req.body.roomid, req.body.roomtype, req.body.fromdate, req.body.todate, req.body.reason,  1);
+  var command = sprintf('INSERT INTO maintenance (roomid,maintenancetypeid,fromdate,todate,reason,status) VALUES (%d,%d,"%s","%s","%s",%d)', req.body.roomid, req.body.maintenancetypeid, req.body.fromdate, req.body.todate, req.body.reason,  1);
   console.log("after", command);
   con.query(command, function (err, result) {
     if (err) {
@@ -477,6 +477,32 @@ router.post('/addmaintenance',(req,res)=>{
 })
 
 //end add maintenance
+router.get('/getmaintenance', function (req, res) {
+  try {
+    command = 'select * from maintenance ';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+
+//st get maintenance
+  
+
+
+//end get maintenance
 //st frontoff a checkin
 
 router.post('/oldactualcheckin', authcheck, (req, res) => {
