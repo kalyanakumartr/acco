@@ -1,6 +1,7 @@
 CALL `getroomlistsp`('2024-01-13', '2024-01-14', '3', '4')
 
 
+SELECT *,(SELECT statusname FROM STATUS) FROM room WHERE status=statusid;
 
 
 select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) 
