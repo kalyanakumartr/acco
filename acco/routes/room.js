@@ -148,7 +148,7 @@ router.get('/roomtype', function (req, res) {
   //to get roomnumber and bhk when floornumber given
   router.get('/getroom', authcheck, function (req, res) {
     console.log("getroom")
-    var getroom = "SELECT * FROM floorroommapping"
+    var getroom = "SELECT * FROM room"
     con.query(getroom, function (error, result) {
       if (error) {
         console.log(error);
@@ -160,6 +160,25 @@ router.get('/roomtype', function (req, res) {
     });
   });
   
+
+//to get roomnumber and bhk when floornumber given
+router.get('/getfloorroommapping', authcheck, function (req, res) {
+  console.log("getroom")
+  var getroom = "SELECT * FROM floorroommapping"
+  con.query(getroom, function (error, result) {
+    if (error) {
+      console.log(error);
+      res.send("Unable to get data");
+    }
+    else {
+      res.send(result);
+    }
+  });
+});
+
+
+
+
 
 //get room split
 router.get('/getroomsplit', authcheck, function (req, res) {

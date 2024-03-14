@@ -67,7 +67,7 @@ router.post('/auth', async function (request, response) {
                     console.log(results[0].username);
                     var userdetail = sprintf('insert into logindetail (userid,username,logindatetime,usertype,status) VALUES (%d,"%s","%s","%s",%b)', results[0].userid, results[0].username, cdatetime, type, 1); con.query(userdetail, function (res, res) {
                       response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, 
-                        email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, 
+                        email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, lastname: results[0].lastname, roleid: results[0].roleid, 
                         address1:results[0].address1,address2:results[0].address2,
                         city:results[0].city,state:results[0].state,country:results[0].country,
                         pincode:results[0].pincode,
@@ -87,7 +87,7 @@ router.post('/auth', async function (request, response) {
                     con.query(userdetail, function (res, res) {
                       // console.log("ma",res);
                       response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, 
-                        email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, 
+                        email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, lastname: results[0].lastname, roleid: results[0].roleid, 
                         address1:results[0].address1,address2:results[0].address2,
                         city:results[0].city,state:results[0].state,country:results[0].country,
                         pincode:results[0].pincode,
@@ -109,7 +109,7 @@ router.post('/auth', async function (request, response) {
                       con.query(userdetail, function (res, res) {
 
                         response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, 
-                          email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, 
+                          email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, lastname: results[0].lastname, roleid: results[0].roleid, 
                           address1:results[0].address1,address2:results[0].address2,
                           city:results[0].city,state:results[0].state,country:results[0].country,
                           pincode:results[0].pincode,
@@ -131,7 +131,7 @@ router.post('/auth', async function (request, response) {
                       con.query(userdetail, function (res, res) {
 
                         response.status(200).send({ accesstoken: accesstoken, usertype: type, username: results[0].username, userid: results[0].userid, 
-                          email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, roleid: results[0].roleid, 
+                          email: results[0].email, phonenumber: results[0].phonenumber, firstname: results[0].firstname, lastname: results[0].lastname, roleid: results[0].roleid, 
                           address1:results[0].address1,address2:results[0].address2,
                           city:results[0].city,state:results[0].state,country:results[0].country,
                           pincode:results[0].pincode,
