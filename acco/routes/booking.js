@@ -520,7 +520,7 @@ router.post('/roomavilable',(req,res)=>{
      }
     else {
       // res.send(result);
-      res.status(200).send("Successfully Change Room Avilable Now");
+      res.status(200).send({message:"Successfully Change Room Avilable Now"});
       res.end();
     }
   });
