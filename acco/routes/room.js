@@ -148,9 +148,10 @@ router.get('/roomtype', function (req, res) {
   //to get roomnumber and bhk when floornumber given
   router.get('/getroom', authcheck, function (req, res) {
     console.log("getroom")
-    var getroom = "SELECT *,(SELECT statusname FROM status WHERE statusid=status) AS statusname FROM room"
+    var getroom = ('SELECT *,(SELECT statusname FROM status WHERE statusid=status and stastustype="room") AS statusname FROM room');
     con.query(getroom, function (error, result) {
       if (error) {
+
         console.log(error);
         res.send("Unable to get data");
       }

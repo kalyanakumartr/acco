@@ -539,18 +539,21 @@ router.post('/roomavilable',(req,res)=>{
 router.post('/actualcheckout',(req,res)=>{
   console.log("Welcome to A Check Out");
   // update booking set acheckin=' + "'" + req.body.acheckin + "'" + ' WHERE email=' + '"' + req.body.email + '"');
-  command = sprintf('update booking set acheckout=' + '"' + req.body.acheckout + '"'+' ,bookedstatusid='+4+' WHERE bookingid=' + req.body.bookingid + '');
+  command = sprintf('update booking set acheckout="2024-03-15 15:00:00" ,bookedstatusid=(SELECT statusname from status where statusid=4) WHERE bookingid=80');
+
+    // 'update booking set acheckout=' + '"' + req.body.acheckout + '"'+' ,bookedstatusid='+4+' WHERE bookingid=' + req.body.bookingid + '');
 
   let data = [true, 1];
   console.log("after", command);
   con.query(command, data, function (error, result) {
     console.log("affectedRows", result.affectedRows);
     if (result.affectedRows <= 0) {
-      res.send("Check Mail Id");
-      console.log("Check Mail Id");
+      res.send("Check Booking Id");
+      console.log("Check Booking Id");
      }
     else {
       // res.send(result);
+      // cmd='update set 
       res.status(200).send("Successfully Actual checkout Update");
       res.end();
     }
