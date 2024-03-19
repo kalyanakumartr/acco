@@ -554,7 +554,7 @@ router.post('/actualcheckout',(req,res)=>{
     else {
       // res.send(result);
       // cmd='update set 
-      res.status(200).send("Successfully Actual checkout Update");
+      res.status(200).send({message:"Successfully Actual checkout Update"});
       res.end();
     }
   })
