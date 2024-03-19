@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 
 
-// const { createInvoice } = require("./invoice.js");
+//  const { createInvoice } = require("./invoicesample.js");
 
 // const invoice = {
 //   shipping: {
@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
 //   invoice_nr: 1234
 // };
 
-// // createInvoice(invoice);
+// createInvoice();
 
 // module.exports = router,createInvoice;
 module.exports = router

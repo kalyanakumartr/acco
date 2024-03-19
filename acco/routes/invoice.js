@@ -6,53 +6,52 @@ const con = require('../dbconfig');
 
 var router = express.Router();
 const invoice = {
-    
-  shipping: {
-    name: "John Doe",
-    address: "1234 Main Street",
-    city: "San Francisco",
-    state: "CA",
-    country: "US",
-    postal_code: 94111
-  },
-  items: 
+
+    shipping: {
+        name: "John Doe",
+        address: "1234 Main Street",
+        city: "San Francisco",
+        state: "CA",
+        country: "US",
+        postal_code: 94111
+    },
+    items:
     {
-      Checkin: "2024-8-2",
-      Checkout: "2024-8-4",
-      Description: "Toner Cartridge",
-      TotalDays: 2,
-      flat2BHK:1,
-      flat3BHK:2,
-      extrabed:1,
-      Subtotal:2000
+        Checkin: "2024-8-2",
+        Checkout: "2024-8-4",
+        Description: "Toner Cartridge",
+        TotalDays: 2,
+        flat2BHK: 1,
+        flat3BHK: 2,
+        extrabed: 1,
+        Subtotal: 2000
 
     },
-  
-  subtotal: 2000,
-  Maintenance:200,
-  discount:24,
-  GST: 23,
-  invoice_nr: 1234
+
+    subtotal: 2000,
+    Maintenance: 200,
+    discount: 24,
+    GST: 23,
+    invoice_nr: 1234
 };
 
 
-function invoice2(req,res){
-    var cmd=`CALL getbookingdetailwithbookingid(?)`;
-    bookid= req.query.bookid;
+function invoice2(req, res) {
+    var cmd = `CALL getbookingdetailwithbookingid(?)`;
+    bookid = req.query.bookid;
     con.query(cmd, [bookid], function (err, result) {
-     if(err)
-     {
-         res.send("Some Error");
-     }
-     else{
-     console.log(result);
-     "Firstname", result.firstname,
-     "LastName",result.lastname 
-         //  address: "1234 Main Street",
-    //  city: "San Francisco",
-     }
- 
-})
+        if (err) {
+            res.send("Some Error");
+        }
+        else {
+            console.log(result);
+            "Firstname", result.firstname,
+                "LastName", result.lastname
+            //  address: "1234 Main Street",
+            //  city: "San Francisco",
+        }
+
+    })
 }
 
 
@@ -64,81 +63,117 @@ function invoice2(req,res){
 
 
 // router.get('/getpdf',function createInvoice(invoice) {
-   
-router.get('/getpdf',function (req,res) {
 
-    var cmd=`CALL getbookingdetailwithbookingid(?)`;
-   bookid= req.query.bookid;
-   con.query(cmd, [bookid], function (err, result) {
-    if(err)
-    {
-        res.send("Some Error");
-    }
-    else{
-    console.log(result);
-    // console.log("res",res);
-    console.log("Welcome to PDF Create");
-    let doc = new PDFDocument({ size: "A4", margin: 50 });
-        // result[0].bookingid;
-        head(doc,invoice2);
-    generateHeader(doc);
-    generateCustomerInformation(doc, invoice);
-    generateInvoiceTable(doc, invoice);
-    generateFooter(doc);
-// res.send("Done")
- 
-    doc.end();  
-    
-    // doc.pipe(fs.createWriteStream('storehere'));
-    doc.pipe(fs.createWriteStream(`/invoice/${Date.now()}`+'Invoice.pdf'));
-    res.send("Done");
-    // router.();
-    }
-})
+router.get('/getpdf', function (req, res) {
+
+    // var cmd=`CALL getbookingdetailwithbookingid(?)`;
+
+    cname = req.query.name;
+    add1 = req.query.address1;
+    add2 = req.query.address2;
+    city = req.query.city;
+    state = req.query.state;
+    country = req.query.country;
+    phone = req.query.phonenumber;
+    pincode = req.query.pincode;
+
+    bookid = req.query.bookid;
+    bookingdate = req.query.date;
+    cin = req.query.checkin;
+    cout = req.query.Checkout;
+    cintime = req.query.checkintime;
+    couttime = req.query.checkouttime;
+    flatno = req.query.flatnumber;
+    flattype = req.query.flattype;
+    noofdays = req.query.noofdays;
+
+    subtotal = req.query.subtotal;
+    maintenance = req.query.maintenance;
+    discount = req.query.discount;
+    total = req.query.total;
+    gst = req.query.gst;
+    nettotal = req.query.nettotal;
+
+
+
+
+
+
+
+
+    con.query(cmd, [bookid], function (err, result) {
+        if (err) {
+            res.send("Some Error");
+        }
+        else {
+            console.log(result);
+            // console.log("res",res);
+            console.log("Welcome to PDF Create");
+            let doc = new PDFDocument({ size: "A4", margin: 50 });
+            // result[0].bookingid;
+            // head(doc,invoice2);
+            generateHeader(doc);
+            generateCustomerInformation(doc, invoice);
+            generateInvoiceTable(doc, invoice);
+            generateFooter(doc);
+            //  res.send("Done")
+
+            doc.end();
+
+            //  doc.pipe(fs.createWriteStream('storehere'));
+            doc.pipe(fs.createWriteStream(`/invoice/${Date.now()}` + 'Invoice.pdf'));
+            res.send("Done");
+            // router.();
+        }
+    })
 });
-function head(doc){
-    var cmd=`CALL getbookingdetailwithbookingid(?)`;
-//    bookid= reqq.query.bookid;
-console.log(bookid);
-   con.query(cmd, [bookid], function (err, result) {
-    console.log(bookid);
-    // if(err)
-    // {
-        // ress.send("Some Error");
-    // }
-    // else{
-        console.log("Else part",invoice2.firstname);
-        // ress.send(result);
-        doc
-        .text(invoice2.firstname, 60, 40, { align: 'right' });
-        
-        // .moveDown();
+// function head(doc){
+//     var cmd=`CALL getbookingdetailwithbookingid(?)`;
+// //    bookid= reqq.query.bookid;
+// console.log(bookid);
+//    con.query(cmd, [bookid], function (err, result) {
+//     console.log(bookid);
+//     // if(err)
+//     // {
+//         // ress.send("Some Error");
+//     // }
+//     // else{
+//         console.log("Else part",invoice2.firstname);
+//         // ress.send(result);
+//         doc
+//         .text(invoice2.firstname, 60, 40, { align: 'right' });
 
-    // }
-})
-}
+//         // .moveDown();
+
+//     // }
+// })
+// }
 
 function generateHeader(doc) {
     doc
-        .image("D:\\acco\\acco\\acco\\img\\index_logo.jpg", 50, 45, { width: 200 })
+        .image("C:/backendAcco/acco/acco/img/index_logo.jpg", 190, 35, { width: 200 }, { align: 'center' })
+    doc.text('No.37,Bharathi St,Thiruvaikovil,near TST bus co,Trichy-620005,Ph-7373826373', 28, 100, { align: 'center' })
         // .fillColor("#444444")
         // .fontSize(20)
         // .text("ACME Inc.", 110, 57)
         // .fontSize(10)
         // .text('No.37,Bharathi St', 60, 40, { align: 'right' })
-        .text('Thiruvaikovil', 70, 55, { align: 'right' })
-        .text('(near TST bus co)', 70, 70, { align: 'right' })
-        .text('Trichy-620005', 80, 85, { align: 'right' })
-        .text('Ph-7373826373', 90, 100, { align: 'right' })
+        // .text('Thiruvaikovil', 70, 55, { align: 'right' })
+        // .text('(near TST bus co)', 70, 70, { align: 'right' })
+        // .text('Trichy-620005', 80, 85, { align: 'right' })
+        // .text('Ph-7373826373', 90, 100, { align: 'right' })
 
         .moveDown();
 }
 
-function generateCustomerInformation(doc, invoice) {
+function generateCustomerInformation(doc,) {
     doc
-        .fillColor("#444444")
+        .fillColor("#964B00")
         .fontSize(20)
-        .text("Invoice", 50, 160);
+        .text("HEMA HOLDING", 50, 125, { align: 'center' });
+    doc.fillColor("#444444")
+        .fontSize(20)
+        .text("Invoice", 50, 150, { align: 'center' });
 
     generateHr(doc, 185);
 
@@ -146,13 +181,44 @@ function generateCustomerInformation(doc, invoice) {
 
     doc
         .fontSize(10)
-        .text("Invoice Number:", 50, customerInformationTop)
-        
-        .font("Helvetica-Bold")
-        .text(invoice.invoice_nr, 150, customerInformationTop)
-        .font("Helvetica")  
-        .text("Invoice Date:", 50, customerInformationTop + 15)
-        .text(formatDate(new Date()), 150, customerInformationTop + 15)
+        .text("Customer Name", 50, customerInformationTop)
+        .font("Helvetica")
+        .text(cname, 100, customerInformationTop)
+        .font("Helvetica")
+
+        .text("address", 50, customerInformationTop + 15)
+        .font("Helvetica")
+        .text(add1, 100, customerInformationTop + 15)
+        .font("Helvetica")
+
+        .text("address2", 50, customerInformationTop + 30)
+        .font("Helvetica")
+        .text(add2, 100, customerInformationTop + 30)
+        .font("Helvetica")
+
+        .text("city", 50, customerInformationTop + 45)
+        .font("Helvetica")
+        .text(city, 100, customerInformationTop + 45)
+        .font("Helvetica")
+
+        .text("state-pincode", 50, customerInformationTop + 60)
+        .font("Helvetica")
+        .text(state - pincode, 100, customerInformationTop + 60)
+        .font("Helvetica")
+
+        .text("country", 50, customerInformationTop + 75)
+        .font("Helvetica")
+        .text(country, 100, customerInformationTop + 75)
+        .font("Helvetica")
+
+        .text("Phone number", 50, customerInformationTop + 90)
+        .font("Helvetica")
+        .text(phone, 100, customerInformationTop + 90)
+        .font("Helvetica")
+
+        .text("PV CardNo.", 50, customerInformationTop + 105)
+        .font("Helvetica")
+        // .text(formatDate(new Date()), 150, customerInformationTop + 15)
         // .text("Balance Due:", 50, customerInformationTop + 30)
         // .text(
         //     formatCurrency(invoice.subtotal - invoice.paid),
@@ -160,151 +226,145 @@ function generateCustomerInformation(doc, invoice) {
         // customerInformationTop + 30
 
 
-        .font("Helvetica-Bold")
-        .text(invoice.name, 300, customerInformationTop)
-        // .text(invoice.shipping.name, 300, customerInformationTop)
         .font("Helvetica")
-        .text(invoice.address,300, customerInformationTop + 15)
-        // .text(invoice.shipping.address, 300, customerInformationTop + 15)
-        .text(
-            // invoice.shipping.city +
-            invoice.city +
-            ", " +
-            // invoice.shipping.state +
-            invoice.state +
-            ", " +
-            // invoice.shipping.country,
-            invoice.country,
-            300,
-            customerInformationTop + 30
-        )
+        .text("Bill No.:  ", bookid, 350, customerInformationTop)
+        .font("Helvetica")
+        .text("Bill Date:  ", bookingdate, 350, customerInformationTop + 15)
+        .font("Helvetica")
+        .text("Check-in time:", cintime, 350, customerInformationTop + 30)
+        .font("Helvetica")
+        .text("Check-in Date:", cin, 350, customerInformationTop + 45)
+        .font("Helvetica")
+        .text("Check-out time:", couttime, 350, customerInformationTop + 60)
+        .font("Helvetica")
+        .text("Check-out Date:", cout, 350, customerInformationTop + 75)
+        .font("Helvetica")
+        .text("No.of pax", 350, customerInformationTop + 90)
+        .font("Helvetica")
+        .text("Flat no.  ", flatno, 350, customerInformationTop + 105)
+        .font("Helvetica")
+        .text("Flat type:  ", flattype, 350, customerInformationTop + 120)
+        .font("Helvetica")
+        .text("No.of days: ", noofdays, 350, customerInformationTop + 135)
+
+        // .text(
+        //     invoice.shipping.city +
+        //     ", " +
+        //     invoice.shipping.state +
+        //     ", " +
+        //     invoice.shipping.country,
+        //     300,
+        //     customerInformationTop + 30
+        // )
         .moveDown();
 
-    generateHr(doc, 252);
+    generateHr(doc, 360);
 }
 
-function generateInvoiceTable(doc, invoice) {
+function generateInvoiceTable(doc,) {
     let i;
-    const invoiceTableTop = 300;
+    const invoiceTableTop = 370;
 
     doc.font("Helvetica-Bold");
     generateTableRow(
         doc,
         invoiceTableTop,
-        "Checkin",
-        "Checkout",
-        "2BHK",
-        "3BHK",
-        "Extra Bed",
-        "Total Days",
-        "Sub-total",
+        "Particulars",
+        "Tariff",
+        "No.of days",
+        "Total",
+
     );
     generateHr(doc, invoiceTableTop + 20);
     doc.font("Helvetica");
-// invoice.items
-    const item = invoice.items;
-    const position = invoiceTableTop + 40;
-    generateTableRow(
 
+    const position = invoiceTableTop + 35;
+    generateTableRow(
         doc,
         position,
-        
-        
-        // Checkin,
-        // result[0].checkin,
-        // item.Checkin,
-        item.Checkout,
-        item.flat2BHK,
-        item.flat3BHK,
-        item.extrabed,
-        item.TotalDays,
-        item.Subtotal
+        "Subtotal",
+        subtotal,
+        noofdays,
+        'main*days'
 
-        // invoice.Checkin,
-        // invoice.Checkout,
-        // invoice.flat2BHK,
-        // invoice.flat3BHK,
-        // invoice.extrabed,
-        // invoice.TotalDays,
-        // invoice.Subtotal
+    );
+    generateTableRow(
+        doc,
+        position + 20,
+        'Maintenance',
+        maintenance,
+        noofdays,
+        'main*days'
 
-
-
-
-        //   formatCurrency(item.amount),
+    );
+    generateTableRow(
+        doc,
+        position + 40,
+        'Discount',
+        discount,
+        noofdays,
+        'dis*days'
 
     );
 
-    generateHr(doc, position + 20);
+
+    generateHr(doc, position + 60);
 
 
-    const subtotalPosition = invoiceTableTop + 70;
+    const subtotalPosition = position + 80;
     doc.font("Helvetica-Bold");
     generateTableRow(
         doc,
-        subtotalPosition + 10,
+        subtotalPosition,
         "",
         "",
-        "Subtotal",
+        "Total",
         "",
-        invoice.subtotal
+        total
     );
 
-    const paidToDatePosition = subtotalPosition + 35;
+    const paidToDatePosition = subtotalPosition + 20;
     doc.font("Helvetica-Bold");
     generateTableRow(
         doc,
         paidToDatePosition,
         "",
         "",
-        "Maintenance",
-        "",
-        invoice.maintenance
-    );
-
-    const duePosition = paidToDatePosition + 25;
-    doc.font("Helvetica-Bold");
-    generateTableRow(
-        doc,
-        duePosition,
-        "",
-        "",
-        "Discount",
-        "",
-       invoice.discount
-    );
-
-    const GstPosition = duePosition + 20;
-    generateTableRow(
-        doc,
-        GstPosition,
-        "",
-        "",
         "GST",
         "",
-        invoice.GST
+        gst
     );
-
-    const totalPosition = GstPosition + 20;
+    const totalPosition = paidToDatePosition + 20;
     generateTableRow(
         doc,
         totalPosition,
         "",
         "",
-        "Total",
+        "Net-Total",
         "",
-        formatCurrency((invoice.subtotal + invoice.maintenance + invoice.GST) - invoice.discount)
+        nettotal
     );
     doc.font("Helvetica");
+    generateHr(doc, position + 60);
+
 }
 
 function generateFooter(doc) {
+    doc
+        .font("Helvetica-Bold")
+        .text("Guest's Signature", 50, 650)
+    doc
+        .font("Helvetica-Bold")
+        .text("Guest Relation Co-ordinator", 400, 650)
+    doc
+        .font("Helvetica-Bold")
+        .text("For Hema Holdings", 420, 670)
     doc
         .fontSize(10)
         .text(
             "Thanks for choosing Maduraa Services,Good day.",
             50,
-            780,
+            775,
             { align: "center", width: 500 }
         );
 }
@@ -312,25 +372,21 @@ function generateFooter(doc) {
 function generateTableRow(
     doc,
     y,
-    Checkin,
-    Checkout,
-    Description,
-    TotalDays,
-    Discount,
-    Maintenance,
-    Subtotal
+    Particulars,
+    Tariff,
+    NoofDays,
+    Total,
+
 ) {
     doc
         .fontSize(10)
-        .text(Checkin, 70, y)
-        .text(Checkout, 140, y)
-        .text(Description, 210, y)
-        .text(TotalDays, 280, y)
-        .text(Discount, 350, y)
-        .text(Maintenance, 420, y)
-        .text(Subtotal, 500, y);
+        .text(Particulars, 90, y)
+        .text(Tariff, 210, y)
+        .text(NoofDays, 330, y)
+        .text(Total, 450, y)
 
 }
+
 
 function generateHr(doc, y) {
     doc
@@ -357,7 +413,7 @@ function formatDate(date) {
 //     createInvoice
 // };
 
-module.exports=router;
+module.exports = router;
 
 
 
