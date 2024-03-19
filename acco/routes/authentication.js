@@ -91,7 +91,7 @@ router.post('/auth', async function (request, response) {
                         address1:results[0].address1,address2:results[0].address2,
                         city:results[0].city,state:results[0].state,country:results[0].country,
                         pincode:results[0].pincode,
-                        message: "Admin Login Sucessfully" });
+                        message: "Manager Login Sucessfully" });
                       response.end();
                     })
                   }
@@ -113,7 +113,7 @@ router.post('/auth', async function (request, response) {
                           address1:results[0].address1,address2:results[0].address2,
                           city:results[0].city,state:results[0].state,country:results[0].country,
                           pincode:results[0].pincode,
-                          message: "Admin Login Sucessfully" });
+                          message: "Customer Login Sucessfully" });
                         response.end();
                       })
                     }
@@ -135,7 +135,7 @@ router.post('/auth', async function (request, response) {
                           address1:results[0].address1,address2:results[0].address2,
                           city:results[0].city,state:results[0].state,country:results[0].country,
                           pincode:results[0].pincode,
-                          message: "Admin Login Sucessfully" });
+                          message: "FOE Login Sucessfully" });
                         response.end();
                       })
                     }

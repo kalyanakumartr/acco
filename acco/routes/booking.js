@@ -275,8 +275,8 @@ router.post('/bookingcancel', authcheck, function (req, res) {
 router.post('/addbookingwithchild', function (req, res) {
   try {
     // console.log("Body", req.body);
-
-    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,bhk1count,bhk2count,bhk3count,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,bed,noofdays,price,totalprice,bookedstatusid,verificationstatus,status) VALUES   (%d,%d,%d,%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s",%b)', req.body.userid, req.body.modeoftypeid,req.body.bhk1count, req.body.bhk2count, req.body.bhk3count, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.bed, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus, 1);
+    img="image.jpg";
+    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,bhk1count,bhk2count,bhk3count,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,bed,noofdays,price,totalprice,bookedstatusid,verificationstatus,imageUrl,status) VALUES   (%d,%d,%d,%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s","%s",%b)', req.body.userid, req.body.modeoftypeid,req.body.bhk1count, req.body.bhk2count, req.body.bhk3count, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.bed, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus,img ,1);
 
     console.log("after", command);
 

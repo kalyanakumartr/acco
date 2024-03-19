@@ -199,7 +199,7 @@ router.get('/getguestbookingstatuscancel', function (req, res) {
 
 //st get guest detail
 
-router.get('/getguestdetail', authcheck, function (req, res) {
+router.get('/getguestdetail', function (req, res) {
   try {
     // sdate=req.params.checkin
     console.log("query", req.query.checkin);
