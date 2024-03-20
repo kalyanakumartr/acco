@@ -538,11 +538,7 @@ router.post('/roomavilable',(req,res)=>{
 // st checkout and status chage housekeep
 router.post('/actualcheckout',(req,res)=>{
   console.log("Welcome to A Check Out");
-  // update booking set acheckin=' + "'" + req.body.acheckin + "'" + ' WHERE email=' + '"' + req.body.email + '"');
-  command = sprintf('update booking set acheckout="2024-03-15 15:00:00" ,bookedstatusid=(SELECT statusname from status where statusid=4) WHERE bookingid=80');
-
-    // 'update booking set acheckout=' + '"' + req.body.acheckout + '"'+' ,bookedstatusid='+4+' WHERE bookingid=' + req.body.bookingid + '');
-
+  command = sprintf('update booking set acheckout=' + '"' + req.body.acheckout + '"'+' ,bookedstatusid='+4+' WHERE bookingid=' + req.body.bookingid + '');
   let data = [true, 1];
   console.log("after", command);
   con.query(command, data, function (error, result) {
@@ -550,14 +546,16 @@ router.post('/actualcheckout',(req,res)=>{
     if (result.affectedRows <= 0) {
       res.send("Check Booking Id");
       console.log("Check Booking Id");
-     }
-    else {
-      // res.send(result);
-      // cmd='update set 
-      res.status(200).send({message:"Successfully Actual checkout Update"});
-      res.end();
-    }
-  })
+     }     else {
+      cmdd='call updateroomsstatus(?,?)';
+    console.log(cmdd);
+    con.query(cmdd,[req.body.bookingid,req.body.statusid], function (err, result) {
+      if (err) {
+        res.send("No Data");
+      }       else {
+        console.log()
+      res.status(200).send({message:"Successfully Actual checkout Update and Room Staus changed "});
+    }   });   }}    )
 })
 
 
