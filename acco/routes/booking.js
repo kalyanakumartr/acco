@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const nodemailer = require("nodemailer");
+const { captureRejectionSymbol } = require('events');
 
 
 
@@ -17,22 +18,22 @@ const nodemailer = require("nodemailer");
 router.get('/getimage', function (req, res) {
   var getresisterQ = "SELECT imageUrl FROM booking WHERE bookingid=" + req.query.bookingid;
   con.query(getresisterQ, function (error, result) {
-    console.log("len",result.length);
+    console.log("len", result.length);
     // if (result.length<=1){
-     if(error){
-            console.log(error);
+    if (error) {
+      console.log(error);
       res.send("Unable to get data");
     }
-    else{
-      
-        console.log("userimage", result);
-        const imagefile = fs.readFileSync('C:/images/' + result[0].imageUrl);
-        const bl = Buffer.from(imagefile, 'binary');
-        res.send({ "FileName1": result[0].imageUrl, "file": bl });
-      
+    else {
+
+      console.log("userimage", result);
+      const imagefile = fs.readFileSync('C:/images/' + result[0].imageUrl);
+      const bl = Buffer.from(imagefile, 'binary');
+      res.send({ "FileName1": result[0].imageUrl, "file": bl });
+
     }
-  // }
-    
+    // }
+
   });
 });
 
@@ -56,8 +57,8 @@ router.post('/checkinconfirm', function (req, res) {
     console.log("aff", result.affectedRows);
     if (result.affectedRows >= 1) {
 
-      res.status(200).send({message:"Successfully Confirm Booking"});
-    
+      res.status(200).send({ message: "Successfully Confirm Booking" });
+
       //else
     }
     else {
@@ -67,9 +68,6 @@ router.post('/checkinconfirm', function (req, res) {
   });
 
 })
-
-
-
 //end checkinconfirm 
 
 
@@ -242,6 +240,7 @@ router.post('/actualcheckin', function (req, res) {
 
 
 router.post('/bookingcancel', authcheck, function (req, res) {
+  try{
   console.log("Welcome to cancel Room Book");
   // var id = req.query.bookingid;
   // var uid = req.query.userid;
@@ -256,27 +255,34 @@ router.post('/bookingcancel', authcheck, function (req, res) {
       // throw error;
     }
     else {
-      res.status(200).send({message:"Successfully Booking Cancel"});
-    };
-  });
-
-})
+      cmdd = 'call updateroomsstatus(?,?)';
+      console.log(cmdd);
+      con.query(cmdd, [req.body.bookingid, req.body.statusid], function (err, result) {
+        if (err) {
+          res.send("No Data");
+        } else {
+          console.log("Done")
+          res.status(200).send({ message: "Successfully  Room Cancel " });
+        }
+      // res.status(200).send({ message: "Successfully Booking Cancel" });
+    });
+  }
+});
+  }
+  catch (e) {
+    console.log("Catch", e);
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+});
 
 //end cancel booking with userid
-
-
-
-
-
-
-
-
 //add booking with child age
 router.post('/addbookingwithchild', function (req, res) {
   try {
     // console.log("Body", req.body);
-    img="image.jpg";
-    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,bhk1count,bhk2count,bhk3count,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,bed,noofdays,price,totalprice,bookedstatusid,verificationstatus,imageUrl,status) VALUES   (%d,%d,%d,%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s","%s",%b)', req.body.userid, req.body.modeoftypeid,req.body.bhk1count, req.body.bhk2count, req.body.bhk3count, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.bed, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus,img ,1);
+    img = "image.jpg";
+    var command = sprintf('INSERT INTO booking (userid,modeoftypeid,bhk1count,bhk2count,bhk3count,firstname,lastname,email,phonenumber,address1,address2,city,state,country,pincode,checkin,checkout,adults,child,childage,roomtype,bed,noofdays,price,totalprice,bookedstatusid,verificationstatus,imageUrl,status) VALUES   (%d,%d,%d,%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s",%d,%d,"%s","%s","%s",%b)', req.body.userid, req.body.modeoftypeid, req.body.bhk1count, req.body.bhk2count, req.body.bhk3count, req.body.firstname, req.body.lastname, req.body.email, req.body.phonenumber, req.body.address1, req.body.address2, req.body.city, req.body.state, req.body.country, req.body.pincode, req.body.checkin, req.body.checkout, req.body.adults, req.body.child, req.body.childage, req.body.roomtype, req.body.bed, req.body.noofdays, req.body.price, req.body.totalprice, 1, req.body.verificationstatus, img, 1);
 
     console.log("after", command);
 
@@ -448,26 +454,26 @@ router.post('/addbooking', function (req, res) {
 
 //st add maintenance
 
-router.post('/addmaintenance',(req,res)=>{
-  try{
-  console.log("welcome to add maintenance");
-  console.log("Body", req.body);
+router.post('/addmaintenance', (req, res) => {
+  try {
+    console.log("welcome to add maintenance");
+    console.log("Body", req.body);
 
-  var command = sprintf('INSERT INTO maintenance (roomid,maintenancetypeid,fromdate,todate,reason,status) VALUES (%d,%d,"%s","%s","%s",%d)', req.body.roomid, req.body.maintenancetypeid, req.body.fromdate, req.body.todate, req.body.reason,  1);
-  console.log("after", command);
-  con.query(command, function (err, result) {
-    if (err) {
-      console.log(err);
-      res.send({ status: false, message: err });
-    }
-    else {
-      console.log(result);
-      res.status(200).send({ "message": "maintenance Added Successfully" });
-      res.end();
-    }
-  })
+    var command = sprintf('INSERT INTO maintenance (roomid,maintenancetypeid,fromdate,todate,reason,status) VALUES (%d,%d,"%s","%s","%s",%d)', req.body.roomid, req.body.maintenancetypeid, req.body.fromdate, req.body.todate, req.body.reason, 1);
+    console.log("after", command);
+    con.query(command, function (err, result) {
+      if (err) {
+        console.log(err);
+        res.send({ status: false, message: err });
+      }
+      else {
+        console.log(result);
+        res.status(200).send({ "message": "maintenance Added Successfully" });
+        res.end();
+      }
+    })
 
-  // res.end();
+    // res.end();
   }
   catch (e) {
     console.log("Catch");
@@ -505,30 +511,32 @@ router.get('/getmaintenance', function (req, res) {
 //end get maintenance
 //st room avilable
 
-router.post('/roomavilable',(req,res)=>{
-  try{
-  console.log("Welcome to Room Avilable");
-  var command=sprintf('update booking set bookedstatusid='+5+ ' where bookingid=' + req.body.bookingid + '');
-  let data = [true, 1];
-  console.log("after", command);
-  con.query(command, data, function (error, result) {
-    console.log("affectedRows", result.affectedRows);
-    if (result.affectedRows <= 0) {
-      res.send("Check Booking  Id");
-      console.log("Check Booking Id");
-     }    else {
-      cmdd='call updateroomsstatus(?,?)';
-    console.log(cmdd);
-    con.query(cmdd,[req.body.bookingid,req.body.statusid], function (err, result) {
-      if (err) {
-        res.send("No Data");
-      }       else {
-        console.log("Done")
-      res.status(200).send({message:"Successfully Actual checkout Update and Room Staus changed "});
-      // res.send(result);
-    }  }); 
-     }});
-    }
+router.post('/roomavilable', (req, res) => {
+  try {
+    console.log("Welcome to Room Avilable");
+    var command = sprintf('update booking set bookedstatusid=' + 5 + ' where bookingid=' + req.body.bookingid + '');
+    let data = [true, 1];
+    console.log("after", command);
+    con.query(command, data, function (error, result) {
+      console.log("affectedRows", result.affectedRows);
+      if (result.affectedRows <= 0) {
+        res.send("Check Booking  Id");
+        console.log("Check Booking Id");
+      } else {
+        cmdd = 'call updateroomsstatus(?,?)';
+        console.log(cmdd);
+        con.query(cmdd, [req.body.bookingid, req.body.statusid], function (err, result) {
+          if (err) {
+            res.send("No Data");
+          } else {
+            console.log("Done")
+            res.status(200).send({ message: "Successfully Actual checkout Update and Room Staus changed " });
+            // res.send(result);
+          }
+        });
+      }
+    });
+  }
   catch (e) {
     console.log("Catch");
     const statusCode = e.statusCoderes || 500;
@@ -540,9 +548,9 @@ router.post('/roomavilable',(req,res)=>{
 //end room avilable
 
 // st checkout and status chage housekeep
-router.post('/actualcheckout',(req,res)=>{
+router.post('/actualcheckout', (req, res) => {
   console.log("Welcome to A Check Out");
-  command = sprintf('update booking set acheckout=' + '"' + req.body.acheckout + '"'+' ,bookedstatusid='+4+' WHERE bookingid=' + req.body.bookingid + '');
+  command = sprintf('update booking set acheckout=' + '"' + req.body.acheckout + '"' + ' ,bookedstatusid=' + 4 + ' WHERE bookingid=' + req.body.bookingid + '');
   let data = [true, 1];
   console.log("after", command);
   con.query(command, data, function (error, result) {
@@ -550,16 +558,19 @@ router.post('/actualcheckout',(req,res)=>{
     if (result.affectedRows <= 0) {
       res.send("Check Booking Id");
       console.log("Check Booking Id");
-     }     else {
-      cmdd='call updateroomsstatus(?,?)';
-    console.log(cmdd);
-    con.query(cmdd,[req.body.bookingid,req.body.statusid], function (err, result) {
-      if (err) {
-        res.send("No Data");
-      }       else {
-        console.log()
-      res.status(200).send({message:"Successfully Actual checkout Update and Room Staus changed "});
-    }   });   }}    )
+    } else {
+      cmdd = 'call updateroomsstatus(?,?)';
+      console.log(cmdd);
+      con.query(cmdd, [req.body.bookingid, req.body.statusid], function (err, result) {
+        if (err) {
+          res.send("No Data");
+        } else {
+          console.log()
+          res.status(200).send({ message: "Successfully Actual checkout Update and Room Staus changed " });
+        }
+      });
+    }
+  })
 })
 
 
