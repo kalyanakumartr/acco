@@ -509,7 +509,6 @@ router.post('/roomavilable',(req,res)=>{
   try{
   console.log("Welcome to Room Avilable");
   var command=sprintf('update booking set bookedstatusid='+5+ ' where bookingid=' + req.body.bookingid + '');
-
   let data = [true, 1];
   console.log("after", command);
   con.query(command, data, function (error, result) {
@@ -517,14 +516,19 @@ router.post('/roomavilable',(req,res)=>{
     if (result.affectedRows <= 0) {
       res.send("Check Booking  Id");
       console.log("Check Booking Id");
-     }
-    else {
+     }    else {
+      cmdd='call updateroomsstatus(?,?)';
+    console.log(cmdd);
+    con.query(cmdd,[req.body.bookingid,req.body.statusid], function (err, result) {
+      if (err) {
+        res.send("No Data");
+      }       else {
+        console.log("Done")
+      res.status(200).send({message:"Successfully Actual checkout Update and Room Staus changed "});
       // res.send(result);
-      res.status(200).send({message:"Successfully Change Room Avilable Now"});
-      res.end();
+    }  }); 
+     }});
     }
-  });
-  }
   catch (e) {
     console.log("Catch");
     const statusCode = e.statusCoderes || 500;
