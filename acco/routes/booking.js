@@ -244,14 +244,14 @@ router.post('/bookingcancel', authcheck, function (req, res) {
   console.log("Welcome to cancel Room Book");
   // var id = req.query.bookingid;
   // var uid = req.query.userid;
-  var command = 'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + req.body.bookingid + '  and userid=' + req.body.userid + '';
+  var command = 'UPDATE booking SET bookedstatusid=2, commands="'+req.body.commands+'" WHERE bookingid=' + req.body.bookingid + '  and userid=' + req.body.userid + '';
   console.log(command);
   let data = [true, 1];
   con.query(command, data, function (error, result) {
-    // console.log(result);
+    // console.log("affectedRows",result.length);
     if (result.affectedRows <= 0) {
       res.send({ status: false, message: "No Data Pls check booking id or else" });
-      console.log(error);
+      // console.log(error);
       // throw error;
     }
     else {
