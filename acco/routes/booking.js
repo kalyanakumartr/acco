@@ -12,6 +12,33 @@ const { captureRejectionSymbol } = require('events');
 
 
 
+//st cancelpolicy
+
+router.get('/cancelpolicy',(req,res)=>{
+  try{
+    console.log("Welcome to Cancel Policy");
+    cmd='select * from cancelpolicy';
+    con.query(cmd,(error,result)=>{
+    console.log(cmd);
+    if(error){
+      console.log("No Data in Cancel Policy");
+      res.send("No Data in Cancel Policy");
+    }
+    else
+    {
+      console.log("Successfully Get Cancel Policy");
+      res.send(result);
+    }
+  })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }  
+})
+//end cancelpolicy
+
 // st ge image
 
 
@@ -240,34 +267,34 @@ router.post('/actualcheckin', function (req, res) {
 
 
 router.post('/bookingcancel', authcheck, function (req, res) {
-  try{
-  console.log("Welcome to cancel Room Book");
-  // var id = req.query.bookingid;
-  // var uid = req.query.userid;
-  var command = 'UPDATE booking SET bookedstatusid=2, commands="'+req.body.commands+'" WHERE bookingid=' + req.body.bookingid + '  and userid=' + req.body.userid + '';
-  console.log(command);
-  let data = [true, 1];
-  con.query(command, data, function (error, result) {
-    // console.log("affectedRows",result.length);
-    if (result.affectedRows <= 0) {
-      res.send({ status: false, message: "No Data Pls check booking id or else" });
-      // console.log(error);
-      // throw error;
-    }
-    else {
-      cmdd = 'call updateroomsstatus(?,?)';
-      console.log(cmdd);
-      con.query(cmdd, [req.body.bookingid, req.body.statusid], function (err, result) {
-        if (err) {
-          res.send("No Data");
-        } else {
-          console.log("Done")
-          res.status(200).send({ message: "Successfully  Room Cancel " });
-        }
-      // res.status(200).send({ message: "Successfully Booking Cancel" });
+  try {
+    console.log("Welcome to cancel Room Book");
+    // var id = req.query.bookingid;
+    // var uid = req.query.userid;
+    var command = 'UPDATE booking SET bookedstatusid=2, commands="' + req.body.commands + '" WHERE bookingid=' + req.body.bookingid + '  and userid=' + req.body.userid + '';
+    console.log(command);
+    let data = [true, 1];
+    con.query(command, data, function (error, result) {
+      // console.log("affectedRows",result.length);
+      if (result.affectedRows <= 0) {
+        res.send({ status: false, message: "No Data Pls check booking id or else" });
+        // console.log(error);
+        // throw error;
+      }
+      else {
+        cmdd = 'call updateroomsstatus(?,?)';
+        console.log(cmdd);
+        con.query(cmdd, [req.body.bookingid, req.body.statusid], function (err, result) {
+          if (err) {
+            res.send("No Data");
+          } else {
+            console.log("Done")
+            res.status(200).send({ message: "Successfully  Room Cancel " });
+          }
+          // res.status(200).send({ message: "Successfully Booking Cancel" });
+        });
+      }
     });
-  }
-});
   }
   catch (e) {
     console.log("Catch", e);

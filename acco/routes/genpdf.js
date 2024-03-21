@@ -6,10 +6,10 @@ const PDFDocument = require("pdfkit");
 
 
 //     // console.log("Welcome create pdf invoice ");
-   
+
 //     const storage = multer.diskStorage({
 //         destination: 'C:/invoice/',
-      
+
 //         filename: (req1, file, cb) => {
 //           // console.log("Request name ",req1.params.id);
 //           return cb(null, `${file.fieldname}_${Date.now()}${path.extname("pdf")}`)
@@ -23,7 +23,7 @@ const PDFDocument = require("pdfkit");
 
 //     // const authcheck = (req, res, next) => {
 //     //     headers = {
-   
+
 //     const invoice = {
 //         shipping: {
 //           name: "John Doe",
@@ -42,15 +42,15 @@ const PDFDocument = require("pdfkit");
 //             Discount:0,
 //             Maintenance:0,
 //             Subtotal:2000
-      
+
 //           }
 //         ],
 //         subtotal: 2000,
 //         GST: 23,
 //         invoice_nr: 1234
 //       };
-      
-    
+
+
 
 // const createInvoice=(invoice)=> {
 //     let doc = new PDFDocument({ size: "A4", margin: 50 });
