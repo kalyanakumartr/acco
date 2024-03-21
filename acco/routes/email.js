@@ -55,7 +55,7 @@ router.get('/generateOTP', (req, res) => {
           });
           console.log("email sent sucessfully", err);
           // res.send("email sent sucessfully");
-          res.status(200).send({ message: "Successfully update and send email " });
+          res.status(200).send({ message: "OTP send successfully! please check your email " });
 
         }
         catch (error) {
@@ -99,12 +99,12 @@ router.post('/verifyOTP', (req, res) => {
       con.query(cmmd, function (error, result) {
         console.log("count", result[0].counting);
         if (result[0].counting >= 1) {
-          res.send({ status: true, message: "Phonenumber verified successfully " });
+          res.send({ status: true, message: "OTP verified successfully " });
         }
         else {
           console.log("Error", error)
           // res.send({ "Message": "Unable to get Date " });
-          res.send({ status: false, message: "Expired OTP Or Unable to get data" });
+          res.send({ status: false, message: "Expired OTP Or  Invalid OTP Unable to get data" });
         }
       })
     })
