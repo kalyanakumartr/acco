@@ -6,7 +6,85 @@ const moment = require('moment');
 const nodemailer = require("nodemailer");
 
 
+
+//st new email
+
 router.get('/generateOTP', (req, res) => {
+  console.log("Welcome to create OTP");
+  var otpCode = Math.floor(100000 + Math.random() * 900000);
+  var ctime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  var tentime = moment(Date.now()).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss');
+  var commd = 'select userid from user where email="' + req.query.email + '"';
+  con.query(commd, function (gererr, getres) {
+    console.log("len",getres.length);
+    console.log(commd);
+    if(getres.length>=1){
+      var uid = getres[0].userid;
+      console.log("userid", getres[0].userid);
+      console.log(uid);
+      var cmd = 'UPDATE otpstore SET otp="' + otpCode + '",otpctime="' + ctime + '",otpetime="' + tentime + '" WHERE userid=' + uid + '';
+      console.log(cmd);
+      let data = [true, 1];
+      con.query(cmd, data, async function (err, result) {
+  
+        var inputto = req.query.email;
+        var inputsubject = "Otp ";
+        var inputtext = "Otp " + otpCode
+        // if (result.affectedRows <= 0) {
+        //   res.send({ status: false, message: "No Email Pls check" });
+        //   console.log("err", err);
+        // }
+        // else 
+        // {
+          try {
+            const transporter = nodemailer.createTransport({
+              host: process.env.HOST,
+              service: process.env.SERVICE,
+              port: 465,
+              secure: true,
+              auth: {
+                user: process.env.USER,
+                pass: process.env.PASS,
+              },
+            });
+            await transporter.sendMail({
+              from: process.env.USER,
+              to: inputto,
+              subject: inputsubject,
+              text: inputtext
+            });
+            console.log("email sent sucessfully", err);
+            // res.send("email sent sucessfully");
+            res.status(200).send({ message: "Successfully update and send email " });
+  
+          }
+            catch (error) {
+            console.log(error, "email not sent")
+          }
+          // });
+  
+          // }
+        // }
+      })
+      
+    }
+    else
+    {
+      console.log("Pls check Email id ")
+          res.send("Pls check  Mail id");
+    }
+    // console.log(getres[0].userid);
+    
+  })
+}
+);
+
+
+
+//end new email
+
+//not use will del 
+router.get('/oldgenerateOTP', (req, res) => {
   console.log("Welcome to create OTP");
   // var email = req.body;
   var otpCode = Math.floor(100000 + Math.random() * 900000);
@@ -18,6 +96,7 @@ router.get('/generateOTP', (req, res) => {
   // SELECT userid FROM user WHERE email=
   var commd = 'select userid from user where email="' + req.query.email + '"';
   con.query(commd, function (gererr, getres) {
+    console.log("len",getres.length);
     console.log(commd);
     // console.log(getres[0].userid);
     var uid = getres[0].userid;

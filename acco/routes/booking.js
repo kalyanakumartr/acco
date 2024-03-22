@@ -282,6 +282,7 @@ router.post('/bookingcancel', authcheck, function (req, res) {
         // throw error;
       }
       else {
+        
         cmdd = 'call updateroomsstatus(?,?)';
         console.log(cmdd);
         con.query(cmdd, [req.body.bookingid, req.body.statusid], function (err, result) {
