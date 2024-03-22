@@ -113,7 +113,7 @@ router.post('/forgotpassword', async function (req, res) {
   con.query(command, data, function (error, result) {
     if (result.affectedRows >= 1) {
       console.log("Done");
-      res.status(200).send({ message: "Successfully Changed Password" });
+      res.status(200).send({ message: " Your Password Changed Successfully" });
     }
     else {
       res.status(400).send({ status: false, message: "Pls check Email Id" });
