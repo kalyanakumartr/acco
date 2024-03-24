@@ -44,6 +44,8 @@ router.get('/getroomslist', function (req, res) {
               // console.log("obj1",obj[i]);
               result[0][obj].roomid = result[0][obj].roomid.replaceAll("\"", "");
               result[0][obj].roomnos = result[0][obj].roomnos.replaceAll("\"", "");
+              result[0][obj].roomnoss = result[0][obj].roomnoss.replaceAll("\"", "");
+           
               //  i++;
             };
 
