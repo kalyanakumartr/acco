@@ -37,14 +37,22 @@ router.get('/getroomslist', function (req, res) {
             res.send("err");
           }
           else {
-            // <<<<<<< HEAD
             var i = 0;
             for (var obj in result[0]) {
               console.log("obj", result[0][obj]);
               // console.log("obj1",obj[i]);
               result[0][obj].roomid = result[0][obj].roomid.replaceAll("\"", "");
               result[0][obj].roomnos = result[0][obj].roomnos.replaceAll("\"", "");
-              result[0][obj].roomnoss = result[0][obj].roomnoss.replaceAll("\"", "");
+              // JSON.parse(result[0][obj].roomnoss)a
+              result[0][obj].roomnoss = JSON.parse(result[0][obj].roomnoss.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+
+              // result[0][obj].roomnoss = JSON.stringify(result[0][obj].roomnoss.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+              // result[0][obj].roomnoss = JSON.stringify(result[0][obj].roomnoss.replaceAll("\"", ""));
+              // result[0][obj].roomnoss = JSON.stringify(result[0][obj].roomnoss.replaceAll("{", '{"').replaceAll(":",'":'));
+
+              // result[0][1].roomid=result[0][1].roomid.replaceAll("\"", "");
+            // result[0][1].roomnos=result[0][1].roomnos.replaceAll("\"", "");
+
            
               //  i++;
             };
@@ -64,6 +72,7 @@ router.get('/getroomslist', function (req, res) {
             //               console.log("1",result[0][1]);
             // >>>>>>> a741d372e578d78e70ebf0776ee96a14633a72e5
             console.log("-", result, "getres");
+            // res.send(JSON.stringify(result));
             res.send(result);
           }
         });
@@ -84,6 +93,31 @@ router.get('/getroomslist', function (req, res) {
 })
 
 //end get room list
+
+//st status
+
+router.get('/getstatus', function (req, res) {
+  console.log("Welcome to Status");
+  try {
+    command = 'SELECT * FROM status';
+    con.query(command, function (error, result) {
+      if (error) {
+        res.send({ "Message": "Unable to get Date " });
+      }
+      else {
+        res.send(result);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+//end status
 
 //st room type get
 
