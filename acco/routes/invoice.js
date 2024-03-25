@@ -112,7 +112,8 @@ router.get('/getpdf', function (req, res) {
                     //   })
                     // doc.pipe(fs.createWriteStream(`/invoice/${Date.now()}` + 'Invoice.pdf'));
                     const path = `./invoice_${req.query.bookingid}_${Date.now()}.json`;
-                    const config = JSON.stringify(result);
+                    // const config = JSON.stringify(result);
+                    const config = (result);
                     writeFile(path, JSON.stringify(config, null, 2), (error) => {
                         if (error) {
                             console.log(error);
