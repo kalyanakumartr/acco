@@ -40,21 +40,9 @@ router.get('/getroomslist', function (req, res) {
             var i = 0;
             for (var obj in result[0]) {
               console.log("obj", result[0][obj]);
-              // console.log("obj1",obj[i]);
               result[0][obj].roomid = result[0][obj].roomid.replaceAll("\"", "");
               result[0][obj].roomnos = result[0][obj].roomnos.replaceAll("\"", "");
-              // JSON.parse(result[0][obj].roomnoss)a
               result[0][obj].roomnoss = JSON.parse(result[0][obj].roomnoss.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
-
-              // result[0][obj].roomnoss = JSON.stringify(result[0][obj].roomnoss.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
-              // result[0][obj].roomnoss = JSON.stringify(result[0][obj].roomnoss.replaceAll("\"", ""));
-              // result[0][obj].roomnoss = JSON.stringify(result[0][obj].roomnoss.replaceAll("{", '{"').replaceAll(":",'":'));
-
-              // result[0][1].roomid=result[0][1].roomid.replaceAll("\"", "");
-            // result[0][1].roomnos=result[0][1].roomnos.replaceAll("\"", "");
-
-           
-              //  i++;
             };
 
             // result[0][0].roomid=result[0][0].roomid.replaceAll("\"", "");

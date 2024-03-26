@@ -212,10 +212,18 @@ router.get('/getguestdetail', function (req, res) {
     console.log(sql);
     // const guestres = con.query(sql);
     con.query(sql, function (err, result) {
+      console.log(result);
       if (err) {
         res.send("No Data");
       }
       else {
+        var i = 0;
+            for (var obj in result[0]) {
+              result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+            
+            };
+
+
         res.send(result);
       }
     });
