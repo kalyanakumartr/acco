@@ -186,16 +186,16 @@ router.post('/roomupdatestatus',(req,res)=>{
     // cmd='update room set status=(SELECT statusid FROM status WHERE statusname="'+req.body.statusname+'" and stastustype="room") where roomid='+req.body.roomid+'';
     con.query(cmd,(err,result)=>{
       
-      if(result.affectedRows<=0){
+      if(result.affectedRows>=1){
       console.log(cmd);
       console.log("aa",result.affectedRows);
         console.log("Successfully update for room status");
-        res.send("Successfully update for room status");
+        res.send({message: "Successfully update for room status"});
       }
       else
     {
-      res.send("Some Error")
-      console.log("Some Error Pls check room id")
+      res.send({message: "Some Error"});
+      console.log("Some Error Pls check room id");
 
     }  })
   
