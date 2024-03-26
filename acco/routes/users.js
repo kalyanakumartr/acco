@@ -117,7 +117,7 @@ router.post('/forgotpassword', async function (req, res) {
     }
     else {
       res.status(400).send({ status: false, message: "Pls check Email Id" });
-      console.log("Pls check Email Id");
+      console.log({message:"Pls check Email Id"});
     }
   });
 

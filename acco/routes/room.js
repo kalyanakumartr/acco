@@ -178,9 +178,37 @@ router.get('/getroomlist', function (req, res) {
   }
 })
 
+// st update getroom 
+router.post('/roomupdatestatus',(req,res)=>{
+  try{
+    console.log("Welcome to Roomupdatestatus")
+    cmd='update room set status='+req.body.statusid+' where roomid='+req.body.roomid+'';
+    // cmd='update room set status=(SELECT statusid FROM status WHERE statusname="'+req.body.statusname+'" and stastustype="room") where roomid='+req.body.roomid+'';
+    con.query(cmd,(err,result)=>{
+      
+      if(result.affectedRows<=0){
+      console.log(cmd);
+      console.log("aa",result.affectedRows);
+        console.log("Successfully update for room status");
+        res.send("Successfully update for room status");
+      }
+      else
+    {
+      res.send("Some Error")
+      console.log("Some Error Pls check room id")
 
+    }  })
+  
+    }
+  catch (err) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: err.message, status: statusCode });
+  }
 
+})
 
+// end Update getroom
 //to get roomnumber and bhk when floornumber given
 router.get('/getroom', authcheck, function (req, res) {
   console.log("getroom")
