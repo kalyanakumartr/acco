@@ -292,8 +292,8 @@ router.post('/bookingcancel', authcheck, function (req, res) {
               if (err) {
                 res.send("Some Error in get fields pls check");
               } else {
-                console.log("Successfully Booking and   Room No ")
-                res.status(200).send({ message: "Successfully Booking and   Room No " });
+                console.log("Your Booking Canceled successfully! ")
+                res.status(200).send({ message: "Your Booking Canceled successfully!" });
               }
               // res.status(200).send({ message: "Successfully Booking Cancel" });
             });

@@ -4,6 +4,7 @@ const PDFDocument = require("pdfkit");
 var express = require('express');
 const con = require('../dbconfig');
 var sprintf = require('sprintf-js').sprintf;
+const moment = require('moment');
 
 var router = express.Router();
 const invoice = {
@@ -56,40 +57,7 @@ function invoice2(req, res) {
 }
 
 
-
-
-
-
-
-
-
-// // router.get('/getpdf',function createInvoice(invoice) {
-//     cname = req.query.name;
-//     add1 = req.query.address1;
-//     add2 = req.query.address2;
-//     city = req.query.city;
-//     state = req.query.state;
-//     country = req.query.country;
-//     phone = req.query.phonenumber;
-//     pincode = req.query.pincode;
-
-//     bookid = req.query.bookid;
-//     bookingdate = req.query.date;
-//     cin = req.query.checkin;
-//     cout = req.query.Checkout;
-//     cintime = req.query.checkintime;
-//     couttime = req.query.checkouttime;
-//     flatno = req.query.flatnumber;
-//     flattype = req.query.flattype;
-//     noofdays = req.query.noofdays;
-
-//     subtotal = req.query.subtotal;
-//     maintenance = req.query.maintenance;
-//     discount = req.query.discount;
-//     total = req.query.total;
-//     gst = req.query.gst;
-//     nettotal = req.query.nettotal;
-router.get('/getpdf', function (req, res) {
+router.get('/muthugetpdf', function (req, res) {
     try {
         console.log("Welcome to Create PDF");
         cmd = ('SELECT *,(SELECT roomno FROM room WHERE booking.roomid=room.roomid) AS roomno,(SELECT roomname FROM room WHERE booking.roomid=room.roomid) AS roomname FROM booking WHERE bookingid=' + req.query.bookingid + '');
@@ -147,58 +115,140 @@ router.get('/getpdf', function (req, res) {
         res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
     }
 })
-// var cmd=`CALL getbookingdetailwithbookingid(?)`;
-//     con.query(cmd, [bookid], function (err, result) {
-//         if (err) {
-//             res.send("Some Error");
-//         }
-//         else {
-//             console.log(result);
-//             // console.log("res",res);
-//             console.log("Welcome to PDF Create");
-//             let doc = new PDFDocument({ size: "A4", margin: 50 });
-//             // result[0].bookingid;
-//             // head(doc,invoice2);
-//             generateHeader(doc);
-//             generateCustomerInformation(doc, invoice);
-//             generateInvoiceTable(doc, invoice);
-//             generateFooter(doc);
-//             //  res.send("Done")
 
-//             doc.end();
 
-//             //  doc.pipe(fs.createWriteStream('storehere'));
-//             doc.pipe(fs.createWriteStream(`/invoice/${Date.now()}` + 'Invoice.pdf'));
-//             res.send("Done");
-//             // router.();
-//         }
-//     })
-// });
-// function head(doc){
-//     var cmd=`CALL getbookingdetailwithbookingid(?)`;
-// //    bookid= reqq.query.bookid;
-// console.log(bookid);
-//    con.query(cmd, [bookid], function (err, result) {
-//     console.log(bookid);
-//     // if(err)
-//     // {
-//         // ress.send("Some Error");
-//     // }
-//     // else{
-//         console.log("Else part",invoice2.firstname);
-//         // ress.send(result);
-//         doc
-//         .text(invoice2.firstname, 60, 40, { align: 'right' });
+    // add1 = req.query.address1;
+    // add2 = req.query.address2;
+    // city = req.query.city;
+    // state = req.query.state;
+    // country = req.query.country;
+    // phone = req.query.phonenumber;
+    // pincode = req.query.pincode;
 
-//         // .moveDown();
+    // bookid = req.query.bookid;
+    // bookingdate = req.query.date;
+    // cin = req.query.checkin;
+    // cout = req.query.Checkout;
+    // cintime = req.query.checkintime;
+    // couttime = req.query.checkouttime;
+    // flatno = req.query.flatnumber;
+    // flattype = req.query.flattype;
+    // noofdays = req.query.noofdays;
 
-//     // }
-// })
-// }
+    // subtotal = req.query.subtotal;
+    // maintenance = req.query.maintenance;
+    // discount = req.query.discount;
+    // total = req.query.total;
+    // gst = req.query.gst;
+    // nettotal = req.query.nettotal;
+
+
+
+
+
+router.get('/getpdf',function (req,res) {
+    cmdd = ('SELECT *,(SELECT roomno FROM room WHERE booking.roomid=room.roomid) AS roomno,(SELECT roomname FROM room WHERE booking.roomid=room.roomid) AS roomname FROM booking WHERE bookingid=' + req.query.bookingid + '');
+    
+    con.query(cmdd, (err, resultt) => {
+        console.log("len", resultt.length);
+        if (resultt.length >= 1) {
+            console.log(cmdd);
+            if (err) {
+                console.log( err);
+                res.send("Pls Check Booking Id");
+            } else {
+                console.log(cmd);
+                console.log(resultt);
+                // res.send({ result });
+  
+    cname = resultt[0].firstname;
+    // console.log("cname",cname);
+        add1 = resultt[0].address1;
+    add2 = resultt[0].address2;
+    city = resultt[0].city;
+    state = resultt[0].state;
+    country = resultt[0].country;
+    phone = resultt[0].phonenumber;
+    pincode = resultt[0].pincode;
+    
+    bookid =  resultt[0].bookingid;
+    // cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    bookingdate =  resultt[0].bookingid;
+    cin =  resultt[0].checkin;
+    cout =  resultt[0].Checkout;
+    cintime =  resultt[0].checkintime;
+    couttime =  resultt[0].checkouttime;
+    flatno =  resultt[0].roomno;
+    flattype =  resultt[0].roomtype;
+    noofdays =  resultt[0].noofdays;
+
+
+        subtotal =  resultt[0].subtotal;
+    maintenance =  resultt[0].maintenance;
+    discount =  resultt[0].discount;
+    total =  resultt[0].total;
+    gst =  resultt[0].gst;
+    nettotal =  resultt[0].nettotal;
+
+
+
+var cmd=`CALL getbookingdetailwithbookingid(?)`;
+    con.query(cmd, [req.query.bookingid], function (err, result) {
+        if (err) {
+            res.send({"Some Error":err});
+        }
+        else {
+            // console.log(result);
+            // console.log("res",res);
+            console.log("Welcome to PDF Create");
+            let doc = new PDFDocument({ size: "A4", margin: 50 });
+            // result[0].bookingid;
+            // head(doc,invoice2);
+            generateHeader(doc);
+            generateCustomerInformation(doc, invoice);
+            generateInvoiceTable(doc, invoice);
+            generateFooter(doc);
+            //  res.send("Done")
+
+            doc.end();
+
+            //  doc.pipe(fs.createWriteStream('storehere'));
+            doc.pipe(fs.createWriteStream(`c:/invoice/${Date.now()}_${req.query.bookingid}` + 'Invoice.pdf'));
+            res.send("Done");
+            // router.();
+        }
+    })
+}
+}
+});
+});
+
+function head(doc){
+    var cmd=`CALL getbookingdetailwithbookingid(?)`;
+//    bookid= reqq.query.bookid;
+console.log(bookid);
+   con.query(cmd, [bookid], function (err, result) {
+    console.log(bookid);
+    // if(err)
+    // {
+        // ress.send("Some Error");
+    // }
+    // else{
+        console.log("Else part",invoice2.firstname);
+        // ress.send(result);
+        doc
+        .text(invoice2.firstname, 60, 40, { align: 'right' });
+
+        // .moveDown();
+
+    // }
+})
+}
 
 function generateHeader(doc) {
     doc
-        .image("C:/backendAcco/acco/acco/img/index_logo.jpg", 190, 35, { width: 200 }, { align: 'center' })
+    // D:\acco\acco\acco\img\index_logo.jpg
+        .image("D:/acco/acco/acco/img/index_logo.jpg", 190, 35, { width: 200 }, { align: 'center' })
     doc.text('No.37,Bharathi St,Thiruvaikovil,near TST bus co,Trichy-620005,Ph-7373826373', 28, 100, { align: 'center' })
         // .fillColor("#444444")
         // .fontSize(20)

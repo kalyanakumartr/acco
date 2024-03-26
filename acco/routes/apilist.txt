@@ -218,3 +218,68 @@ router.post('/generateOTP', (req, res) => {
     }
   })
 });
+
+
+
+
+getpf
+
+router.get('/muthugetpdf', function (req, res) {
+    try {
+        console.log("Welcome to Create PDF");
+        cmd = ('SELECT *,(SELECT roomno FROM room WHERE booking.roomid=room.roomid) AS roomno,(SELECT roomname FROM room WHERE booking.roomid=room.roomid) AS roomname FROM booking WHERE bookingid=' + req.query.bookingid + '');
+        con.query(cmd, (err, result) => {
+            console.log("len", result.length);
+            if (result.length >= 1) {
+                if (err) {
+                    console.log("Error", err);
+                    res.send("Pls Check Booking Id");
+                } else {
+                    console.log(cmd);
+                    console.log(result);
+                    res.send({ result });
+                    const { writeFile } = require('fs');
+                    // const storagespace = multer.diskStorage({
+                    //     destination: 'C:/accouserimage/proof',
+                    //     filee: (req1, file, cb) => {
+                    //       return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+                    //     }
+                    //   })
+                    // doc.pipe(fs.createWriteStream(`/invoice/${Date.now()}` + 'Invoice.pdf'));
+                    const path = `./invoice_${req.query.bookingid}_${Date.now()}.json`;
+                    // const config = JSON.stringify(result);
+                    const config = (result);
+                    writeFile(path, JSON.stringify(config, null, 2), (error) => {
+                        if (error) {
+                            console.log(error);
+                            return;
+                        }
+                        else {
+                            var cmdinsert = sprintf('INSERT INTO invoicedata(bookingid,data,status)values(%d,%j,%d)', req.query.bookingid, config, 1);
+                            con.query(cmdinsert, (inerror, inresult) => {
+                                console.log("cmdinser", cmdinsert);
+                                if (inerror) {
+                                    console.log("Some Error");
+                                    // res.send({result});
+                                } else {
+                                    console.log("Insert Done");
+                                    res.send("Inser t done");
+
+                                }
+                            });
+                        }
+                    })
+                }
+            } else {
+                console.log("Pls check Booking Id");
+                res.send("Pls Check Booking Id");
+            }
+        })
+    }
+    catch (e) {
+        console.log("Catch", e);
+        const statusCode = e.statusCoderes || 500;
+        res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+    }
+})
+
