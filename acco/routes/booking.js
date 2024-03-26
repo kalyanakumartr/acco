@@ -75,7 +75,7 @@ router.post('/checkinconfirm', function (req, res) {
   console.log("Welcome to checkinconfirm");
   ain = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   console.log(ain);
-  'UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + '  and userid=' + uid + '';
+  cmd='UPDATE booking SET bookedstatusid=2 WHERE bookingid=' + id + '  and userid=' + uid + '';
   // var cmd = 'UPDATE booking SET roomid="select json_array(GROUP_CONCAT("{",roomid ,":",roomno,"}")) AS roomids from room where roomid IN' +( req.body.roomid)+',acheckin="' + ain + '",bookedstatusid=3 where bookingid= ' + req.body.bookingid + '';
   console.log(cmd);
   let data = [true, 1];
@@ -406,6 +406,32 @@ router.get('/getbooking', authcheck, function (req, res) {
 
 //end 
 
+// st get booking with user id only
+
+router.get('/getbookingwithuseridonly', authcheck, function (req, res) {
+  try {
+    // id=req.param.userid
+    command = 'select * from booking WHERE userid=' + req.query.userid + ' ORDER BY checkin';
+    console.log(command);
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+//end get booking with user id only
 
 
 
