@@ -214,7 +214,7 @@ router.get('/getguestdetail', function (req, res) {
     con.query(sql, function (err, result) {
       console.log(result);
       if (err) {
-        res.send("No Data");
+        res.send({"No Data":err});
       }
       else {
         var i = 0;
