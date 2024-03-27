@@ -278,39 +278,39 @@ function generateCustomerInformation(doc,) {
 
     doc
         .fontSize(10)
-        .text("Customer Name", 50, customerInformationTop)
+        .text("Customer Name :", 50, customerInformationTop)
         .font("Helvetica")
-        .text(cname, 100, customerInformationTop)
-        .font("Helvetica")
-
-        .text("address", 50, customerInformationTop + 15)
-        .font("Helvetica")
-        .text(add1, 100, customerInformationTop + 15)
+        .text(cname, 130, customerInformationTop)
         .font("Helvetica")
 
-        .text("address2", 50, customerInformationTop + 30)
+        .text("Address1 : ", 50, customerInformationTop + 15)
         .font("Helvetica")
-        .text(add2, 100, customerInformationTop + 30)
-        .font("Helvetica")
-
-        .text("city", 50, customerInformationTop + 45)
-        .font("Helvetica")
-        .text(city, 100, customerInformationTop + 45)
+        .text(add1, 130, customerInformationTop + 15)
         .font("Helvetica")
 
-        .text("state-pincode", 50, customerInformationTop + 60)
+        .text("Address2 :", 50, customerInformationTop + 30)
         .font("Helvetica")
-        .text(state - pincode, 100, customerInformationTop + 60)
+        .text(add2, 130, customerInformationTop + 30)
+        .font("Helvetica")
+
+        .text("City :", 50, customerInformationTop + 45)
+        .font("Helvetica")
+        .text(city, 130, customerInformationTop + 45)
+        .font("Helvetica")
+
+        .text("State-Pincode : ", 50, customerInformationTop + 60)
+        .font("Helvetica")
+        .text(state - pincode, 130, customerInformationTop + 60)
         .font("Helvetica")
 
         .text("country", 50, customerInformationTop + 75)
         .font("Helvetica")
-        .text(country, 100, customerInformationTop + 75)
+        .text(country, 130, customerInformationTop + 75)
         .font("Helvetica")
 
         .text("Phone number", 50, customerInformationTop + 90)
         .font("Helvetica")
-        .text(phone, 100, customerInformationTop + 90)
+        .text(phone, 130, customerInformationTop + 90)
         .font("Helvetica")
 
         .text("PV CardNo.", 50, customerInformationTop + 105)
@@ -326,7 +326,7 @@ function generateCustomerInformation(doc,) {
         .font("Helvetica")
         .text("Bill No.:  ", bookid, 350, customerInformationTop)
         .font("Helvetica")
-        .text("Bill Date:  ", bookingdate, 350, customerInformationTop + 15)
+        .text("Bill Date:  ", bookingdate, 320, customerInformationTop + 15)
         .font("Helvetica")
         .text("Check-in time:", cintime, 350, customerInformationTop + 30)
         .font("Helvetica")
