@@ -22,15 +22,11 @@ router.get('/getroomslist', function (req, res) {
       if (getboores.length >= 1) {
         if (getboores[0].bhk2count >= 1 & getboores[0].bhk2count <= 9 || getboores[0].bhk3count >= 1 & getboores[0].bhk3count <= 9)
           console.log("bhk2count");
-        // var command = "select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT(roomid)) AS roomid,CONCAT(GROUP_CONCAT(roomno)) AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname";
         command = 'CALL spgetroom (?,?)';
 
         cin = req.query.checkin;
         cout = req.query.checkout;
         console.log("command", cin, cout)
-        // cmd='select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) AS roomcount from room  where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'" OR checkout BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'"))AND roomname=name ) AS avilable from tariffdetail where roomtypeid='+rid+' AND (headcount='+req.query.adults+' OR headcount>=4)';
-        // con.query(cmd, [cin, cout, rtid, adultin], function (err, getroomtype) {
-
         console.log(command);
         con.query(command, [cin, cout], function (err, result) {
           if (err) {
@@ -44,23 +40,7 @@ router.get('/getroomslist', function (req, res) {
               result[0][obj].roomnos = result[0][obj].roomnos.replaceAll("\"", "");
               result[0][obj].roomnoss = JSON.parse(result[0][obj].roomnoss.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
             };
-
-            // result[0][0].roomid=result[0][0].roomid.replaceAll("\"", "");
-            // result[0][0].roomnos=result[0][0].roomnos.replaceAll("\"", ""); 
-            // result[0][1].roomid=result[0][1].roomid.replaceAll("\"", "");
-            // result[0][1].roomnos=result[0][1].roomnos.replaceAll("\"", "");
-            // console.log("0",result[0][0]);
-            // console.log("1",result[0][1]);
-            // =======
-            //               result[0][0].roomid=result[0][0].roomid.replaceAll("\"", "");
-            //               result[0][0].roomnos=result[0][0].roomnos.replaceAll("\"", ""); 
-            //               result[0][1].roomid=result[0][1].roomid.replaceAll("\"", "");
-            //               result[0][1].roomnos=result[0][1].roomnos.replaceAll("\"", "");
-            //               console.log("0",result[0][0]);
-            //               console.log("1",result[0][1]);
-            // >>>>>>> a741d372e578d78e70ebf0776ee96a14633a72e5
             console.log("-", result, "getres");
-            // res.send(JSON.stringify(result));
             res.send(result);
           }
         });

@@ -22,12 +22,13 @@ router.get('/getlogic', function (req, res) {
     con.query(cmd, function (getbooerr, getboores) {
       console.log("Data Length", getboores.length);
       if (getboores.length >= 1) {
-
         adultcount = getboores[0].adult;
         console.log("adul", adultcount);
         command = 'CALL spandroomlist (?,?,?)';
         console.log("command", cin, cout, adultcount)
         con.query(command, [cin, cout, adultcount], function (err, result) {
+          // console.log("len",result.length);
+          // console.log("aa",result.affectedRows)
           if (err) {
             console.log("err", err);
             res.send("We are Sorry! currently all rooms are occupied .");
