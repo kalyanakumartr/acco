@@ -67,7 +67,7 @@ router.get('/getroomslist', function (req, res) {
 router.get('/getstatus', function (req, res) {
   console.log("Welcome to Status");
   try {
-    command = 'SELECT * FROM status WHERE stastustype="'+req.query.stastustype+'"';
+    command = 'SELECT * FROM status WHERE stastustype='+req.query.stastustype+'';
     con.query(command, function (error, result) {
       if (error) {
         res.send({ "Message": "Unable to get Date " });
