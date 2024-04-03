@@ -190,7 +190,7 @@ router.get('/getpdf',function (req,res) {
     gst =  resultt[0].gst;
     nettotal =  resultt[0].nettotal;
 
-
+// console.log(bookid);
 
 var cmd=`CALL getbookingdetailwithbookingid(?)`;
     con.query(cmd, [req.query.bookingid], function (err, result) {
@@ -312,37 +312,33 @@ function generateCustomerInformation(doc,) {
         .font("Helvetica")
         .text(phone, 130, customerInformationTop + 90)
         .font("Helvetica")
-
         .text("PV CardNo.", 50, customerInformationTop + 105)
         .font("Helvetica")
-        // .text(formatDate(new Date()), 150, customerInformationTop + 15)
-        // .text("Balance Due:", 50, customerInformationTop + 30)
-        // .text(
-        //     formatCurrency(invoice.subtotal - invoice.paid),
-        // 150,
-        // customerInformationTop + 30
+        .font("Helvetica")
+        .text("Bill No.:  ",  50, customerInformationTop+120)
+        .font("Helvetica")
+        .text(bookid,140,customerInformationTop+120)
+        .font("Helvetica")
 
-
+        .text("Bill Date:  ",  345, customerInformationTop + 95)
+        .text( bookingdate, 345, customerInformationTop + 99)
+       
         .font("Helvetica")
-        .text("Bill No.:  ", bookid, 330, customerInformationTop)
+        .text("Check-in time:", cintime, 360, customerInformationTop + 80)
         .font("Helvetica")
-        .text("Bill Date:  ", bookingdate, 340, customerInformationTop + 15)
+        .text("Check-in Date:", cin, 375, customerInformationTop + 95)
         .font("Helvetica")
-        .text("Check-in time:", cintime, 350, customerInformationTop + 80)
+        .text("Check-out time:", couttime, 390, customerInformationTop + 60)
         .font("Helvetica")
-        .text("Check-in Date:", cin, 360, customerInformationTop + 95)
+        .text("Check-out Date:", cout, 410, customerInformationTop + 95)
         .font("Helvetica")
-        .text("Check-out time:", couttime, 370, customerInformationTop + 60)
+        .text("No.of pax", 425, customerInformationTop + 100)
         .font("Helvetica")
-        .text("Check-out Date:", cout, 380, customerInformationTop + 95)
+        .text("Flat no.  ", flatno, 440, customerInformationTop + 65)
         .font("Helvetica")
-        .text("No.of pax", 390, customerInformationTop + 100)
+        .text("Flat type:  ", flattype, 445, 250 + 90)
         .font("Helvetica")
-        .text("Flat no.  ", flatno, 400, customerInformationTop + 105)
-        .font("Helvetica")
-        .text("Flat type:  ", flattype, 419, customerInformationTop + 120)
-        .font("Helvetica")
-        .text("No.of days: ", noofdays, 420, customerInformationTop + 115)
+        .text("No.of days: ", noofdays, 440, customerInformationTop + 90)
 
         // .text(
         //     invoice.shipping.city +
@@ -353,14 +349,22 @@ function generateCustomerInformation(doc,) {
         //     300,
         //     customerInformationTop + 30
         // )
+
+        // .text(formatDate(new Date()), 150, customerInformationTop + 15)
+        // .text("Balance Due:", 50, customerInformationTop + 30)
+        // .text(
+        //     formatCurrency(invoice.subtotal - invoice.paid),
+        // 150,
+        // customerInformationTop + 30
+        
         .moveDown();
 
-    generateHr(doc, 430);
+    generateHr(doc, 450);
 }
 
 function generateInvoiceTable(doc,) {
     let i;
-    const invoiceTableTop = 440;
+    const invoiceTableTop = 460;
 
     doc.font("Helvetica-Bold");
     generateTableRow(
