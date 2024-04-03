@@ -267,10 +267,6 @@ router.post('/roombooked', authcheck, function (req, res) {
     // res.end();
 
   })
-  // console.log(cin);
-  // var gerorderwise= "SELECT * FROM room ORDER BY roomname";
-  // c=con.query(gerorderwise,function(reqq,ress){})
-  // console.log("cin",cin,"c",res[0].roomname,"order",gerorderwise);
 
 
 });

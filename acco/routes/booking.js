@@ -413,7 +413,7 @@ router.get('/getbooking', authcheck, function (req, res) {
 router.get('/getbookingwithuseridonly', authcheck, function (req, res) {
   try {
     // id=req.param.userid
-    command = 'select * from booking WHERE userid=' + req.query.userid + ' AND NOT bookedstatusid=2 ORDER BY checkin';
+    command = 'select * from booking WHERE userid=' + req.query.userid + ' AND NOT bookedstatusid=2 ORDER BY checkin desc';
     console.log(command);
     con.query(command, function (error, results) {
       if (error) {

@@ -1,3 +1,31 @@
+
+SELECT statusname FROM status WHERE stastustype="room" 
+
+
+select userid from user where email="muthu@gmail.com";
+SELECT bookingid, roomid FROM booking WHERE roomid IS NULL AND bookingid=45
+select * from cancelpolicy
+
+UPDATE booking SET bookedstatusid=2 WHERE bookingid=83  and userid=24 or commands="Plan Cance so i canceled"
+UPDATE booking SET bookedstatusid=2, commands="i canceled" WHERE bookingid=83  and userid=24;
+    console.log(com
+UPDATE booking SET bookedstatusid=2 WHERE bookingid=83  and userid=24
+update room set status=8 where roomid=1 and stastustype="room";
+
+
+ SELECT *,(SELECT roomno FROM room WHERE booking.roomid=room.roomid) AS roomno,(SELECT roomname FROM room WHERE booking.roomid=room.roomid) AS roomname FROM booking WHERE bookingid=84;
+ 
+
+update room set status=(SELECT statusid FROM status WHERE statusname="CancleBooked" and stastustype="room") where roomid=1
+select roomid from booking where bookingid=79
+update room set status=(SELECT statusid FROM status WHERE statusname="Available" and stastustype="room") where roomid=1
+
+SELECT statusid FROM status WHERE statusname="Available" and stastustype="room"
+
+SELECT roomid into @roomids FROM booking WHERE bookingid=837;
+SELECT @roomids;
+
+
 INSERT INTO menuitem(productid,menuqty,menudate,status) VALUES (10,20,"2024-02-12",1);
 
 UPDATE otpstore SET otp="566641",otpctime="2024-02-15 12:03:35",otpetime="2024-02-15 12:13:35" WHERE email="muthuslm2006@gmail.com"

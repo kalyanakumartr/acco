@@ -328,21 +328,21 @@ function generateCustomerInformation(doc,) {
         .font("Helvetica")
         .text("Bill Date:  ", bookingdate, 340, customerInformationTop + 15)
         .font("Helvetica")
-        .text("Check-in time:", cintime, 370, customerInformationTop + 30)
+        .text("Check-in time:", cintime, 350, customerInformationTop + 80)
         .font("Helvetica")
-        .text("Check-in Date:", cin, 380, customerInformationTop + 45)
+        .text("Check-in Date:", cin, 360, customerInformationTop + 95)
         .font("Helvetica")
-        .text("Check-out time:", couttime, 300, customerInformationTop + 60)
+        .text("Check-out time:", couttime, 370, customerInformationTop + 60)
         .font("Helvetica")
-        .text("Check-out Date:", cout, 330, customerInformationTop + 75)
+        .text("Check-out Date:", cout, 380, customerInformationTop + 95)
         .font("Helvetica")
-        .text("No.of pax", 340, customerInformationTop + 90)
+        .text("No.of pax", 390, customerInformationTop + 100)
         .font("Helvetica")
-        .text("Flat no.  ", flatno, 350, customerInformationTop + 105)
+        .text("Flat no.  ", flatno, 400, customerInformationTop + 105)
         .font("Helvetica")
-        .text("Flat type:  ", flattype, 350, customerInformationTop + 120)
+        .text("Flat type:  ", flattype, 419, customerInformationTop + 120)
         .font("Helvetica")
-        .text("No.of days: ", noofdays, 350, customerInformationTop + 135)
+        .text("No.of days: ", noofdays, 420, customerInformationTop + 115)
 
         // .text(
         //     invoice.shipping.city +
@@ -355,12 +355,12 @@ function generateCustomerInformation(doc,) {
         // )
         .moveDown();
 
-    generateHr(doc, 360);
+    generateHr(doc, 430);
 }
 
 function generateInvoiceTable(doc,) {
     let i;
-    const invoiceTableTop = 370;
+    const invoiceTableTop = 440;
 
     doc.font("Helvetica-Bold");
     generateTableRow(
