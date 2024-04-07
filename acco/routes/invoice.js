@@ -283,63 +283,73 @@ function generateCustomerInformation(doc,) {
         .text(cname, 130, customerInformationTop)
         .font("Helvetica")
 
-        .text("Address1 : ", 50, customerInformationTop + 15)
+        .text("Address1 : ", 50, customerInformationTop + 20)
         .font("Helvetica")
-        .text(add1, 130, customerInformationTop + 15)
-        .font("Helvetica")
-
-        .text("Address2 :", 50, customerInformationTop + 30)
-        .font("Helvetica")
-        .text(add2, 130, customerInformationTop + 30)
+        .text(add1, 130, customerInformationTop + 20)
         .font("Helvetica")
 
-        .text("City :", 50, customerInformationTop + 45)
+        .text("Address2 :", 50, customerInformationTop + 40)
         .font("Helvetica")
-        .text(city, 130, customerInformationTop + 45)
-        .font("Helvetica")
-
-        .text("State-Pincode : ", 50, customerInformationTop + 60)
-        .font("Helvetica")
-        .text(state - pincode, 130, customerInformationTop + 60)
+        .text(add2, 130, customerInformationTop + 40)
         .font("Helvetica")
 
-        .text("country", 50, customerInformationTop + 75)
+        .text("City :", 50, customerInformationTop + 60)
         .font("Helvetica")
-        .text(country, 130, customerInformationTop + 75)
-        .font("Helvetica")
-
-        .text("Phone number", 50, customerInformationTop + 90)
-        .font("Helvetica")
-        .text(phone, 130, customerInformationTop + 90)
-        .font("Helvetica")
-        .text("PV CardNo.", 50, customerInformationTop + 105)
-        .font("Helvetica")
-        .font("Helvetica")
-        .text("Bill No.:  ",  50, customerInformationTop+120)
-        .font("Helvetica")
-        .text(bookid,140,customerInformationTop+120)
+        .text(city, 130, customerInformationTop + 60)
         .font("Helvetica")
 
-        .text("Bill Date:  ",  345, customerInformationTop + 95)
-        .text( bookingdate, 345, customerInformationTop + 99)
+        .text("State-Pincode : ", 50, customerInformationTop + 80)
+        .font("Helvetica")
+        .text(state - pincode, 130, customerInformationTop + 80)
+        .font("Helvetica")
+
+        .text("country", 50, customerInformationTop + 100)
+        .font("Helvetica")
+        .text(country, 130, customerInformationTop + 100)
+        .font("Helvetica")
+
+        .text("Phone number", 50, customerInformationTop + 120)
+        .font("Helvetica")
+        .text(phone, 130, customerInformationTop + 120)
+        .font("Helvetica")
+        .text("PV CardNo.", 50, customerInformationTop + 135)
+        .font("Helvetica")
+        .text("Bill No.:  ",  300, customerInformationTop)
+        .font("Helvetica")
+        .text(bookid,350,customerInformationTop)
+        .font("Helvetica")
+
+        .text("Bill Date:  ",  300, customerInformationTop+20 )
+        .text( bookingdate, 350, customerInformationTop +20)
        
         .font("Helvetica")
-        .text("Check-in time:", cintime, 360, customerInformationTop + 80)
+        .text("Cin Time:", 300, customerInformationTop+40 )
         .font("Helvetica")
-        .text("Check-in Date:", cin, 375, customerInformationTop + 95)
+        .text(cintime, 350, customerInformationTop+40 )
+        .text("Cin Date:",  300, customerInformationTop+60 )
         .font("Helvetica")
-        .text("Check-out time:", couttime, 390, customerInformationTop + 60)
+        .text(cin, 350, customerInformationTop+60 )
+        .text("Check-out time:",  300, customerInformationTop + 80)
         .font("Helvetica")
-        .text("Check-out Date:", cout, 410, customerInformationTop + 95)
+        .text(couttime, 350, customerInformationTop + 80)
+       
+        .text("Check-out Date:",  300, customerInformationTop +100)
         .font("Helvetica")
-        .text("No.of pax", 425, customerInformationTop + 100)
+        .text(cout, 350, customerInformationTop +100)
+       
+        .text("No.of pax", 300, customerInformationTop + 120)
         .font("Helvetica")
-        .text("Flat no.  ", flatno, 440, customerInformationTop + 65)
+        .text("Flat no.  ", 300, customerInformationTop + 140)
         .font("Helvetica")
-        .text("Flat type:  ", flattype, 445, 250 + 90)
+        .text(flatno, 350, customerInformationTop + 140)
+ 
+        .text("Flat type:  ", 300, customerInformationTop+ 160)
         .font("Helvetica")
-        .text("No.of days: ", noofdays, 440, customerInformationTop + 90)
+        .text(flattype,350,customerInformationTop+  160)
 
+        .text("No.of days: ",  300, customerInformationTop + 180)
+
+        .text( noofdays, 350, customerInformationTop + 180)
         // .text(
         //     invoice.shipping.city +
         //     ", " +
@@ -359,12 +369,12 @@ function generateCustomerInformation(doc,) {
         
         .moveDown();
 
-    generateHr(doc, 450);
+    generateHr(doc, 400);
 }
 
 function generateInvoiceTable(doc,) {
     let i;
-    const invoiceTableTop = 460;
+    const invoiceTableTop = 400;
 
     doc.font("Helvetica-Bold");
     generateTableRow(
