@@ -469,7 +469,8 @@ router.get('/getbookingwithuserid', authcheck, function (req, res) {
 router.get('/getcanceledbooking', authcheck, function (req, res) {
   try {
     // id=req.param.userid
-    command = 'select * from booking WHERE userid=' + req.query.userid + ' and bookedstatusid=2 ORDER BY checkin';
+    // ORDER BY checkin desc
+    command = 'select * from booking WHERE userid=' + req.query.userid + ' and bookedstatusid=2 ORDER BY checkin desc';
     console.log(command);
     con.query(command, function (error, results) {
       if (error) {
