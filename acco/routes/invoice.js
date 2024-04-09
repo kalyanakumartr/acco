@@ -157,8 +157,8 @@ router.get('/getpdf',function (req,res) {
                 console.log( err);
                 res.send("Pls Check Booking Id");
             } else {
-                console.log(cmd);
-                console.log(resultt);
+                // console.log("cmd",cmd);
+                console.log("rett",resultt);
                 // res.send({ result });
   
     cname = resultt[0].firstname;
@@ -170,6 +170,7 @@ router.get('/getpdf',function (req,res) {
     country = resultt[0].country;
     phone = resultt[0].phonenumber;
     pincode = resultt[0].pincode;
+    adult=resultt[0].adult;
     
     bookid =  resultt[0].bookingid;
     // cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
@@ -323,33 +324,35 @@ function generateCustomerInformation(doc,) {
         .text( bookingdate, 350, customerInformationTop +20)
        
         .font("Helvetica")
-        .text("Cin Time:", 300, customerInformationTop+40 )
+        // .text("Cin Time:", 300, customerInformationTop+40 )
+        // .font("Helvetica")
+        // .text(cintime, 350, customerInformationTop+40 )
+        .text("CDateTime:",  300, customerInformationTop+40 )
         .font("Helvetica")
-        .text(cintime, 350, customerInformationTop+40 )
-        .text("Cin Date:",  300, customerInformationTop+60 )
-        .font("Helvetica")
-        .text(cin, 350, customerInformationTop+60 )
-        .text("Check-out time:",  300, customerInformationTop + 80)
-        .font("Helvetica")
-        .text(couttime, 350, customerInformationTop + 80)
+        .text(cin, 370, customerInformationTop+40 )
+        // .text("Check-out time:",  300, customerInformationTop + 80)
+        // .font("Helvetica")
+        // .text(couttime, 350, customerInformationTop + 80)
        
-        .text("Check-out Date:",  300, customerInformationTop +100)
+        .text("Cout DateTime:",  300, customerInformationTop +60)
         .font("Helvetica")
-        .text(cout, 350, customerInformationTop +100)
+        .text(cout, 350, customerInformationTop +60)
        
-        .text("No.of pax", 300, customerInformationTop + 120)
+        .text("No.of pax", 300, customerInformationTop + 80)
+        .text(adult, 350, customerInformationTop + 80)
+        
         .font("Helvetica")
-        .text("Flat no.  ", 300, customerInformationTop + 140)
+        .text("Flat no.  ", 300, customerInformationTop + 100)
         .font("Helvetica")
-        .text(flatno, 350, customerInformationTop + 140)
+        .text(flatno, 350, customerInformationTop + 100)
  
-        .text("Flat type:  ", 300, customerInformationTop+ 160)
+        .text("Flat type:  ", 300, customerInformationTop+ 120)
         .font("Helvetica")
-        .text(flattype,350,customerInformationTop+  160)
+        .text(flattype,350,customerInformationTop+  120)
 
-        .text("No.of days: ",  300, customerInformationTop + 180)
+        .text("No.of days: ",  300, customerInformationTop + 140)
 
-        .text( noofdays, 350, customerInformationTop + 180)
+        .text( noofdays, 350, customerInformationTop + 140)
         // .text(
         //     invoice.shipping.city +
         //     ", " +
@@ -388,15 +391,26 @@ function generateInvoiceTable(doc,) {
     );
     generateHr(doc, invoiceTableTop + 20);
     doc.font("Helvetica");
-
+const customerInformationTop=200;
     const position = invoiceTableTop + 35;
     generateTableRow(
+        // doc,
+        // .text(position)
+        // .text("Subtotal  ", 320, customerInformationTop+ 180)
+        // // .text(subtotal, 350, customerInformationTop+ 160)
+        
+        // .text("Flat type:  ", 340, customerInformationTop+ 180)
+
+        // ,
+        // noofdays,
+        // 'main*days'
         doc,
-        position,
-        "Subtotal",
+        position + 10,
+        'SUBTOTAL',
         subtotal,
         noofdays,
         'main*days'
+
 
     );
     generateTableRow(
