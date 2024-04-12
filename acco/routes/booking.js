@@ -12,6 +12,34 @@ const { captureRejectionSymbol } = require('events');
 
 
 
+
+
+//st get data for monthly
+router.get('/getmonthlydata',(req,res)=>{
+  try{
+    cmd='select * from booking where checkin between "'+req.query.stdate+'" and "'+req.query.enddate+'"';
+    con.query(cmd,(error, result) => {
+      console.log(cmd);
+      console.log(result.length);
+      if (result.length<=0) {
+        console.log("No Data Pls check Date");
+        res.send("No Data Pls check Date");
+      }
+      else {
+        console.log("Successfully Get Monthly Data");
+        res.send(result);
+      }
+    });
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+//end get data for monthly
+
 //st cancelpolicy
 
 router.get('/cancelpolicy', (req, res) => {
