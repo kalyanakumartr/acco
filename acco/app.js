@@ -27,15 +27,16 @@ app.set('view engine', 'jade');
 const { error } = require('console');
 
 
-
-const cors = require('cors');
-const allowedOrigins = ['http://localhost:4200' ];
+const cors = require("cors");
+const { error } = require('console');
+const allowedOrigins = ['http://localhost:3001' ,'http://localhost:4200'];
 const options=cors.CorsOptions= {  origin: allowedOrigins};
 app.use(cors(options));
 app.use(cors({
   origin: '*'
   
 }));
+
 
 app.use(logger('dev'));
 app.use(express.json());
