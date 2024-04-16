@@ -26,8 +26,18 @@ router.get('/getmonthlydata',(req,res)=>{
         res.send("No Data Pls check Date");
       }
       else {
-        console.log("Successfully Get Monthly Data");
-        res.send(result);
+        // console.log("Successfully Get Monthly Data");
+        // res.send(result);
+        
+        // var i = 0;
+        // for (var obj in result[0]) {
+        //   // console.log("obj", result[0][obj]);
+        //   result[0][obj].bhk1count = result[0][obj].bhk1count+'+';
+        //   result[0][obj].bhk2count = result[0][obj].bhk2count+'+';
+          // result[0][obj].roomnoss = JSON.parse(result[0][obj].roomnoss.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+        // }
+        res.send({"acheckin":result.acheckin,"bhk1count":result[0].bhk1count,"bhk2count":result[0].bhk2count})
+        // "bhk3count":result[0].bhk3count});
       }
     });
   }

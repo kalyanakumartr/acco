@@ -24,7 +24,7 @@ require('dotenv').config()
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-const { error } = require('console');
+// const { error } = require('console');
 
 
 const cors = require("cors");

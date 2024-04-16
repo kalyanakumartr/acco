@@ -15,7 +15,7 @@ const nodemailer = require("nodemailer");
 
 router.get('/getlogic', function (req, res) {
   try {
-    var cmd = 'select * from logic where adult=' + req.query.adult + ' ';
+    var cmd = 'select * from logic where roomtypeid='+req.query.roomtypeid+' and adult=' + req.query.adult + '';
     console.log(cmd);
     cin = req.query.cin;
     cout = req.query.cout;
@@ -23,10 +23,11 @@ router.get('/getlogic', function (req, res) {
       console.log("Data Length", getboores.length);
       if (getboores.length >= 1) {
         adultcount = getboores[0].adult;
+        roomtypeids=getboores[0].roomtypeid;
         console.log("adul", adultcount);
-        command = 'CALL spandroomlist (?,?,?)';
+        command = 'CALL spandroomlist (?,?,?,?)';
         console.log("command", cin, cout, adultcount)
-        con.query(command, [cin, cout, adultcount], function (err, result) {
+        con.query(command, [cin, cout, adultcount,roomtypeids], function (err, result) {
           // console.log("len",result.length);
           // console.log("aa",result.affectedRows)
           if (err) {
