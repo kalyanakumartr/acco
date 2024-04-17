@@ -422,6 +422,53 @@ router.post('/updatebooking', authcheck, function (req, res) {
 //end update booking
 
 
+//get booking monthly detail
+router.get('/getbookingmonthly', authcheck, function (req, res) {
+  try {
+    command = 'select * from booking where roomtypeid=2';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+//end 
+
+
+//get booking service detail
+router.get('/getbookingservice', authcheck, function (req, res) {
+  try {
+    command = 'select * from booking where roomtypeid=1';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send("Unable to get Date ")
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+
+})
+
+//end 
+
 
 //get booking detail
 router.get('/getbooking', authcheck, function (req, res) {
