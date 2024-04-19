@@ -108,4 +108,29 @@ con.query(command, function (err, result) {
     })
 
 
+router.get('/getebreading',(req,res)=>{
+    try{
+        cmd='select * from ebreading where bookingid='+req.query.bookingid+'';
+        con.query(cmd, function (error, result) {
+            console.log(result.length)
+            if (result.length>=1) {
+                res.send(result);
+
+            }
+            else {
+                res.send({ "Message": "Unable to get Date " });
+
+            }
+          })
+    }
+    catch (e) {
+        console.log("Catch");
+        const statusCode = e.statusCoderes || 500;
+        res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+    
+      }
+
+})
+
+
 module.exports = router;
