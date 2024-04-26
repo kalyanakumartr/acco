@@ -178,7 +178,7 @@ router.post('/verifyOTP', (req, res) => {
       con.query(cmmd, function (error, result) {
         console.log("count", result[0].counting);
         if (result[0].counting >= 1) {
-          res.send({ status: true, message: "OTP verified successfully " });
+          res.send({ status: true, message: "Phonenumber verified successfully " });
         }
         else {
           console.log("Error", error)
@@ -222,7 +222,7 @@ router.get('/emailverify', function (req, res) {
 
     else {
       //   console.log("Error pls check Email");
-      res.send("Pls check Email");
+      res.send({ status: true, message: "Phonenumber verified successfully " });
     }
   }
 

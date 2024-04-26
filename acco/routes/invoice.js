@@ -170,13 +170,13 @@ router.get('/getpdf',function (req,res) {
     country = resultt[0].country;
     phone = resultt[0].phonenumber;
     pincode = resultt[0].pincode;
-    adult=resultt[0].adult;
+    adult=resultt[0].adults;
     
     bookid =  resultt[0].bookingid;
     // cdatetime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     bookingdate =  resultt[0].bookingid;
     cin =  resultt[0].checkin;
-    cout =  resultt[0].Checkout;
+    cout =  resultt[0].checkout;
     cintime =  resultt[0].checkintime;
     couttime =  resultt[0].checkouttime;
     flatno =  resultt[0].roomno;
@@ -187,9 +187,9 @@ router.get('/getpdf',function (req,res) {
         subtotal =  resultt[0].subtotal;
     maintenance =  resultt[0].maintenance;
     discount =  resultt[0].discount;
-    total =  resultt[0].total;
-    gst =  resultt[0].gst;
-    nettotal =  resultt[0].nettotal;
+    total =  resultt[0].subtotal;
+    gst =  resultt[0].tax;
+    nettotal =  resultt[0].totalprice;
 
 // console.log(bookid);
 
@@ -334,17 +334,17 @@ function generateCustomerInformation(doc,) {
         // .font("Helvetica")
         // .text(couttime, 350, customerInformationTop + 80)
        
-        .text("Cout DateTime:",  300, customerInformationTop +60)
+        .text("Cout DateTime:",  300, customerInformationTop +66)
         .font("Helvetica")
-        .text(cout, 350, customerInformationTop +60)
+        .text(cout, 370, customerInformationTop +66)
        
-        .text("No.of pax", 300, customerInformationTop + 80)
-        .text(adult, 350, customerInformationTop + 80)
+        .text("No.of pax", 300, customerInformationTop + 90)
+        .text(adult, 350, customerInformationTop + 90)
         
         .font("Helvetica")
-        .text("Flat no.  ", 300, customerInformationTop + 100)
+        .text("Flat no.  ", 300, customerInformationTop + 105)
         .font("Helvetica")
-        .text(flatno, 350, customerInformationTop + 100)
+        .text(flatno, 350, customerInformationTop + 105)
  
         .text("Flat type:  ", 300, customerInformationTop+ 120)
         .font("Helvetica")
@@ -409,7 +409,7 @@ const customerInformationTop=200;
         'SUBTOTAL',
         subtotal,
         noofdays,
-        'main*days'
+        nettotal
 
 
     );
@@ -419,7 +419,7 @@ const customerInformationTop=200;
         'Maintenance',
         maintenance,
         noofdays,
-        'main*days'
+        1500
 
     );
     generateTableRow(
@@ -428,7 +428,7 @@ const customerInformationTop=200;
         'Discount',
         discount,
         noofdays,
-        'dis*days'
+        'No Discount'
 
     );
 
@@ -444,8 +444,8 @@ const customerInformationTop=200;
         "",
         "",
         "Total",
-        "",
-        total
+        
+        subtotal+1500
     );
 
     const paidToDatePosition = subtotalPosition + 20;
@@ -456,8 +456,8 @@ const customerInformationTop=200;
         "",
         "",
         "GST",
-        "",
-        gst
+        
+        'Nil'
     );
     const totalPosition = paidToDatePosition + 20;
     generateTableRow(
@@ -466,8 +466,8 @@ const customerInformationTop=200;
         "",
         "",
         "Net-Total",
-        "",
-        nettotal
+        
+        subtotal+1500
     );
     doc.font("Helvetica");
     generateHr(doc, position + 60);
@@ -496,7 +496,7 @@ function generateFooter(doc) {
 
 function generateTableRow(
     doc,
-    y,
+   y,
     Particulars,
     Tariff,
     NoofDays,
