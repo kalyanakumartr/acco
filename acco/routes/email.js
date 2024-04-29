@@ -222,7 +222,7 @@ router.get('/emailverify', function (req, res) {
 
     else {
       //   console.log("Error pls check Email");
-      res.send({ status: true, message: "Phonenumber verified successfully " });
+      res.send("Phonenumber verified successfully " );
     }
   }
 
