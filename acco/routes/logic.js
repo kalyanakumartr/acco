@@ -32,7 +32,8 @@ router.get('/getlogic', function (req, res) {
           // console.log("aa",result.affectedRows)
           if (err) {
             console.log("err", err);
-            res.send("We are Sorry! currently all rooms are occupied .");
+            // res.send("We are Sorry! currently all rooms are occupied s.");
+            res.send({message:"No Rooms "})
           }
           else {
             console.log(result);

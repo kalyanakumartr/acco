@@ -216,13 +216,14 @@ router.get('/emailverify', function (req, res) {
       else {
         console.log(result);
 
-        res.send(result);
+        res.send({result,message:"Phonenumber verified successfully "});
+        
       }
     }
 
     else {
       //   console.log("Error pls check Email");
-      res.send("Phonenumber verified successfully " );
+      res.send({message:"Phonenumber Not verified successfully "} );
     }
   }
 
