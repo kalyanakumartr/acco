@@ -67,7 +67,7 @@ router.get('/getroomslist', function (req, res) {
 router.get('/getstatus', function (req, res) {
   console.log("Welcome to Status");
   try {
-    command = 'SELECT * FROM status WHERE stastustype='+req.query.stastustype+'';
+    command = 'SELECT * FROM status WHERE statustype='+req.query.stastustype+'';
     con.query(command, function (error, result) {
       if (error) {
         res.send({ "Message": "Unable to get Date " });
@@ -150,7 +150,9 @@ router.get('/getroomlist', function (req, res) {
 router.post('/roomupdatestatus',(req,res)=>{
   try{
     console.log("Welcome to Roomupdatestatus")
-    cmd='update room set status='+req.body.statusid+' where roomid='+req.body.roomid+'';
+    cmd='update room set status='+req.body.statusid+' where roomid='+req.body.roomid+' ';
+    // and statustype="'+req.body.statustype+'"';
+    console.log(cmd);
     // cmd='update room set status=(SELECT statusid FROM status WHERE statusname="'+req.body.statusname+'" and stastustype="room") where roomid='+req.body.roomid+'';
     con.query(cmd,(err,result)=>{
       
@@ -180,7 +182,7 @@ router.post('/roomupdatestatus',(req,res)=>{
 //to get roomnumber and bhk when floornumber given
 router.get('/getroom', authcheck, function (req, res) {
   console.log("getroom");
-  var getroom = ('SELECT *,(SELECT statusname FROM status WHERE statusid=status and stastustype="room") AS statusname FROM room');
+  var getroom = ('SELECT *,(SELECT statusname FROM status WHERE statusid=status and statustype="room") AS statusname FROM room');
   con.query(getroom, function (error, result) {
     if (error) {
 
