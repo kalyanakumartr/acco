@@ -279,7 +279,44 @@ router.get('/getguestdetail', function (req, res) {
 
 //end copy
 
+//st monthly
 
+router.get('/getguestdetailmonthly', function (req, res) {
+  try {
+    startdate = req.query.checkin;
+    enddate= req.query.checkout;    
+    const sql = "CALL getguestmonthly(" + startdate + "," + enddate + ")";
+    console.log(sql);
+    con.query(sql, function (err, result) {
+        console.log(result);
+      if (err) {
+        res.send({"No Data":err});
+      }
+      else {
+    /*    var i = 0;
+            for (var obj in result[0]) {
+              result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+            
+            };
+
+*/
+        // res.send({"bhk2":result[0].bhk2count});
+        res.send({result});
+
+      }
+    });
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+
+
+
+//end monthly
 
 
 
