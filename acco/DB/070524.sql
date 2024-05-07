@@ -1,0 +1,1414 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               8.0.35 - MySQL Community Server - GPL
+-- Server OS:                    Win64
+-- HeidiSQL Version:             12.6.0.6765
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Dumping database structure for acco
+CREATE DATABASE IF NOT EXISTS `acco` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `acco`;
+
+-- Dumping structure for table acco.booking
+CREATE TABLE IF NOT EXISTS `booking` (
+  `bookingid` int NOT NULL AUTO_INCREMENT,
+  `userid` int DEFAULT NULL,
+  `modeoftypeid` int DEFAULT NULL,
+  `roomtypeid` int DEFAULT NULL,
+  `bhk1count` int DEFAULT NULL,
+  `bhk2count` int DEFAULT NULL,
+  `bhk3count` int DEFAULT NULL,
+  `firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lastname` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phonenumber` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address1` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address2` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pincode` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `checkin` datetime DEFAULT NULL,
+  `checkout` datetime DEFAULT NULL,
+  `acheckin` datetime DEFAULT NULL,
+  `acheckout` datetime DEFAULT NULL,
+  `adults` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `child` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `childage` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `roomtype` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `roomid` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '''''',
+  `roomnos` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `bed` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `imageUrl` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `noofdays` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `price` int DEFAULT NULL,
+  `tax` int DEFAULT NULL,
+  `subtotal` int DEFAULT NULL,
+  `totalprice` int DEFAULT NULL,
+  `bookedstatusid` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `verificationstatus` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `clientfeedback` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `commands` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`bookingid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table acco.booking: ~48 rows (approximately)
+INSERT INTO `booking` (`bookingid`, `userid`, `modeoftypeid`, `roomtypeid`, `bhk1count`, `bhk2count`, `bhk3count`, `firstname`, `lastname`, `email`, `phonenumber`, `address1`, `address2`, `city`, `state`, `country`, `pincode`, `checkin`, `checkout`, `acheckin`, `acheckout`, `adults`, `child`, `childage`, `roomtype`, `roomid`, `roomnos`, `bed`, `imageUrl`, `noofdays`, `price`, `tax`, `subtotal`, `totalprice`, `bookedstatusid`, `verificationstatus`, `clientfeedback`, `commands`, `status`) VALUES
+	(23, 10, 1, 1, 0, 1, 0, 'Arjun', 'Test1', 'muthu@stashook.com', '444444', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2023-12-29 03:00:00', '2023-12-30 04:00:00', NULL, NULL, '2', '1', '0', 'Service Apartments', '3', '0', '0', NULL, '1', 2899, NULL, NULL, 2899, '1', 'Checked', '0', '0', 1),
+	(24, 10, 1, 1, 0, 1, 0, 'Arjun', 'Test1', 'muthu@stashook.com', '444444', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2023-12-29 03:00:00', '2023-12-30 04:00:00', NULL, NULL, '2', '1', '0', 'Service Apartments', '6', '0', '0', NULL, '1', 2899, NULL, NULL, 2899, '1', 'Checked', '0', '0', 1),
+	(25, 10, 1, 1, 0, 1, 0, 'Arjun', 'Test1', 'muthu@stashook.com', '444444', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-02-22 12:37:00', '2023-12-28 04:00:00', NULL, NULL, '2', '1', '0', 'Service Apartments', '10,8,9', '201,202,303', '0', NULL, '1', 2899, NULL, NULL, 2899, '5', 'Checked', '0', '0', 1),
+	(26, 10, 1, 1, 0, 1, 0, 'Arjun', 'Test1', 'muthu@stashook.com', '1', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-02-22 16:00:00', '2023-12-28 04:00:00', NULL, NULL, '2', '1', '0', 'Service Apartments', '1,2', '101,102', '0', 'images_1706163210489.jpg', '1', 2899, NULL, NULL, 2899, '1', 'Checked', '0', '0', 1),
+	(27, 10, 1, 1, 0, 1, 0, 'Arjun', 'Test1', 'muthu@stashook.com', '1', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-02-22 14:13:00', '2023-12-28 04:00:00', NULL, NULL, '2', '3', '0', 'Service Apartments', '2', '0', '0', 'images_1704989565170.jpg', '1', 2899, NULL, NULL, 2899, '1', 'Checked', '0', '0', 1),
+	(29, 10, 1, 1, 0, 0, 1, 'Arjun', 'Test1', 'muthu@stashook.com', '1', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-02-22 21:00:00', '2023-12-28 04:00:00', '2024-02-21 21:00:00', NULL, '2', '3', '6,8,9', 'Service Apartments', '5', '0', '0', NULL, '1', 2899, NULL, NULL, 2899, '2', 'Checked', '0', 'Customer room cancel ', 1),
+	(30, 7, 1, 1, 0, 1, 0, 'Tamil', 'Test1', 'tamil@stashook.com', '444444', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-01-13 03:00:01', '2024-01-14 03:00:01', NULL, NULL, '2', '3', '5,8,9', 'Service Apartments', '4', '0', '0', NULL, '1', 2899, NULL, NULL, 2899, '1', 'Checked', '0', '0', 1),
+	(44, 17, 1, 1, 0, 2, 1, 'sathish', 'Test1', 'sathish@stashook.com', '2', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-01-13 03:00:01', '2024-01-14 03:00:01', NULL, NULL, '20', '1', '7', 'Service Apartments', '11', '0', '0', 'images_1706163457607.jpg', '1', 12000, NULL, NULL, 12000, '1', 'Checked', '0', '0', 1),
+	(45, 10, 1, 1, 0, 0, 0, 'Arjun', 'Test1', 'muthu@stashook.com', '1', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-01-13 03:00:01', '2024-01-14 03:00:01', '2024-01-27 15:00:00', '2024-01-14 03:00:01', '4', '1', '7', 'Service Apartments', '1', '505', '0', NULL, '1', 2599, 400, 3000, 2599, '1', 'Checked', '0', '0', 1),
+	(76, 6, 1, 1, 0, 2, 0, 'MUTHU', 'Test1', 'MUTHU@stashook.com', '444444', 'Test1', 'Test1', 'Test1', 'TN', 'India', '55555', '2024-03-27 03:00:00', '2024-03-28 04:00:00', '2024-01-18 13:18:51', NULL, '2', '3', '5,8,9', '1', '1,2,5', '203', '0', NULL, '1', 2899, NULL, NULL, 2899, '2', 'Checked', '0', 'no cash', 1),
+	(77, 17, 1, 1, 0, 8, 0, 'sathish', '0', 'sathish@gmail.com', '99409', '0', '0', '0', '0', '0', '0', '2024-02-27 20:31:00', '2024-02-28 20:31:00', NULL, NULL, '40', '0', '0', '1', '', '203', '0', NULL, '1', 5198, NULL, NULL, 5198, '1', 'undefined', '0', '0', 1),
+	(78, 22, 1, 1, 0, 0, 1, 'arasan', '0', 'arasan@gmail.com', '9876545960', '0', '0', '0', '0', '0', '0', '2024-02-27 20:33:00', '2024-02-28 20:33:00', NULL, NULL, '7', '0', '0', '1', '', '303', '1', NULL, '1', 3898, NULL, NULL, 3898, '1', 'undefined', '0', '0', 1),
+	(79, 6, 1, 1, 1, 0, 1, 'muthu', '0', 'muthu@gmail.com', '9876545667', '0', '0', '0', '0', '0', '0', '2024-02-27 19:33:00', '2024-02-28 19:33:00', NULL, NULL, '10', '0', '0', '1', '', '0', '0', NULL, '1', 3599, NULL, NULL, 3599, '2', 'undefined', '0', 'Plan Cance so i ', 1),
+	(80, 6, 1, 1, 0, 1, 0, 'muthu', '0', 'muthu@gmail.com', '9876545667', '0', '0', '0', '0', '0', '0', '2024-03-11 16:29:00', '2024-03-12 11:29:00', '2024-03-26 16:57:23', '2024-03-15 15:00:00', '3', '0', '0', '1', '', '0', '1', 'images_1710249086699.jpg', '0.7916666666666666', 1502, NULL, NULL, 1502, '3', 'undefined', '0', '0', 1),
+	(81, 24, 1, 1, 1, 0, 0, 'tiger', 'lion', 'tiger@gmail.com', '8877665544', 'forest', 'chennai', 'Chennai', 'Tamil Nadu', 'India', '600001', '2024-03-19 12:58:00', '2024-03-20 12:58:00', '2024-03-18 13:53:34', NULL, '2', '1', '3', '1', '1', '0', '0', '', '1', 1599, NULL, NULL, 1599, '2', 'undefined', '0', '0', 1),
+	(82, 24, 1, 1, 0, 1, 0, 'tiger', 'lion', 'tiger@gmail.com', '8877665544', 'forest', 'chennai', 'Chennai', 'Tamil Nadu', 'India', '600001', '2024-03-20 13:54:00', '2024-03-21 13:54:00', '2024-03-18 13:56:44', NULL, '3', '0', '0', '1', '', '0', '1', NULL, '1', 1898, NULL, NULL, 1898, '1', 'undefined', '0', '0', 1),
+	(83, 24, 1, 1, 0, 2, 0, 'tiger', 'lion', 'tiger@gmail.com', '8877665544', 'forest', 'chennai', 'Chennai', 'Tamil Nadu', 'India', '600001', '2024-03-20 20:54:00', '2024-03-22 20:54:00', '2024-03-18 20:55:47', '2024-03-15 21:21:21', '7', '0', '0', '1', '4,3', '0', '0', NULL, '2', 11596, NULL, NULL, 11596, '1', 'undefined', '0', 'Room id is emt ', 1),
+	(84, 24, 1, 1, 0, 1, 0, 'tiger', 'lion', 'tiger@gmail.com', '8877665544', 'forest', 'chennai', 'Chennai', 'Tamil Nadu', 'India', '600001', '2024-03-29 11:42:00', '2024-03-30 11:42:00', '2024-03-26 13:51:33', NULL, '5', '0', '0', '1', '3', '102,201', '1', 'image.jpg', '1', 3198, NULL, NULL, 3198, '1', 'undefined', '0', '0', 1),
+	(85, 24, 1, 1, 1, 0, 1, 'tiger', 'lion', 'tiger@gmail.com', '8877665544', 'forest', 'chennai', 'Chennai', 'Tamil Nadu', 'India', '600001', '2024-03-30 11:48:00', '2024-03-31 11:48:00', NULL, '2024-04-19 17:23:11', '9', '0', '0', '1', '2', '303', '1', 'image.jpg', '2', 5497, 500, 5997, 5997, '1', 'undefined', '0', '0', 1),
+	(86, 6, 1, 1, 0, 0, 1, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-01 16:56:00', '2024-04-02 16:56:00', '2024-04-01 12:49:16', '2024-04-02 12:49:00', '6', '0', '0', '1', '5', '203', '0', 'image.jpg', '1', 3599, NULL, NULL, 3599, '4', 'undefined', '0', 'Room id is emt ', 1),
+	(87, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-02 17:41:00', '2024-04-04 17:41:00', '2024-03-27 11:34:35', NULL, '5', '0', '0', '1', '1,2', '101,202', '1', 'images_1711282383267.jpeg', '2', 6396, NULL, NULL, 6396, '5', 'undefined', '0', NULL, 1),
+	(88, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-12 11:10:00', '2024-04-14 11:10:00', '2024-03-26 12:42:47', NULL, '5', '0', '0', '1', '', '0', '1', 'image.jpg', '2', 6396, NULL, NULL, 6396, '1', 'undefined', '0', NULL, 1),
+	(89, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-03-29 12:31:00', '2024-03-31 12:31:00', '2024-03-26 12:45:21', NULL, '3', '0', '0', '1', '3', '0', '1', 'image.jpg', '2', 3796, NULL, NULL, 3796, '1', 'undefined', '0', NULL, 1),
+	(90, 6, 1, 1, 0, 0, 1, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-03-28 12:31:00', '2024-03-30 12:31:00', NULL, NULL, '4', '0', '0', '1', '', '0', '0', 'image.jpg', '2', 7198, NULL, NULL, 7198, '5', 'undefined', '0', NULL, 1),
+	(91, 17, 1, 1, 0, 2, 0, 'sathish', 'kumar', 'sathish@gmail.com', '99409', '41', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-12 12:40:00', '2024-04-14 12:40:00', NULL, NULL, '3', '0', '0', '1', '', '0', '0', 'image.jpg', '2', 5798, NULL, NULL, 5798, '1', 'undefined', '0', NULL, 1),
+	(92, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-03-28 13:41:00', '2024-03-29 13:41:00', NULL, NULL, '3', '0', '0', '1', '', '0', '1', 'image.jpg', '1', 1898, NULL, NULL, 1898, '1', 'undefined', '0', NULL, 1),
+	(93, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-02 16:10:00', '2024-04-03 16:10:00', NULL, NULL, '4', '0', '0', '1', '', '0', '0', 'image.jpg', '1', 2899, NULL, NULL, 2899, '1', 'undefined', '0', NULL, 1),
+	(94, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-16 11:56:00', '2024-04-18 11:56:00', NULL, NULL, '5', '0', '0', '1', '', '0', '1', 'image.jpg', '2', 6396, NULL, NULL, 6396, '1', 'undefined', '0', NULL, 1),
+	(95, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-18 12:02:00', '2024-04-20 12:02:00', NULL, NULL, '4', '0', '0', '1', '', '0', '0', 'image.jpg', '2', 5798, NULL, NULL, 5798, '1', 'undefined', '0', NULL, 1),
+	(96, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-10 12:36:00', '2024-04-12 12:36:00', '2024-04-01 12:40:19', '2024-04-12 12:44:00', '5', '0', '0', '1', '4', '202', '1', 'image.jpg', '2', 6396, NULL, NULL, 6396, '1', 'undefined', '0', NULL, 1),
+	(97, 6, 1, 1, 0, 3, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-01 16:42:00', '2024-04-02 16:42:00', NULL, NULL, '10', '0', '0', '1', '\'\'', '0', '0', 'image.jpg', '1', 8697, NULL, NULL, 8697, '1', 'undefined', '0', NULL, 1),
+	(98, 6, 1, 1, 0, 1, 1, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-01 16:42:00', '2024-04-02 16:42:00', NULL, NULL, '9', '0', '0', '1', '\'\'', '0', '0', 'image.jpg', '1', 6498, NULL, NULL, 6498, '1', 'undefined', '0', NULL, 1),
+	(99, 6, 1, 1, 0, 2, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-01 16:43:00', '2024-04-02 16:43:00', NULL, NULL, '6', '0', '0', '1', '\'\'', '0', '0', 'image.jpg', '1', 5798, NULL, NULL, 5798, '1', 'undefined', '0', NULL, 1),
+	(100, 6, 1, 1, 1, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-01 16:44:00', '2024-04-02 16:44:00', NULL, NULL, '7', '0', '0', '1', '\'\'', '0', '1', 'image.jpg', '1', 4497, NULL, NULL, 4497, '1', 'undefined', '0', NULL, 1),
+	(101, 16, 2, 2, 1, 0, 0, 'uma', 'b', 'arjunuma@gmail.com', '9940975265', '41', 'a', 'namakkal ', 'TN', 'India', '0', '2024-04-26 12:53:00', '2024-05-27 12:53:00', '2024-04-26 12:56:58', NULL, '2', '0', '0', 'undefined', '4', '202', '0', 'image.jpg', '31', 19999, NULL, NULL, 19999, '3', 'undefined', '0', NULL, 1),
+	(102, 22, 2, 2, 1, 0, 0, 'arasan', 'n', 'arasan@gmail.com', '9876545960', '51', 'a', 'namakkal', 'TN', 'India', 'undefined', '2024-04-29 12:41:00', '2024-05-30 12:41:00', '2024-04-29 12:44:39', NULL, '2', '0', '0', 'undefined', '2', '102', '0', 'image.jpg', '31', 19999, NULL, NULL, 19999, '3', 'undefined', '0', NULL, 1),
+	(103, 6, 1, 1, 1, 0, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-05-01 12:47:00', '2024-05-02 12:47:00', '2024-04-29 12:48:50', NULL, '2', '0', '0', 'undefined', '3', '201', '0', 'image.jpg', '1', 1599, NULL, NULL, 1599, '3', 'undefined', '0', NULL, 1),
+	(104, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-05-09 13:07:00', '2024-05-11 13:07:00', NULL, NULL, '2', '0', '0', 'undefined', '\'\'', '0', '0', 'image.jpg', '2', 5798, NULL, NULL, 5798, '1', 'undefined', '0', NULL, 1),
+	(105, 6, 1, 1, 1, 0, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-04-29 13:17:00', '2024-04-30 13:17:00', NULL, NULL, '2', '0', '0', 'undefined', '\'\'', '0', '0', 'image.jpg', '1', 1599, NULL, NULL, 1599, '1', 'undefined', '0', NULL, 1),
+	(106, 6, 1, 1, 1, 0, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-05-08 13:19:00', '2024-05-12 13:19:00', '2024-04-29 13:20:23', NULL, '2', '0', '0', 'undefined', '4', '202', '0', 'image.jpg', '4', 6396, NULL, NULL, 6396, '3', 'undefined', '0', NULL, 1),
+	(107, 6, 1, 1, 1, 0, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-05-08 13:21:00', '2024-05-09 13:21:00', NULL, NULL, '2', '0', '0', 'undefined', '\'\'', '0', '0', 'image.jpg', '1', 1599, NULL, NULL, 1599, '1', 'undefined', '0', NULL, 1),
+	(108, 6, 1, 1, 1, 0, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-05-07 13:49:00', '2024-05-08 13:49:00', NULL, NULL, '1', '0', '0', 'undefined', '\'\'', '0', '0', 'image.jpg', '1', 1299, NULL, NULL, 1299, '1', 'undefined', '0', NULL, 1),
+	(109, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-02 18:30:00', '2024-06-03 18:30:00', '2024-04-30 18:36:23', NULL, '2', '0', '0', 'undefined', '4', '202', '0', 'image.jpg', '1', 2899, NULL, NULL, 2899, '3', 'undefined', '0', NULL, 1),
+	(110, 6, 1, 1, 0, 2, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-03 18:39:00', '2024-06-04 18:39:00', '2024-04-30 19:05:03', NULL, '3', '0', '0', 'undefined', '8,10', '302,304', '0', 'image.jpg', '1', 2899, NULL, NULL, 2899, '3', 'undefined', '0', NULL, 1),
+	(111, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-03 19:40:00', '2024-06-04 19:40:00', '2024-04-30 19:04:35', NULL, '4', '0', '0', 'undefined', '7', '301', '0', 'image.jpg', '1', 2899, NULL, NULL, 2899, '3', 'undefined', '0', NULL, 1),
+	(112, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-03 19:54:00', '2024-06-04 19:05:00', '2024-04-30 19:03:49', NULL, '4', '0', '0', 'undefined', '6', '204', '0', 'image.jpg', '1', 2899, NULL, NULL, 2899, '3', 'undefined', '0', NULL, 1),
+	(113, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-03 21:42:00', '2024-06-04 21:03:00', '2024-04-30 19:02:37', NULL, '4', '0', '0', 'undefined', '2', '102', '0', 'image.jpg', '1', 2899, NULL, NULL, 2899, '3', 'undefined', '0', NULL, 1),
+	(114, 6, 1, 1, 0, 3, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-03 21:42:00', '2024-06-04 18:43:00', '2024-04-30 19:07:29', NULL, '8', '0', '0', 'undefined', '3', '201', '0', 'image.jpg', '1', 8697, NULL, NULL, 8697, '3', 'undefined', '0', NULL, 1),
+	(115, 6, 1, 1, 0, 2, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-03 21:49:00', '2024-06-04 21:49:00', '2024-04-30 19:05:40', '2024-06-04 19:09:00', '6', '0', '0', 'undefined', '11,12', '401,402', '0', 'image.jpg', '1', 5798, NULL, NULL, 5798, '4', 'undefined', '0', NULL, 1),
+	(116, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-06 19:32:00', '2024-06-07 19:32:00', NULL, NULL, '3', '0', '0', 'undefined', '\'\'', '0', '1', 'image.jpg', '1', 1898, NULL, NULL, 1898, '1', 'undefined', '0', NULL, 1),
+	(117, 27, 1, 1, 0, 1, 0, 'eswaran', 'k', 'eswaran@gmail.com', '8888887777', 'belukurichi', 'namakkal', 'Namakkal', 'Tamil Nadu', 'India', '637015', '2024-05-25 17:13:00', '2024-05-26 17:13:00', NULL, NULL, '3', '0', '0', 'undefined', '\'\'', '0', '1', 'image.jpg', '1', 1898, NULL, NULL, 1898, '1', 'undefined', '0', NULL, 1),
+	(118, 6, 1, 1, 0, 1, 0, 'muthu', 'n', 'muthu@gmail.com', '9876545667', '51', 'a', 'namakkal', 'TN', 'India', '0', '2024-06-15 14:03:00', '2024-06-20 14:03:00', '2024-05-06 14:08:34', '2024-05-07 14:11:00', '3', '0', '0', 'undefined', '1', '101', '1', 'image.jpg', '5', 9490, NULL, NULL, 9490, '4', 'undefined', '0', NULL, 1);
+
+-- Dumping structure for table acco.bookroom
+CREATE TABLE IF NOT EXISTS `bookroom` (
+  `bookingid` int NOT NULL AUTO_INCREMENT,
+  `roomno` int NOT NULL DEFAULT '0',
+  `noofbhk` varchar(50) NOT NULL DEFAULT '0',
+  `ac` bit(1) NOT NULL DEFAULT (0),
+  `breakfast` bit(1) NOT NULL DEFAULT (0),
+  `extrabed` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`bookingid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.bookroom: ~0 rows (approximately)
+INSERT INTO `bookroom` (`bookingid`, `roomno`, `noofbhk`, `ac`, `breakfast`, `extrabed`) VALUES
+	(1, 101, '2bhk', b'1', b'0', 0);
+
+-- Dumping structure for table acco.cancelpolicy
+CREATE TABLE IF NOT EXISTS `cancelpolicy` (
+  `cancelpolicyid` int NOT NULL AUTO_INCREMENT,
+  `timeofcancel` varchar(300) NOT NULL DEFAULT '0',
+  `cancelpercentage` varchar(300) NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT (1),
+  PRIMARY KEY (`cancelpolicyid`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.cancelpolicy: ~2 rows (approximately)
+INSERT INTO `cancelpolicy` (`cancelpolicyid`, `timeofcancel`, `cancelpercentage`, `status`) VALUES
+	(1, '12 Hourse Before', '0 %', 1),
+	(2, '12-24  Hourse Before', '25 %', 1),
+	(3, '24-36  hrs before chck in time', '50 %', 1),
+	(4, '36 -48 hrs before', '75 %', 1),
+	(5, 'Before 48 hrs no penalty', '100 %', 1);
+
+-- Dumping structure for table acco.childdetail
+CREATE TABLE IF NOT EXISTS `childdetail` (
+  `childdetailid` int NOT NULL AUTO_INCREMENT,
+  `bookingid` int NOT NULL DEFAULT '0',
+  `userid` int NOT NULL DEFAULT '0',
+  `childname` varchar(100) NOT NULL DEFAULT '0',
+  `childage` int NOT NULL DEFAULT (0),
+  `status` tinyint NOT NULL DEFAULT (0),
+  PRIMARY KEY (`childdetailid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.childdetail: ~0 rows (approximately)
+
+-- Dumping structure for table acco.contactus
+CREATE TABLE IF NOT EXISTS `contactus` (
+  `contactusid` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '0',
+  `email` varchar(100) NOT NULL DEFAULT '0',
+  `phonenumber` varchar(100) NOT NULL DEFAULT '0',
+  `city` varchar(100) NOT NULL DEFAULT '0',
+  `message` varchar(2000) NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT (1),
+  PRIMARY KEY (`contactusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.contactus: ~0 rows (approximately)
+INSERT INTO `contactus` (`contactusid`, `name`, `email`, `phonenumber`, `city`, `message`, `status`) VALUES
+	(1, 'Muthalagan', 'muthu@stashook.com', '98876543', 'Namakkal', ' Good Service ', 1),
+	(2, 'muthu', 'muthuslm2006@gmail.com', '9884080613', 'Namakkal', 'wsadsadasd', 1);
+
+-- Dumping structure for table acco.ebmaster
+CREATE TABLE IF NOT EXISTS `ebmaster` (
+  `ebmasterid` tinyint NOT NULL AUTO_INCREMENT,
+  `ebunit` varchar(50) NOT NULL DEFAULT '0',
+  `price` float NOT NULL DEFAULT (0),
+  `status` tinyint NOT NULL DEFAULT (1),
+  PRIMARY KEY (`ebmasterid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.ebmaster: ~0 rows (approximately)
+INSERT INTO `ebmaster` (`ebmasterid`, `ebunit`, `price`, `status`) VALUES
+	(1, '1-1000', 15, 1);
+
+-- Dumping structure for table acco.ebreading
+CREATE TABLE IF NOT EXISTS `ebreading` (
+  `ebreadingid` int NOT NULL AUTO_INCREMENT,
+  `bookingid` int NOT NULL DEFAULT '0',
+  `openingunit` float DEFAULT NULL,
+  `openingdate` datetime DEFAULT NULL,
+  `closingunit` float DEFAULT NULL,
+  `closingdate` datetime DEFAULT NULL,
+  `totalunit` float DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `totalamount` float DEFAULT NULL,
+  `status` tinyint DEFAULT (1),
+  PRIMARY KEY (`ebreadingid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.ebreading: ~3 rows (approximately)
+INSERT INTO `ebreading` (`ebreadingid`, `bookingid`, `openingunit`, `openingdate`, `closingunit`, `closingdate`, `totalunit`, `price`, `totalamount`, `status`) VALUES
+	(1, 30, 100, '2023-12-03 23:00:00', 300, '2024-04-30 00:00:00', 200, 15, 600, 1),
+	(3, 101, 400, '2024-04-26 12:55:00', NULL, NULL, NULL, NULL, NULL, 1),
+	(4, 102, 300, '2024-04-29 12:44:00', NULL, NULL, NULL, NULL, NULL, 1);
+
+-- Dumping structure for table acco.extrabill
+CREATE TABLE IF NOT EXISTS `extrabill` (
+  `extrabillid` int NOT NULL AUTO_INCREMENT,
+  `bookingid` varchar(50) NOT NULL DEFAULT '0',
+  `extrabillno` varchar(50) NOT NULL DEFAULT '0',
+  `purchaseitem` varchar(50) NOT NULL DEFAULT '0',
+  `price` varchar(50) NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`extrabillid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.extrabill: ~0 rows (approximately)
+
+-- Dumping structure for table acco.facilitycategory
+CREATE TABLE IF NOT EXISTS `facilitycategory` (
+  `facilitycategoryid` int NOT NULL AUTO_INCREMENT,
+  `categoryname` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`facilitycategoryid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.facilitycategory: ~7 rows (approximately)
+INSERT INTO `facilitycategory` (`facilitycategoryid`, `categoryname`) VALUES
+	(1, 'Living Area'),
+	(2, 'Media And Technology'),
+	(3, 'Bathroom'),
+	(4, 'Room Amenities'),
+	(5, 'Reception Services'),
+	(6, 'Miscellaneous'),
+	(7, 'Charged Amenities');
+
+-- Dumping structure for table acco.facilitycategorymap
+CREATE TABLE IF NOT EXISTS `facilitycategorymap` (
+  `fcmapid` int NOT NULL AUTO_INCREMENT,
+  `facilityid` int unsigned DEFAULT NULL,
+  `facilitycategoryid` int DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  PRIMARY KEY (`fcmapid`),
+  KEY `FK_facilitycategorymap_facilitycharges` (`facilityid`),
+  KEY `FK_facilitycategorymap_facilitycategory` (`facilitycategoryid`),
+  CONSTRAINT `FK_facilitycategorymap_facilitycategory` FOREIGN KEY (`facilitycategoryid`) REFERENCES `facilitycategory` (`facilitycategoryid`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.facilitycategorymap: ~0 rows (approximately)
+
+-- Dumping structure for table acco.facilitycharges
+CREATE TABLE IF NOT EXISTS `facilitycharges` (
+  `facilityid` int NOT NULL AUTO_INCREMENT,
+  `roomtypeid` int NOT NULL DEFAULT '0',
+  `facilityname` varchar(50) NOT NULL DEFAULT '0',
+  `facilitycategory` varchar(50) DEFAULT NULL,
+  `charges` int NOT NULL DEFAULT '0',
+  `quantity` int DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`facilityid`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.facilitycharges: ~2 rows (approximately)
+INSERT INTO `facilitycharges` (`facilityid`, `roomtypeid`, `facilityname`, `facilitycategory`, `charges`, `quantity`, `status`) VALUES
+	(1, 3, 'EB', 'Charge', 15, 1, 1),
+	(2, 1, 'ExtraBed', 'Charged Amenities', 299, 1, 1),
+	(3, 3, 'ExtraBed', 'Charged Amenities', 3000, 1, 1);
+
+-- Dumping structure for procedure acco.findcolor
+DELIMITER //
+CREATE PROCEDURE `findcolor`(
+	IN `checkindate` VARCHAR(50),
+	IN `acheckin` VARCHAR(50),
+	OUT `color` VARCHAR(50)
+)
+BEGIN
+
+SET color='Green';
+
+/*SELECT TIMESTAMPDIFF(second ,'2024-02-21 19:32:00',NOW()),NOW();*/
+/*SELECT acheckin IS NOT NULL;*/
+if acheckin IS NULL then
+ 
+ 
+
+if TIMESTAMPDIFF(second ,checkindate,NOW())> 0 then
+SET color='Orange';
+END if;
+
+
+if TIMESTAMPDIFF(second ,checkindate,NOW())> 3600 then
+SET color='Red';
+END if;
+
+if TIMESTAMPDIFF(second ,checkindate,NOW())<=0 then
+SET color='Green';
+END if;
+
+END if;
+/*SELECT actualcheckindate,@color,actualcheckindate > '0000-00-00 00:00:00';*/
+END//
+DELIMITER ;
+
+-- Dumping structure for table acco.floor
+CREATE TABLE IF NOT EXISTS `floor` (
+  `flid` int NOT NULL AUTO_INCREMENT,
+  `floornumber` varchar(50) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`flid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.floor: ~3 rows (approximately)
+INSERT INTO `floor` (`flid`, `floornumber`) VALUES
+	(1, 'FirstFloor'),
+	(2, 'SecondFloor'),
+	(3, 'ThirdFloor'),
+	(4, 'GroundFloor');
+
+-- Dumping structure for table acco.floorroommapping
+CREATE TABLE IF NOT EXISTS `floorroommapping` (
+  `floorid` int NOT NULL AUTO_INCREMENT,
+  `floornumber` varchar(50) DEFAULT NULL,
+  `noofbhk` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `roomno` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `availablitystatus` varchar(50) DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  PRIMARY KEY (`floorid`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.floorroommapping: ~12 rows (approximately)
+INSERT INTO `floorroommapping` (`floorid`, `floornumber`, `noofbhk`, `roomno`, `availablitystatus`, `status`) VALUES
+	(1, '1', '2bhk', '101', NULL, 1),
+	(2, '1', '2bhk', '102', NULL, 1),
+	(3, '1', '2bhk', '103', NULL, 1),
+	(4, '1', '3bhk', '104', NULL, 1),
+	(5, '2', '2bhk', '202', NULL, 1),
+	(6, '2', '2bhk', '201', NULL, 1),
+	(7, '2', '2bhk', '203', NULL, 1),
+	(8, '2', '3bhk', '204', NULL, 1),
+	(9, '3', '2bhk', '301', NULL, 1),
+	(10, '3', '2bhk', '302', NULL, 1),
+	(11, '3', '2bhk', '303', NULL, 1),
+	(12, '3', '3bhk', '304', NULL, 1);
+
+-- Dumping structure for table acco.fooditem
+CREATE TABLE IF NOT EXISTS `fooditem` (
+  `fooditemid` int NOT NULL AUTO_INCREMENT,
+  `fooditemname` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `foodcategory` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `avilabletime` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `price` float NOT NULL DEFAULT '0',
+  `status` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`fooditemid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.fooditem: ~5 rows (approximately)
+INSERT INTO `fooditem` (`fooditemid`, `fooditemname`, `foodcategory`, `avilabletime`, `price`, `status`) VALUES
+	(1, 'South Indian Foods', 'Chinese', '11 to 11', 50, 1),
+	(2, 'North Indian Foods', 'South Indian', '11 to 11', 30, 1),
+	(3, 'Chinese Foods', 'Chinese', '11 to 11', 130, 1),
+	(4, 'Beverages like Coffee /Tea / Cool Drinks', 'Chinese', '11 to 11', 120, 1),
+	(5, 'Tandoori Items', 'South Indian', '11 to 11', 90, 1);
+
+-- Dumping structure for procedure acco.getbookingdetailwithbookingid
+DELIMITER //
+CREATE PROCEDURE `getbookingdetailwithbookingid`(
+	IN `bookid` INT
+)
+BEGIN
+SELECT * FROM booking WHERE bookingid=bookid;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure acco.getguestbookingcancel
+DELIMITER //
+CREATE PROCEDURE `getguestbookingcancel`(
+	IN `cdate` VARCHAR(50)
+)
+BEGIN
+   DECLARE done INT DEFAULT FALSE;
+   DECLARE actualCheckin datetime;
+	DECLARE bookedCheckin  datetime;
+	DECLARE bookId  INT;
+	DECLARE cur1 CURSOR FOR SELECT bookingid, acheckin, checkin FROM booking where checkin LIKE concat(cdate,'%');
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+		DROP TEMPORARY TABLE IF EXISTS temp_table;
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_table
+(
+	`bookingid` int ,
+  `userid` int ,
+  `modeoftypeid` INT ,
+  `roomtypeid` INT,
+  `bhk1count` INT ,
+  `bhk2count` INT ,
+  `bhk3count` INT ,
+  `firstname` varchar(50) ,
+  `lastname` varchar(250) ,
+  `email` varchar(250) ,
+  `phonenumber` varchar(250),
+  `address1` varchar(250) ,
+  `address2` varchar(250) ,
+  `city` varchar(250) ,
+  `state` varchar(250),
+  `country` varchar(250),
+  `pincode` varchar(250) ,
+  `checkin` datetime ,
+  `checkout` datetime,
+  `acheckin` datetime ,
+  `acheckout` datetime ,
+  `adults` varchar(250),
+  `child` varchar(250) ,
+    `childage` varchar(250) ,
+    
+  `roomtype` varchar(250),
+  `roomid` varchar(250) ,
+`roomnos` varchar(250) ,
+   `bed` varchar(250),
+      `imageUrl` varchar(250),
+  `noofdays` varchar(250),
+
+  `price` float ,
+  `tax` float ,
+ `subtotal` float,
+  `totalprice` float ,
+  `bookedstatusid` varchar(250),
+  `verificationstatus` varchar(250),
+  `clientfeedback` varchar(250),
+  `commands` varchar(250),
+  `status` tinyint ,
+ 	`color` TEXT,
+ 	PRIMARY KEY (`bookingid`) USING BTREE
+ 	 );
+	
+
+SET @Comma = ', ';
+SET @Count = 0;
+/* SET @bookedstatusid=1;
+SET GLOBAL log_bin_trust_function_creators = "1";*/
+OPEN cur1;
+   read_loop: LOOP
+	    FETCH cur1 INTO bookId, actualCheckin, bookedCheckin;
+		/*	call findcolor(cdate,bookedCheckin,actualCheckin,@color);
+			*/call findcolor(bookedCheckin,actualCheckin,@color);
+		
+			select count(*) into @Count from temp_table where bookingid =bookId;
+			if (@Count=0) then
+					
+				INSERT INTO temp_table ( `bookingid`,  `userid`, `modeoftypeid` ,  `roomtypeid`, `bhk1count`,`bhk2count`,`bhk3count`,`firstname` ,  `lastname` ,  `email` ,  `phonenumber` ,
+				  `address1` ,  `address2`,  `city` ,  `state` ,  `country`,  `pincode` ,  `checkin` ,  `checkout` ,  `acheckin` ,`acheckout` ,
+				  `adults` ,  `child` ,   `childage` ,  `roomtype`,  `roomid` ,   `roomnos` ,  `bed` ,  `imageUrl` ,    `noofdays`,  `price` ,   `tax` , `subtotal`, `totalprice`,  
+				  `bookedstatusid` ,
+				  `verificationstatus`,  `status`, 	 `clientfeedback` ,`commands` ,`color`) (select *,  @color from booking where bookingid = bookId);
+			END IF;
+			
+	 IF done THEN
+      LEAVE read_loop;
+    END IF;
+  END LOOP;
+  CLOSE cur1;
+SELECT * from temp_table WHERE bookedstatusid=2 ORDER BY checkin desc;
+/*
+SELECT bookingid, acheckin, checkin FROM booking where bookedstatusid=2 and checkin LIKE concat(cdate,'%');
+*/DROP TEMPORARY TABLE IF EXISTS temp_table;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure acco.getguestdetailwithcolor
+DELIMITER //
+CREATE PROCEDURE `getguestdetailwithcolor`(
+	IN `cdate` VARCHAR(50)
+)
+BEGIN
+   DECLARE done INT DEFAULT FALSE;
+   DECLARE actualCheckin datetime;
+	DECLARE bookedCheckin  datetime;
+	DECLARE bookId  INT;
+	DECLARE cur1 CURSOR FOR SELECT bookingid, acheckin, checkin FROM booking where checkin LIKE concat(cdate,'%');
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+		DROP TEMPORARY TABLE IF EXISTS temp_table;
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_table
+(
+	bookingid int ,
+  userid int ,
+  modeoftypeid INT ,
+   roomtypeid INT,
+  bhk1count INT ,
+  bhk2count INT ,
+  bhk3count INT ,
+  firstname varchar(50) ,
+  lastname varchar(250) ,
+  email varchar(250) ,
+  phonenumber varchar(250),
+  address1 varchar(250) ,
+  address2 varchar(250) ,
+  city varchar(250) ,
+  state varchar(250),
+  country varchar(250),
+  pincode varchar(250) ,
+  checkin datetime ,
+  checkout datetime,
+  acheckin datetime ,
+  acheckout datetime ,
+  adults varchar(250),
+  child varchar(250) ,
+    childage varchar(250) ,
+    
+  roomtype varchar(250),
+  roomid varchar(250) ,
+roomnos varchar(250) ,
+   bed varchar(250),
+      imageUrl varchar(250),
+  noofdays varchar(250),
+
+  price float ,
+  tax float ,
+  subtotal float ,
+  totalprice float ,
+  bookedstatusid varchar(250),
+  verificationstatus varchar(250),
+ clientfeedback varchar(250),
+  commands varchar(250),
+
+  status tinyint ,
+ 	color TEXT,
+ 	romenose TEXT,
+ 	PRIMARY KEY (bookingid) USING BTREE
+ 	 );
+ 	 
+		
+SET @roomnoss='';	
+SET @Comma = ', ';
+SET @Count = 0;
+
+OPEN cur1;
+
+   read_loop: LOOP
+	    FETCH cur1 INTO bookId, actualCheckin, bookedCheckin;
+
+	   
+	    SET @roomids = (SELECT roomid from booking WHERE bookingid = bookId);
+/*SELECT @roomids;
+*/
+ if(@roomids ='') then 
+			SET @roomids='0';
+				END IF;
+
+/*
+@roomids ISNULL?@roomids:'0';
+*/
+SET @SQL_QUERY1 =concat('select json_array(GROUP_CONCAT("{",roomid ,":",roomno,"}")) into @roomnoss from room where roomid IN (',@roomids,') ');
+	PREPARE stmt4 FROM @SQL_QUERY1;
+	EXECUTE stmt4;
+	DEALLOCATE PREPARE stmt4;
+
+			call findcolor(bookedCheckin,actualCheckin,@color);
+			select count(*) into @Count from temp_table where bookingid =bookId;
+			if (@Count=0) then
+					
+				INSERT INTO temp_table ( bookingid,  userid, modeoftypeid ,  roomtypeid, bhk1count,bhk2count,bhk3count,firstname ,  lastname ,  email ,  phonenumber ,
+				  address1 ,  address2,  city ,  state ,  country,  pincode ,  checkin ,  checkout ,  acheckin ,acheckout,
+				  adults ,  child ,   childage ,  roomtype,  roomid ,   roomnos ,  bed ,  imageUrl ,    noofdays,  price ,   tax ,subtotal , totalprice,  
+				  bookedstatusid ,
+				  verificationstatus,  status,clientfeedback, commands,	color,romenose) (select *,  @color ,@roomnoss from booking where bookingid = bookId);
+				END IF;
+			
+	 IF done THEN
+      LEAVE read_loop;
+    END IF;
+  END LOOP;
+  CLOSE cur1;
+SELECT * from temp_table WHERE NOT bookedstatusid=4 ORDER BY checkin desc;
+DROP TEMPORARY TABLE IF EXISTS temp_table;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure acco.getguestdetailwithcolornew
+DELIMITER //
+CREATE PROCEDURE `getguestdetailwithcolornew`(
+	IN `cdate` VARCHAR(50),
+	OUT `bhk1co` INT,
+	OUT `bhk2co` INT,
+	OUT `bhk3co` INT
+)
+BEGIN
+   DECLARE done INT DEFAULT FALSE;
+   DECLARE actualCheckin datetime;
+	DECLARE bookedCheckin  datetime;
+	DECLARE bookId  INT;
+	DECLARE cur1 CURSOR FOR SELECT bookingid, acheckin, checkin FROM booking where checkin LIKE concat(cdate,'%');
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+		DROP TEMPORARY TABLE IF EXISTS temp_table2;
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_table2
+(
+	bookingid int ,
+  userid int ,
+  modeoftypeid INT ,
+   roomtypeid INT,
+  bhk1count INT ,
+  bhk2count INT ,
+  bhk3count INT ,
+  firstname varchar(50) ,
+  lastname varchar(250) ,
+  email varchar(250) ,
+  phonenumber varchar(250),
+  address1 varchar(250) ,
+  address2 varchar(250) ,
+  city varchar(250) ,
+  state varchar(250),
+  country varchar(250),
+  pincode varchar(250) ,
+  checkin datetime ,
+  checkout datetime,
+  acheckin datetime ,
+  acheckout datetime ,
+  adults varchar(250),
+  child varchar(250) ,
+    childage varchar(250) ,
+    
+  roomtype varchar(250),
+  roomid varchar(250) ,
+roomnos varchar(250) ,
+   bed varchar(250),
+      imageUrl varchar(250),
+  noofdays varchar(250),
+
+  price float ,
+  tax float ,
+  subtotal float ,
+  totalprice float ,
+  bookedstatusid varchar(250),
+  verificationstatus varchar(250),
+ clientfeedback varchar(250),
+  commands varchar(250),
+
+  status tinyint ,
+ 	color TEXT,
+ 	romenose TEXT,
+ 	PRIMARY KEY (bookingid) USING BTREE
+ 	 );
+
+SET @roomnoss='';	
+SET @Comma = ', ';
+SET @Count = 0;
+
+OPEN cur1;
+
+   read_loop: LOOP
+	    FETCH cur1 INTO bookId, actualCheckin, bookedCheckin;
+
+	   
+	    SET @roomids = (SELECT roomid from booking WHERE bookingid = bookId);
+/*SELECT @roomids;
+*/
+ if(@roomids ='') then 
+			SET @roomids='0';
+				END IF;
+
+/*
+@roomids ISNULL?@roomids:'0';
+*/
+SET @SQL_QUERY1 =concat('select json_array(GROUP_CONCAT("{",roomid ,":",roomno,"}")) into @roomnoss from room where roomid IN (',@roomids,') ');
+	PREPARE stmt4 FROM @SQL_QUERY1;
+	EXECUTE stmt4;
+	DEALLOCATE PREPARE stmt4;
+
+			call findcolor(bookedCheckin,actualCheckin,@color);
+			select count(*) into @Count from temp_table2 where bookingid =bookId;
+			if (@Count=0) then
+			select bhk1count, bhk2count, bhk3count into bhk1co, bhk2co, bhk3co from booking where bookingid = bookId;
+			END IF;
+			
+	 IF done THEN
+      LEAVE read_loop;
+    END IF;
+  END LOOP;
+  CLOSE cur1;
+  
+/*SELECT * from temp_table2 WHERE NOT bookedstatusid=4 ORDER BY checkin desc;
+DROP TEMPORARY TABLE IF EXISTS temp_table2;
+*/
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure acco.getguestmonthly
+DELIMITER //
+CREATE PROCEDURE `getguestmonthly`(
+	IN `startdate` DATE,
+	IN `enddate` DATE
+)
+BEGIN
+	DECLARE stage Bit DEFAULT true;
+
+DROP TEMPORARY TABLE IF EXISTS temp_table1;
+
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_table1
+	(
+	id int NOT NULL AUTO_INCREMENT,
+  	indate DATE,
+	title VARCHAR(50),
+ 	color VARCHAR(50),
+ 	PRIMARY KEY (id) USING BTREE
+ 	);
+/*
+WHILE( startdate=enddate)
+*/	
+
+set stage=TRUE;
+SET @idvalue=1;
+WHILE stage  DO
+
+	CALL getguestdetailwithcolornew(startdate, @b1, @b2, @b3);
+INSERT INTO temp_table1(id,indate,title,color) VALUES(@idvalue,startdate,CONCAT('2bhk-',(@b1+@b2)),'red');
+	SET @idvalue=@idvalue+1;
+	INSERT INTO temp_table1(id,indate,title,color) VALUES(@idvalue,startdate,CONCAT('3bhk-',(@b3)),'green');
+	SET @idvalue=@idvalue+1;
+	SET startdate=DATE_ADD(startdate, INTERVAL 1 DAY) ;
+	SET	@dateDiffs=DATEDIFF(startdate, enddate);
+
+	IF @dateDiffs>=1 then
+		set stage=false;
+	END If;
+
+
+
+END While;
+/*SET startdate=startdate+1;
+END
+*/
+SELECT json_array(GROUP_CONCAT("{title" ,":",title,",color:",color,",date:",indate,"}")) AS result FROM temp_table1;
+/*
+json_array(GROUP_CONCAT("{",roomid ,":",roomno,"}")) AS roomnoss,json_array(GROUP_CONCAT(roomid)) AS roomid,json_array(GROUP_CONCAT(roomno)) AS roomnos from room where roomid NOT IN (',@roomIds,') GROUP BY rtype,price,roomname');
+*/
+DROP TEMPORARY TABLE IF EXISTS temp_table1;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure acco.getroomlist
+DELIMITER //
+CREATE PROCEDURE `getroomlist`(
+	IN `checkin` VARCHAR(50),
+	IN `checkout` VARCHAR(50),
+	IN `roomtypeid` INT,
+	IN `adult` INT
+)
+BEGIN
+
+	
+
+select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,
+(SELECT sum(bhk2count) AS 2bhk  from booking WHERE (checkin  BETWEEN checkin AND checkout OR checkout BETWEEN checkin AND checkout ) AND '2BHK'=name)
+ AS avilable from tariffdetail where roomtypeid=roomtypeid AND (headcount=adult OR headcount>=4);
+
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure acco.getroomlistsp
+DELIMITER //
+CREATE PROCEDURE `getroomlistsp`(
+	IN `cin` VARCHAR(50),
+	IN `cout` VARCHAR(50),
+	IN `rtid` INT,
+	IN `adultin` INT
+)
+BEGIN
+   DECLARE done INT DEFAULT FALSE;
+   DECLARE roomname1 varchar(50);
+	DECLARE avail1  INT;
+	DECLARE available  INT;
+	DECLARE n INT DEFAULT 0;
+	DECLARE i INT DEFAULT 0;
+	DECLARE cur1 CURSOR FOR  SELECT roomname, COUNT(roomname) as available FROM room where STATUS=1  GROUP BY roomname;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	
+		DROP TEMPORARY TABLE IF EXISTS temp_table;
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_table
+(	name varchar(50),
+  des VARCHAR(100),
+  price DOUBLE,
+  maintenance DOUBLE,
+  tax DOUBLE,
+  headcount INT, 
+  totalamount DOUBLE,
+  discount DOUBLE,
+  roomtypeid INT,
+  avail INT  ,
+    PRIMARY KEY (name) USING BTREE
+ 	 );
+	
+
+SET @Comma = ', ';
+SET @Count = 0;
+SELECT COUNT( distinct roomname) FROM room where STATUS=1  INTO n;
+SET i=1;
+/*SET GLOBAL log_bin_trust_function_creators = "1";*/
+OPEN cur1;
+   read_loop: LOOP
+	    FETCH cur1 INTO roomname1, avail1;
+	    
+
+		if(roomname1 ='2BHK') then 
+		INSERT INTO temp_table SELECT name,des,price,maintenance,tax,headcount,totalamount,discount,roomtypeid, (avail1 -
+			(SELECT IFNULL(sum(bhk2count),0)  from booking WHERE (checkin  BETWEEN cin AND cout OR checkout BETWEEN cin AND cout ) )  )
+			from tariffdetail where roomtypeid=rtid AND  (headcount=adultin OR headcount=4);
+
+		elseif (roomname1 ='3BHK') then 
+				INSERT INTO temp_table SELECT name,des,price,maintenance,tax,headcount,totalamount,discount,roomtypeid, (avail1 -
+			(SELECT IFNULL(sum(bhk3count),0)  from booking WHERE (checkin  BETWEEN cin AND cout OR checkout BETWEEN cin AND cout ) )  )
+			from tariffdetail where roomtypeid=rtid AND NAME='3BHK';
+		End IF;	
+	IF i>=n or done THEN
+      LEAVE read_loop;
+    END IF;
+    SET i = i + 1;
+  END LOOP;
+  CLOSE cur1;
+SELECT * from temp_table;
+DROP TEMPORARY TABLE IF EXISTS temp_table;
+END//
+DELIMITER ;
+
+-- Dumping structure for table acco.idproof
+CREATE TABLE IF NOT EXISTS `idproof` (
+  `proofid` int NOT NULL AUTO_INCREMENT,
+  `userid` int NOT NULL DEFAULT '0',
+  `proofname` varchar(100) NOT NULL DEFAULT '0',
+  `proofurl` varchar(100) NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`proofid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.idproof: ~0 rows (approximately)
+
+-- Dumping structure for table acco.invoicedata
+CREATE TABLE IF NOT EXISTS `invoicedata` (
+  `invoicedataid` int NOT NULL AUTO_INCREMENT,
+  `bookingid` int NOT NULL DEFAULT '0',
+  `data` json NOT NULL,
+  `status` tinyint DEFAULT (1),
+  PRIMARY KEY (`invoicedataid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.invoicedata: ~2 rows (approximately)
+INSERT INTO `invoicedata` (`invoicedataid`, `bookingid`, `data`, `status`) VALUES
+	(1, 84, '[{"bed": "1", "tax": null, "city": "Chennai", "child": "0", "email": "tiger@gmail.com", "price": 3198, "state": "Tamil Nadu", "adults": "5", "roomid": "0", "roomno": null, "status": 1, "userid": 24, "checkin": "2024-03-29T06:12:00.000Z", "country": "India", "pincode": "600001", "roomnos": "0", "acheckin": null, "address1": "forest", "address2": "chennai", "checkout": "2024-03-30T06:12:00.000Z", "childage": "0", "commands": "0", "imageUrl": "image.jpg", "lastname": "lion", "noofdays": "1", "roomname": null, "roomtype": "1", "acheckout": null, "bhk1count": 0, "bhk2count": 1, "bhk3count": 0, "bookingid": 84, "firstname": "tiger", "totalprice": 3198, "phonenumber": "8877665544", "modeoftypeid": 1, "bookedstatusid": "1", "clientfeedback": "0", "verificationstatus": "undefined"}]', 1),
+	(2, 84, '[{"bed": "1", "tax": null, "city": "Chennai", "child": "0", "email": "tiger@gmail.com", "price": 3198, "state": "Tamil Nadu", "adults": "5", "roomid": null, "roomno": null, "status": 1, "userid": 24, "checkin": "2024-03-29T06:12:00.000Z", "country": "India", "pincode": "600001", "roomnos": "0", "acheckin": null, "address1": "forest", "address2": "chennai", "checkout": "2024-03-30T06:12:00.000Z", "childage": "0", "commands": "0", "imageUrl": "image.jpg", "lastname": "lion", "noofdays": "1", "roomname": null, "roomtype": "1", "acheckout": null, "bhk1count": 0, "bhk2count": 1, "bhk3count": 0, "bookingid": 84, "firstname": "tiger", "totalprice": 3198, "phonenumber": "8877665544", "modeoftypeid": 1, "bookedstatusid": "1", "clientfeedback": "0", "verificationstatus": "undefined"}]', 1);
+
+-- Dumping structure for table acco.logic
+CREATE TABLE IF NOT EXISTS `logic` (
+  `logicid` int NOT NULL AUTO_INCREMENT,
+  `adult` int DEFAULT '0',
+  `roomtypeid` int DEFAULT '0',
+  `optiontype` varchar(50) DEFAULT NULL,
+  `bhktype1` int DEFAULT NULL,
+  `bhktype2` int DEFAULT NULL,
+  `bhktype3` int DEFAULT NULL,
+  `noofrooms` int DEFAULT NULL,
+  `bed` double DEFAULT '0',
+  `Price` double DEFAULT '0',
+  `totalamount` double DEFAULT NULL,
+  `status` tinyint DEFAULT '1',
+  PRIMARY KEY (`logicid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.logic: ~42 rows (approximately)
+INSERT INTO `logic` (`logicid`, `adult`, `roomtypeid`, `optiontype`, `bhktype1`, `bhktype2`, `bhktype3`, `noofrooms`, `bed`, `Price`, `totalamount`, `status`) VALUES
+	(1, 1, 1, 'R1', 1, 0, 0, 1, 0, 1299, 1299, 1),
+	(2, 1, 1, 'O1', 0, 1, 0, 2, 0, 2899, 2899, 1),
+	(3, 2, 1, 'R1', 1, 0, 0, 1, 0, 1599, 1599, 1),
+	(4, 2, 1, 'O1', 0, 1, 0, 2, 0, 2899, 2899, 1),
+	(5, 3, 1, 'R1', 0, 1, 0, 1, 1, 1898, 1898, 1),
+	(6, 3, 1, 'O1', 0, 2, 0, 2, 0, 2899, 2899, 1),
+	(7, 3, 1, 'O2', 0, 0, 1, 3, 0, 3599, 3599, 1),
+	(8, 4, 1, 'R1', 0, 1, 0, 2, 0, 2899, 2899, 1),
+	(9, 4, 1, 'O1', 0, 0, 1, 3, 0, 3599, 3599, 1),
+	(10, 5, 1, 'R1', 0, 1, 0, 2, 1, 3198, 3198, 1),
+	(11, 5, 1, 'O1', 0, 0, 1, 3, 0, 3599, 3599, 1),
+	(12, 6, 1, 'R1', 0, 0, 1, 3, 0, 3599, 3599, 1),
+	(13, 6, 1, 'R2', 1, 1, 0, 3, 0, 4998, 4998, 1),
+	(14, 6, 1, 'O1', 0, 2, 0, 4, 0, 5798, 5798, 1),
+	(15, 7, 1, 'R1', 0, 0, 1, 3, 1, 3898, 3898, 1),
+	(16, 7, 1, 'R2', 1, 1, 0, 3, 1, 4497, 4497, 1),
+	(17, 7, 1, 'O1', 1, 0, 1, 4, 0, 4898, 4898, 1),
+	(18, 7, 1, 'O2', 0, 2, 0, 4, 0, 5798, 5798, 1),
+	(19, 8, 1, 'R1', 1, 0, 1, 4, 0, 5198, 5198, 1),
+	(20, 8, 1, 'R2', 0, 2, 0, 4, 0, 5798, 5798, 1),
+	(21, 8, 1, 'O1', 0, 1, 1, 5, 0, 6498, 6498, 1),
+	(22, 8, 1, 'O2', 0, 3, 0, 6, 0, 8697, 8697, 1),
+	(23, 9, 1, 'R1', 1, 0, 1, 4, 1, 5497, 5497, 1),
+	(24, 9, 1, 'R2', 0, 2, 0, 4, 1, 6097, 6097, 1),
+	(25, 9, 1, 'O1', 0, 1, 1, 5, 0, 6498, 6498, 1),
+	(26, 9, 1, 'O2', 1, 2, 0, 5, 0, 7097, 7097, 1),
+	(27, 10, 1, 'R1', 0, 1, 1, 5, 0, 6498, 6498, 1),
+	(28, 10, 1, 'R2', 1, 2, 0, 5, 0, 7397, 7397, 1),
+	(29, 10, 1, 'O1', 1, 1, 1, 6, 0, 7797, 7797, 1),
+	(30, 10, 1, 'O2', 0, 3, 0, 6, 0, 8697, 8697, 1),
+	(31, 11, 1, 'R1', 0, 1, 1, 5, 1, 6097, 6097, 1),
+	(32, 11, 1, 'R2', 1, 2, 0, 5, 1, 7696, 7696, 1),
+	(33, 11, 1, 'O1', 1, 1, 1, 6, 0, 8097, 8097, 1),
+	(34, 11, 1, 'O2', 0, 3, 0, 6, 0, 8697, 8697, 1),
+	(35, 12, 1, 'R1', 1, 1, 1, 6, 0, 8097, 8097, 1),
+	(36, 12, 1, 'R2', 1, 2, 0, 5, 1, 7696, 7697, 1),
+	(37, 12, 1, 'O1', 1, 1, 1, 6, 0, 8097, 8097, 1),
+	(38, 12, 1, 'O2', 0, 3, 0, 6, 0, 8697, 8697, 1),
+	(39, 2, 2, 'R1', 1, 0, 0, 1, 0, 19999, 19999, 1),
+	(40, 4, 2, 'R1', 0, 1, 0, 2, 0, 24999, 24999, 1),
+	(41, 6, 2, 'R1', 0, 0, 1, 3, 0, 29999, 29999, 1),
+	(42, 14, 1, 'O1', 1, 2, 1, 7, 1, 10996, 10996, 1);
+
+-- Dumping structure for table acco.logindetail
+CREATE TABLE IF NOT EXISTS `logindetail` (
+  `logindetailid` int NOT NULL AUTO_INCREMENT,
+  `userid` int NOT NULL DEFAULT '0',
+  `username` varchar(250) NOT NULL DEFAULT '0',
+  `logindatetime` datetime DEFAULT NULL,
+  `usertype` varchar(50) DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT (0),
+  PRIMARY KEY (`logindetailid`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.logindetail: ~47 rows (approximately)
+INSERT INTO `logindetail` (`logindetailid`, `userid`, `username`, `logindatetime`, `usertype`, `status`) VALUES
+	(1, 16, 'uma', '2024-04-07 19:20:55', 'FrontOfficeExecutive', 1),
+	(2, 16, 'uma', '2024-04-07 19:21:34', 'FrontOfficeExecutive', 1),
+	(3, 6, 'muthu', '2024-04-07 19:29:01', 'Customer', 1),
+	(4, 6, 'muthu', '2024-04-08 20:08:19', 'Customer', 1),
+	(5, 6, 'muthu', '2024-04-08 20:09:13', 'Customer', 1),
+	(6, 16, 'uma', '2024-04-08 20:09:48', 'FrontOfficeExecutive', 1),
+	(7, 6, 'muthu', '2024-04-17 13:24:12', 'Customer', 1),
+	(8, 6, 'muthu', '2024-04-17 13:31:13', 'Customer', 1),
+	(9, 6, 'muthu', '2024-04-26 12:52:29', 'Customer', 1),
+	(10, 16, 'uma', '2024-04-26 12:52:53', 'FrontOfficeExecutive', 1),
+	(11, 16, 'uma', '2024-04-26 12:57:28', 'FrontOfficeExecutive', 1),
+	(12, 16, 'uma', '2024-04-26 13:25:46', 'FrontOfficeExecutive', 1),
+	(13, 16, 'uma', '2024-04-26 13:38:59', 'FrontOfficeExecutive', 1),
+	(14, 6, 'muthu', '2024-04-29 12:41:11', 'Customer', 1),
+	(15, 16, 'uma', '2024-04-29 12:41:36', 'FrontOfficeExecutive', 1),
+	(16, 6, 'muthu', '2024-04-29 12:47:06', 'Customer', 1),
+	(17, 16, 'uma', '2024-04-29 12:47:54', 'FrontOfficeExecutive', 1),
+	(18, 16, 'uma', '2024-04-29 13:03:26', 'FrontOfficeExecutive', 1),
+	(19, 16, 'uma', '2024-04-29 13:04:37', 'FrontOfficeExecutive', 1),
+	(20, 6, 'muthu', '2024-04-29 13:07:19', 'Customer', 1),
+	(21, 16, 'uma', '2024-04-29 13:08:17', 'FrontOfficeExecutive', 1),
+	(22, 6, 'muthu', '2024-04-29 13:17:10', 'Customer', 1),
+	(23, 16, 'uma', '2024-04-29 13:17:47', 'FrontOfficeExecutive', 1),
+	(24, 6, 'muthu', '2024-04-29 13:19:03', 'Customer', 1),
+	(25, 16, 'uma', '2024-04-29 13:19:56', 'FrontOfficeExecutive', 1),
+	(26, 6, 'muthu', '2024-04-29 13:21:45', 'Customer', 1),
+	(27, 16, 'uma', '2024-04-29 13:22:29', 'FrontOfficeExecutive', 1),
+	(28, 16, 'uma', '2024-04-29 13:42:02', 'FrontOfficeExecutive', 1),
+	(29, 6, 'muthu', '2024-04-29 13:49:00', 'Customer', 1),
+	(30, 16, 'uma', '2024-04-29 13:49:55', 'FrontOfficeExecutive', 1),
+	(31, 16, 'uma', '2024-04-30 17:49:39', 'FrontOfficeExecutive', 1),
+	(32, 6, 'muthu', '2024-04-30 17:58:47', 'Customer', 1),
+	(33, 16, 'uma', '2024-04-30 18:00:31', 'FrontOfficeExecutive', 1),
+	(34, 6, 'muthu', '2024-04-30 18:30:12', 'Customer', 1),
+	(35, 16, 'uma', '2024-04-30 18:35:47', 'FrontOfficeExecutive', 1),
+	(36, 6, 'muthu', '2024-04-30 18:39:12', 'Customer', 1),
+	(37, 6, 'muthu', '2024-04-30 18:40:26', 'Customer', 1),
+	(38, 16, 'uma', '2024-04-30 19:01:50', 'FrontOfficeExecutive', 1),
+	(39, 16, 'uma', '2024-04-30 19:30:22', 'FrontOfficeExecutive', 1),
+	(40, 6, 'muthu', '2024-04-30 19:31:57', 'Customer', 1),
+	(41, 16, 'uma', '2024-04-30 19:32:40', 'FrontOfficeExecutive', 1),
+	(42, 27, 'eswaran', '2024-05-02 17:13:38', 'Customer', 1),
+	(43, 16, 'uma', '2024-05-02 17:14:25', 'FrontOfficeExecutive', 1),
+	(44, 6, 'muthu', '2024-05-06 13:57:06', 'Customer', 1),
+	(45, 16, 'uma', '2024-05-06 13:57:21', 'FrontOfficeExecutive', 1),
+	(46, 6, 'muthu', '2024-05-06 14:03:29', 'Customer', 1),
+	(47, 16, 'uma', '2024-05-06 14:04:04', 'FrontOfficeExecutive', 1),
+	(48, 16, 'uma', '2024-05-06 14:10:54', 'FrontOfficeExecutive', 1),
+	(49, 16, 'uma', '2024-05-06 16:07:12', 'FrontOfficeExecutive', 1),
+	(50, 16, 'uma', '2024-05-06 16:24:00', 'FrontOfficeExecutive', 1);
+
+-- Dumping structure for table acco.maintenance
+CREATE TABLE IF NOT EXISTS `maintenance` (
+  `maintenanceid` int NOT NULL AUTO_INCREMENT,
+  `roomid` int NOT NULL DEFAULT '0',
+  `maintenancetypeid` int NOT NULL DEFAULT (0),
+  `fromdate` datetime DEFAULT NULL,
+  `todate` datetime DEFAULT NULL,
+  `reason` varchar(500) DEFAULT NULL,
+  `status` tinyint unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`maintenanceid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.maintenance: ~1 rows (approximately)
+INSERT INTO `maintenance` (`maintenanceid`, `roomid`, `maintenancetypeid`, `fromdate`, `todate`, `reason`, `status`) VALUES
+	(1, 1, 1, '2024-03-13 15:00:00', '2024-03-14 14:59:59', 'ac not working', 1),
+	(2, 2, 1, '2024-03-14 00:00:00', '2024-03-15 00:00:00', 'ac repair', 1);
+
+-- Dumping structure for table acco.maintenancetype
+CREATE TABLE IF NOT EXISTS `maintenancetype` (
+  `maintenancetypeid` int NOT NULL AUTO_INCREMENT,
+  `maintenancetypename` varchar(250) NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT (1),
+  PRIMARY KEY (`maintenancetypeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.maintenancetype: ~0 rows (approximately)
+INSERT INTO `maintenancetype` (`maintenancetypeid`, `maintenancetypename`, `status`) VALUES
+	(1, 'electrical work', 1),
+	(2, 'housekeeping', 1);
+
+-- Dumping structure for table acco.modeoftype
+CREATE TABLE IF NOT EXISTS `modeoftype` (
+  `motid` int NOT NULL AUTO_INCREMENT,
+  `motname` varchar(100) NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT (0),
+  PRIMARY KEY (`motid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.modeoftype: ~6 rows (approximately)
+INSERT INTO `modeoftype` (`motid`, `motname`, `status`) VALUES
+	(1, 'online', 1),
+	(2, 'walkincurrent', 1),
+	(3, 'walkinfuture', 1),
+	(4, 'sms/whatsup', 1),
+	(5, 'agent', 1),
+	(6, 'ota', 1);
+
+-- Dumping structure for table acco.otpstore
+CREATE TABLE IF NOT EXISTS `otpstore` (
+  `otpid` int NOT NULL AUTO_INCREMENT,
+  `userid` int DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `otp` varchar(50) DEFAULT NULL,
+  `otptype` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `otpctime` datetime DEFAULT NULL,
+  `otpetime` datetime DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  PRIMARY KEY (`otpid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.otpstore: ~6 rows (approximately)
+INSERT INTO `otpstore` (`otpid`, `userid`, `name`, `otp`, `otptype`, `otpctime`, `otpetime`, `status`) VALUES
+	(1, 19, 'nagam2', '476279', 'email', '2024-02-16 14:07:13', '2024-02-16 14:17:13', 1),
+	(4, 22, 'arasan', NULL, NULL, NULL, NULL, 1),
+	(5, 23, 'arasan1', '801381', 'email', '2024-02-23 15:08:24', '2024-02-23 15:18:24', 1),
+	(6, 24, 'tiger', NULL, 'email', NULL, NULL, 1),
+	(7, 25, 'suresh', NULL, 'email', NULL, NULL, 1),
+	(8, 26, 'kumar', NULL, 'email', NULL, NULL, 1),
+	(9, 27, 'eswaran', NULL, 'email', NULL, NULL, 1);
+
+-- Dumping structure for table acco.placetovisit
+CREATE TABLE IF NOT EXISTS `placetovisit` (
+  `placeid` int NOT NULL AUTO_INCREMENT,
+  `location` varchar(500) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `distancefromhotel` varchar(500) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `description` varchar(500) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `state` varchar(500) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `duration` varchar(500) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `hints` varchar(500) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `detail` longtext CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `img1` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `img2` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `img3` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `img4` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `img5` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `status` tinyint NOT NULL,
+  PRIMARY KEY (`placeid`)
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- Dumping data for table acco.placetovisit: 10 rows
+/*!40000 ALTER TABLE `placetovisit` DISABLE KEYS */;
+INSERT INTO `placetovisit` (`placeid`, `location`, `distancefromhotel`, `description`, `state`, `duration`, `hints`, `detail`, `img1`, `img2`, `img3`, `img4`, `img5`, `status`) VALUES
+	(1, 'Rockfort Temple', '5km', 'Pilgrim', 'Tamilnadu', '15m', 'Religion, Temple', 'The Rock Fort temple stands 83m tall perched atop the rock. The smooth rock was first cut by the Pallavas but it was the Nayaks of Madurai who completed both the temples under the Vijayanagara empire.\r\n\r\n\r\nThe temple is situated at the top of the rock. The temple is mystic in its nature with an awe-inspiring rock architecture. The Ganesh temple is much smaller with an access through steep steps carved on the rock and provides a stunning view of Trichy, Srirangam and the rivers Kaveri andKollidam. Due to its ancient and impressive architecture created by the Pallavas, the temple is maintained by the Archaeological department of India.\r\n\r\n\r\nVibhishana, was the younger brother of the Asura King Ravana who ruled Lanka. Lord Rama in the epic of Ramayana rescues his wife Sita, who was kidnapped and held by Ravana, with the help of Sugriva and Hanuman defeated him. In this war, the moral and truth-abiding brother of Ravana, Vibishana aids Rama in his battle against his brother. Ultimately Rama wins the war and as a token of love, He gifts Vibishana a vigraham (idol for worship) of Lord Ranganatha, a form of Vishnu.\r\nVibhishana, though he supported Rama, was basically an Asura, hence the Devas (who are arch rivals to Asuras as per Hindu mythology) wanted to stop this idea of an Asura taking Lord\'s supreme form to his Kingdom. They request the help of the Remover of obstacles and God of learning, Lord Vinayaka and the Lord accepts the plan. Vibhishana, while on his way back to his Kingdom, goes through Trichi, and wanted to take his bath in the river Kaveri and do his daily rituals. However, he is perplexed as the deity, once kept in land, can never be removed and has to be in that place forever.\r\n\r\n\r\nAs a solution, Vibishana tries to find someone to hold the deity while he was taking bath. He finds the Lord Vinayaka under disguise of a cowherd boy. As per the plan, when Vibishana is fully into water, Vinayaka takes the deity and keeps it firmly in sand, in the banks of kaveri. On seeing this, the angry Vibhishana chases the boy, to punish him, and boy keeps running and climbs over the rock near the Kaveri bank. Vibhishana finally reaches the boy and hits him on the fore-head of little boy who then reveals himself to be Vinayaga. Vibishana immediately apologizes and the Lord gives him his blessings and sends him off to Lanka. This is similar to the story Of Lord Ganesh in Gokarna with Ravana in the same Ramayana period.. Ref Gokarna\r\nThe place on which the Ranganathan deity was kept was later covered in deep forests, due to disuse and after a very long time, it is discovered when a Chola king chasing a parrot finds the deity accidentally. He then establishes the Ranganathaswamy temple, Srirangam as one of the largest temple complexes in the world. Meanwhile, the Pallavas built the Vinayaka temple and the Thayumanaswamy temple, in the rock which Vinayaka uses to escape Vibishana.\r\n', '39795817.jpg', 'Rockfort Temple View.JPG', 'rock-fort-temple.jpg', 'Trichy.jpg', 'india-2006.1155478320.img_9398.jpg', 1),
+	(2, 'Rameswaram', '50km', 'Pilgrim, Historical', 'Tamilnadu', '55m', 'Temple,Garden', 'Rameswaram is a town in Ramanathapuram district in the Indian state of Tamil Nadu. It is located on Pamban Islandseparated from mainland India by the Pamban channel and is about 50 kilometres from Mannar Island, Sri Lanka. Pamban Island, also known as Rameswaram Island, is connected to mainland India by the Pamban Bridge. Rameswaram is the terminus of the railway line from Chennai and Madurai. Together with Kashi, it is considered to be one of the holiest places in India to Hindus, and part of the Char Dham pilgrimages. Hence, it is a bustlingpilgrim centre.\r\nIt is situated in the Gulf of Mannar at the very tip of the Indian peninsula. According to legend, this is the place from where Lord Rama built a bridge Ram Setu (also known as Adam\'s Bridge) across the sea to Lanka to rescue his consort Sita from her abductor Ravana. Both the Vaishnavites and Shaivites visit this pilgrimage centre which is known as the Varanasi of the south.\r\nEx-president of India, Dr. A.P.J. Abdul Kalam, hails from a fishing hamlet called Dhanushkodi situated on this island.\r\n\r\nRameswaram is located at 9.28°N 79.3°E.[1] It has an average elevation of 10 metres (32 feet). The religious island is spread in an area of 61.8 square kilometres and happens to be in the shape of a conch. The Ramanatha Swamy Temple occupies major area of Rameshwaram.\r\nThe beach of Rameswaram is famous for its beautiful sea featured with no waves at all. The sea waves rise to a maximum height of 3 cm and the view looks like a very big river. Legend has it that Lord Ram of Ramayana prayed to the sea god to pave the way for Lanka. The sea god granted a boon saying that he will make the sea waves less to aid him in building a rock bridge.\r\n\r\n\r\n', '1_Rameshwaram Temple ceiling.jpg', '18198682.jpg', 'Rameshwaram-5778_6.JPG', 'rameshwaram (1).jpg', 'rameshwaram.jpg', 1),
+	(3, 'Pamban', '300km', 'Beaches', 'Tamilnadu', '6.5hrs', 'Bridge,Tour', '', '', '', '', '', '', 1),
+	(4, 'Thiruvanaikovil', '300 mtrs', 'Lord Jambugeswarar & goddes Akilandeswari', 'Trichy', '5 mins walk', 'a', 't', '', '', '', '', '', 1),
+	(5, 'Srirangam', '2.5 km', 'Pilgrim centre', 'Tamilnadu', '10 mins', 'Pilgrim centre', 'Srirangam is beautiful island surrounded by river Cauvery and Kollidam(tributary of Cauvery). srirangam is 8 miles in length and 4 miles in breadth. The population of Srirangam is about 50 thousands. It is 7 km from Trichy junction and it also has a railway station. The island town is surrounded by 7 walls. Sri Renganatha swami temple is one of the famous vaishnavite temples in India. There are 21 gopurams, the rajagopuram (principal tower) is largest gopuram in south India.  The 72m high, 13-tiered gopuram (towers) was built  in 1987 and dominates the landscape for miles  around,  while  the  remaining  20 Invitation of Tenth year sahasra Deepa (Thousand Lights) Festivals \r\ngopurams were built, between the 14th and 17th centuries.  \r\n\r\nSri Ranganathar Sannathi Timings \r\nViswaroobam seva 06.15 to 07.30 \r\nPooja time - No seva  07.30  to 08.45 \r\nSeva 08.45 to 13.00 \r\nPooja time – No seva  13.00 to 14.00 \r\nSeva 14.00 to  18.00 \r\nPooja time – No seva  18.00 to 18.45 \r\nSeva 18.45 to 21.00 \r\nFree seva  20.00 to 21.00 \r\n', '', '', '', '', '', 1),
+	(6, 'madurai', '120 kms', 'meenakshi amman temple', 'tamil nadu', '2.5 hrs ', 'pilgrims', 'its hi-lite are meenakshi amman temple, kalalagar perumal temple, thiruparam kundram, palamuthir cholai', 'images1.jpg', 'images2.jpg', 'images3.jpg', 'images4.jpg', 'images5.jpg', 1),
+	(7, 'Mukkombu', '17km', 'Dam', 'Tamilnadu', '45m', 'Tour', 'At the head of the Srirangam Island, there is another dam called Upper Anaicut or Mukkombu which is about  685 m long. Constructed in the 19th century across Kollidam, this dam has been forced into three sections instead of one long stretch because of the shape of the island. This is also good spot for picnics.', 'img2.JPG', '', '', '', '', 1),
+	(8, 'Kudumiyanmalai', '25km', 'Siva temple', 'Tamilnadu', '50m', 'Temple,Pligrim', 'The Siva temple here has some interesting inscriptions as well as beautiful sculptures. One of the inscriptions deals with the musical treatise of Mahendravarman Pallava and his experimentation with an eight-stringed instrument called Parivadini. ', 'img3.JPG', '', '', '', '', 1),
+	(9, 'Sittannavasal', '58km', 'Jain cave temple', 'Tamilnadu', '1h,15m', 'Temple,Pligrim', 'In this village are the remains of a 2nd century B.C. Jain cave temple. Fresco paintings reminiscent of Ajanta adorn the walls. Many of them are typical of the 9th century Pandyan period and include exquisitely detailed pictures of animals, fish, ducks, people gathering lotuses from a pond and two dancing figures. There are also inscriptions dating back to the 9th and 10th centuries. Fresco paintings from the 7th century can be seen on the ceiling of  Ardhamandapam. There are many pre-historic burial sites around Sittannavasal and among the relics unearthed are burial urns, cists and Kungupatarai.', 'img4.JPG', '', '', '', '', 1),
+	(10, 'Thanjavur ', '54km', 'Temple and Museum  ', 'Tamilnadu', '1h,15m', 'Temple,Pilgrim', 'The capital of the imperial Chola dynasty a thousand years ago.  The magnificent Brahadeeswarar temple dedicated to Lord Siva bears witness to the glory of Chola architecture,  sculpture  and  paintings. A  museum  in  the  temple  countyard  has interesting Chola artefacts.The Saraswathi Mahal Palace was started by the Nayaks of Madurai around 1550 AD and completed by the Maratha rulers of Thanjavur. The Palace Library instituted by Maharaja Serfoji has a collection of 30,000 palm leaf manuscripts and many rare European books. The Thanjavur Art Gallery has  priceless  collection  of  bronze  icons and  granite sculptures dating from the  9th century AD. Thanjavur is a good place to shop for Thanjavur Art Plates, handicrafts, handwoven silk, bronze icons, intricately inlaid brass work and bejewelled paintings.', 'img5.JPG', '', '', '', '', 1);
+/*!40000 ALTER TABLE `placetovisit` ENABLE KEYS */;
+
+-- Dumping structure for table acco.role
+CREATE TABLE IF NOT EXISTS `role` (
+  `roleid` int NOT NULL AUTO_INCREMENT,
+  `rolename` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `shortname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`roleid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.role: ~6 rows (approximately)
+INSERT INTO `role` (`roleid`, `rolename`, `shortname`, `status`) VALUES
+	(1, 'Admin', 'AD', 1),
+	(2, 'Manager', 'Ma', 1),
+	(3, 'Customer', 'CU', 1),
+	(4, 'FrontOfficeExecutive', 'FOE', 1),
+	(5, 'Supervisor', 'SP', 1),
+	(6, 'Room keeper', 'RK', 1);
+
+-- Dumping structure for table acco.room
+CREATE TABLE IF NOT EXISTS `room` (
+  `roomid` int NOT NULL AUTO_INCREMENT,
+  `roomname` varchar(50) DEFAULT NULL,
+  `roomno` int DEFAULT NULL,
+  `groupid` varchar(50) DEFAULT NULL,
+  `basecount` int DEFAULT NULL,
+  `rtype` int DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `tax` float DEFAULT NULL,
+  `roomsize` int DEFAULT NULL,
+  `desc` varchar(50) DEFAULT NULL,
+  `roomsplit` tinyint DEFAULT NULL,
+  `internet` tinyint NOT NULL DEFAULT '0',
+  `geyser` tinyint NOT NULL DEFAULT '0',
+  `ac` tinyint NOT NULL DEFAULT '0',
+  `smoking` tinyint NOT NULL DEFAULT '0',
+  `pets` tinyint NOT NULL DEFAULT '0',
+  `alcohol` tinyint NOT NULL DEFAULT '0',
+  `family` tinyint NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`roomid`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.room: ~12 rows (approximately)
+INSERT INTO `room` (`roomid`, `roomname`, `roomno`, `groupid`, `basecount`, `rtype`, `price`, `tax`, `roomsize`, `desc`, `roomsplit`, `internet`, `geyser`, `ac`, `smoking`, `pets`, `alcohol`, `family`, `status`) VALUES
+	(1, '2BHK', 101, '1', 4, 2, 2899, NULL, 600, 'rooms', 1, 1, 1, 1, 1, 0, 1, 1, 6),
+	(2, '2BHK', 102, '1', 4, 2, 2899, NULL, 600, 'rooms', 1, 1, 1, 1, 1, 0, 1, 1, 6),
+	(3, '2BHK', 201, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(4, '2BHK', 202, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(5, '3BHK', 203, '1', 6, 3, 3599, NULL, 900, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(6, '2BHK', 204, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(7, '2BHK', 301, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(8, '2BHK', 302, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(9, '3BHK', 303, '1', 6, 3, 3599, NULL, 900, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(10, '2BHK', 304, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(11, '2BHK', 401, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6),
+	(12, '2BHK', 402, '1', 4, 2, 2899, NULL, 600, 'rooms', 0, 1, 1, 1, 1, 0, 1, 1, 6);
+
+-- Dumping structure for table acco.roomgroup
+CREATE TABLE IF NOT EXISTS `roomgroup` (
+  `groupid` varchar(50) NOT NULL,
+  `groupname` varchar(50) DEFAULT NULL,
+  `numberofrooms` int DEFAULT NULL,
+  `roomtype` varchar(50) DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`groupid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.roomgroup: ~0 rows (approximately)
+INSERT INTO `roomgroup` (`groupid`, `groupname`, `numberofrooms`, `roomtype`, `status`) VALUES
+	('1', 'Service Apartment', 12, 'deluxe', 1);
+
+-- Dumping structure for table acco.roomtype
+CREATE TABLE IF NOT EXISTS `roomtype` (
+  `roomtypeid` int NOT NULL AUTO_INCREMENT,
+  `roomcategory` varchar(50) NOT NULL DEFAULT '0',
+  `roomcount` int NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`roomtypeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.roomtype: ~2 rows (approximately)
+INSERT INTO `roomtype` (`roomtypeid`, `roomcategory`, `roomcount`, `status`) VALUES
+	(1, 'Service Apartment', 12, 1),
+	(2, 'Monthly', 1, 1),
+	(3, 'Business Center', 1, 1);
+
+-- Dumping structure for procedure acco.spandroomlist
+DELIMITER //
+CREATE PROCEDURE `spandroomlist`(
+	IN `cin` VARCHAR(50),
+	IN `cout` VARCHAR(50),
+	IN `adultcount` INT,
+	IN `roomtypeids` INT
+)
+BEGIN
+SET @bhk2available=0;
+SET @bhk3available=0;
+
+SET @bhk2roomcount = 0;
+SET @bhk3roomcount = 0;
+SET @bookedIds = 0;
+SELECT COUNT(*) into @bhk2available FROM room WHERE rtype=2;
+
+SELECT COUNT(*) into @bhk3available FROM room WHERE rtype=3;
+
+SET @SQL_QUERY1 =CONCAT('SELECT (',@bhk2available,'-((if(SUM(bhk1count) IS NULL ,0, SUM(bhk1count)))+(if(SUM(bhk2count) IS NULL ,0, SUM(bhk2count))))) into @bhk2roomcount from booking where  (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\')AND bookedstatusid!=2');
+/* correct 
+SET @SQL_QUERY1 =CONCAT('SELECT (',@bhk2available,'-(if(SUM(bhk2count) IS NULL ,0, SUM(bhk2count)))) into @bhk2roomcount from booking where   (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\'  )');
+*/
+/*(if(SUM(bhk2count) IS NULL ,0, SUM(bhk2count))) into @bhk2roomcount from booking where   (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\'  )');
+*/
+SET @SQL_QUERY2 =CONCAT('SELECT (',@bhk3available,'-(if(SUM(bhk3count) IS NULL ,0, SUM(bhk3count)))) into @bhk3roomcount from booking where  (checkin  BETWEEN  \'',cin ,'\' AND  \'',cout,'\'  OR checkout BETWEEN \'' ,cin,'\'  AND \'', cout,'\'  )AND bookedstatusid!=2');
+/*
+SELECT  @SQL_QUERY2, @SQL_QUERY1;
+*/
+	PREPARE stmt3 FROM @SQL_QUERY2;
+	EXECUTE stmt3;
+	DEALLOCATE PREPARE stmt3;
+	
+	PREPARE stmt4 FROM @SQL_QUERY1;
+	EXECUTE stmt4;
+	DEALLOCATE PREPARE stmt4;
+/*
+SELECT @bhk2roomcount,@bhk3roomcount;
+*/
+SELECT * FROM logic WHERE roomtypeid=roomtypeids and adult=adultcount AND bhktype1+bhktype2<=@bhk2roomcount and bhktype3<=@bhk3roomcount ;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure acco.spgetroom
+DELIMITER //
+CREATE PROCEDURE `spgetroom`(
+	IN `cin` VARCHAR(50),
+	IN `cout` VARCHAR(50)
+)
+BEGIN
+/*SET @SQL_QUERY = concat(' SELECT GROUP_CONCAT(roomid) into @roomIds from booking WHERE (checkin  BETWEEN \'', cin ,'\' AND \'', cout ,'\' OR checkout BETWEEN \'', cin ,'\' AND \'', cout ,'\' )' );
+
+SELECT @SQL_QUERY;
+	PREPARE stmt3 FROM @SQL_QUERY;
+	EXECUTE stmt3;
+	DEALLOCATE PREPARE stmt3;
+	select @roomIds;*/
+	
+	SET @roomids = ( SELECT GROUP_CONCAT(roomid) from booking WHERE (checkin  BETWEEN  cin AND  cout  OR checkout BETWEEN  cin  AND  cout  ) OR (cin  BETWEEN  checkin AND  checkout  OR cout BETWEEN  checkin  AND  checkout  ));
+
+if(@roomids ='') then 
+			SET @roomids='0';
+				END IF;
+
+
+/*
+
+select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT(GROUP_CONCAT('{\'',roomid,'\':',roomno,',checked:false','}')) AS roomnos from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '2023-10-28' AND '2023-10-29' OR checkout BETWEEN '2023-10-28' AND '2023-10-29')) GROUP BY rtype,price,roomname
+
+*/
+/*
+SET @SQL_QUERY1 =concat('select COUNT(roomname) AS roomcount,rtype ,price,roomname ,group_concat(JSON_OBJECT(roomid ,roomno))) AS roomnoss,CONCAT(GROUP_CONCAT(roomid)) AS roomid,CONCAT(GROUP_CONCAT(roomno)) AS roomnos from room where roomid NOT IN (',@roomIds,') GROUP BY rtype,price,roomname');
+
+*/
+SET @SQL_QUERY1 =concat('select COUNT(roomname) AS roomcount,rtype ,price,roomname ,json_array(GROUP_CONCAT("{",roomid ,":",roomno,"}")) AS roomnoss,json_array(GROUP_CONCAT(roomid)) AS roomid,json_array(GROUP_CONCAT(roomno)) AS roomnos from room where roomid NOT IN (',@roomIds,') GROUP BY rtype,price,roomname');
+
+	PREPARE stmt4 FROM @SQL_QUERY1;
+	EXECUTE stmt4;
+	DEALLOCATE PREPARE stmt4;
+ END//
+DELIMITER ;
+
+-- Dumping structure for table acco.status
+CREATE TABLE IF NOT EXISTS `status` (
+  `statusid` int NOT NULL DEFAULT (0),
+  `statusname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `statustype` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`statusid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.status: ~10 rows (approximately)
+INSERT INTO `status` (`statusid`, `statusname`, `statustype`) VALUES
+	(1, 'Booked', 'booking'),
+	(2, 'CancleBooked', 'booking'),
+	(3, 'CheckedIn', 'booking'),
+	(4, 'Housekeeping', 'booking'),
+	(5, 'Available', 'booking'),
+	(6, 'Available', 'room'),
+	(7, 'Housekeeping', 'room'),
+	(8, 'OnRepair', 'room'),
+	(9, 'CheckedIn', 'room'),
+	(10, 'CancleBooked', 'room');
+
+-- Dumping structure for table acco.tariffdetail
+CREATE TABLE IF NOT EXISTS `tariffdetail` (
+  `tariffid` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT '0',
+  `des` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '',
+  `roomtypeid` int NOT NULL,
+  `headcount` int NOT NULL,
+  `price` double(40,2) DEFAULT '0.00',
+  `maintenance` double(40,2) DEFAULT '0.00',
+  `tax` double(40,2) DEFAULT '0.00',
+  `discount` double(40,2) DEFAULT '0.00',
+  `totalamount` double(40,2) DEFAULT '0.00',
+  `status` tinyint DEFAULT (0),
+  PRIMARY KEY (`tariffid`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.tariffdetail: ~8 rows (approximately)
+INSERT INTO `tariffdetail` (`tariffid`, `name`, `des`, `roomtypeid`, `headcount`, `price`, `maintenance`, `tax`, `discount`, `totalamount`, `status`) VALUES
+	(1, 'Single Occupancy', '1 Room given and the other one Locked', 1, 1, 1299.00, 0.00, 0.00, 0.00, 1299.00, 1),
+	(2, 'Double occupancy', '1 Room given and the other one Locked', 1, 2, 1599.00, 0.00, 0.00, 0.00, 1599.00, 1),
+	(3, 'Triple Occupance ', '1 Room given and the other one Locked', 1, 3, 1898.00, 0.00, 0.00, 0.00, 1898.00, 1),
+	(4, '2BHK', '4 Adults + 2 Children ', 1, 4, 2899.00, 0.00, 0.00, 0.00, 2899.00, 1),
+	(5, '3BHK', '6 Adults + 3 Children ', 1, 6, 3599.00, 0.00, 0.00, 0.00, 3599.00, 1),
+	(6, '1BHK', '1 Room given and the other one Locked', 3, 2, 20000.00, 1500.00, 0.00, 0.00, 21500.00, 1),
+	(7, '2BHK', '', 3, 4, 25000.00, 2000.00, 0.00, 0.00, 27000.00, 1),
+	(8, '3BHK', '', 3, 6, 30000.00, 2500.00, 0.00, 0.00, 32500.00, 1);
+
+-- Dumping structure for table acco.temp_table
+CREATE TABLE IF NOT EXISTS `temp_table` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.temp_table: ~0 rows (approximately)
+INSERT INTO `temp_table` (`id`) VALUES
+	(1);
+
+-- Dumping structure for procedure acco.updateroomsstatus
+DELIMITER //
+CREATE PROCEDURE `updateroomsstatus`(
+	IN `bookid` INT,
+	IN `statusid` INT
+)
+BEGIN
+
+
+	SET @roomids =0;
+	
+SELECT roomid into @roomids FROM booking WHERE bookingid=bookid;
+
+
+SET @SQL_QUERY1 =CONCAT('update room set status =',statusid,'  WHERE roomid IN(',@roomIds,')');
+
+	
+	PREPARE stmt4 FROM @SQL_QUERY1;
+	EXECUTE stmt4;
+	DEALLOCATE PREPARE stmt4;
+	
+
+
+END//
+DELIMITER ;
+
+-- Dumping structure for table acco.user
+CREATE TABLE IF NOT EXISTS `user` (
+  `userid` int NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `lastname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address2` varchar(100) DEFAULT NULL,
+  `city` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `state` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `country` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `pincode` varchar(250) DEFAULT NULL,
+  `modifieddate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `phonenumber` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `createddate` datetime DEFAULT NULL,
+  `imageurl` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '',
+  `idproof` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '',
+  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `cpassword` varchar(100) DEFAULT NULL,
+  `status` tinyint DEFAULT NULL,
+  PRIMARY KEY (`userid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.user: ~12 rows (approximately)
+INSERT INTO `user` (`userid`, `firstname`, `lastname`, `address1`, `address2`, `city`, `state`, `country`, `pincode`, `modifieddate`, `phonenumber`, `email`, `createddate`, `imageurl`, `idproof`, `username`, `password`, `cpassword`, `status`) VALUES
+	(6, 'muthu', 'n', '51', 'a', 'namakkal', 'TN', 'India', NULL, '2024-04-08 14:39:03', '9876545667', 'muthu@gmail.com', '2023-11-04 12:05:52', '', '', 'muthu', '$2a$08$YfVUTVxE83J6r1Neg6MTCuA5e8Zz/XvPk8Dc98tn/DzQW/TvFYD5G', '$2a$08$p0ovrEn7KEi4LCpuZ3Some.e4z0RhWDLFqciSZQqISAsWnkf3./kS', 1),
+	(7, 'tamil', 'selvan', '41', 'a', 'namakkal ', 'TN', 'India', NULL, '2024-04-26 07:23:54', '988', 'tamil@gmail.com', '2023-11-04 13:31:30', '', '', 'tamil', '$2a$08$07hA1xyWogIYXP8Idil0De2Tsi03EmYnhABMM9jXifD9fpPtvrCH2', '$2a$08$8L8y5sQdkh5jIoNJBaMUyuImO87OYWZk7dNSZbZbEpdsA.tJ74Gr2', 1),
+	(8, 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-05 15:01:37', '988408063', 'admin@gmail.com', '2023-11-29 13:02:45', '', '', 'admin', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', 1),
+	(9, 'tamilselvan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-05 15:01:37', '123456', 'tamilselvan@gmail.com', '2023-11-29 13:16:17', '', '', 'tamilselvan', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', 1),
+	(10, 'arjun', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-05 15:01:36', '99999123456', 'arjun@gmail.com', '2023-11-29 13:26:12', '', '', 'arjun', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', 1),
+	(11, 'arjun1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-05 15:01:35', '99999123456', 'arjun1@gmail.com', '2023-11-29 13:27:03', '', '', 'arjun1', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', 1),
+	(12, 'devi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-03-05 15:01:35', '99999123456', 'devi@gmail.com', '2023-11-29 13:28:54', '', '', 'devi', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', 1),
+	(16, 'uma', 'b', '41', 'a', 'namakkal ', 'TN', 'India', NULL, '2024-04-29 07:11:54', '9940975265', 'arjunuma@gmail.com', '2023-12-06 22:12:01', '', '', 'uma', '$2a$08$YfVUTVxE83J6r1Neg6MTCuA5e8Zz/XvPk8Dc98tn/DzQW/TvFYD5G', '$2a$08$YfVUTVxE83J6r1Neg6MTCuA5e8Zz/XvPk8Dc98tn/DzQW/TvFYD5G', 1),
+	(17, 'sathish', 'kumar', '41', 'a', 'namakkal', 'TN', 'India', NULL, '2024-03-05 15:01:34', '99409', 'sathish@gmail.com', '2023-12-11 12:42:00', '', '', 'sathish', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', 1),
+	(22, 'arasan', 'n', '51', 'a', 'namakkal', 'TN', 'India', 'undefined', '2024-03-05 15:01:33', '9876545960', 'arasan@gmail.com', '2024-02-16 15:00:26', '', '', 'arasan', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', '$2y$08$2GcjkTSQbMs/s3.S39HKsev1vmct3mJGiD8kxRVO1huw76Q0kiLZ.', 1),
+	(24, 'tiger', 'lion', 'forest', 'chennai', 'Chennai', 'Tamil Nadu', 'India', '600001', '2024-03-18 07:24:06', '8877665544', 'tiger@gmail.com', '2024-03-18 12:54:06', '', '', 'tiger', '$2a$08$d6RoA3jT5IhwJwMGW4WzXuSxPRKPqaSoFUNW2S5Cc7aTHpt6gqNIu', '$2a$08$Zkb2EWsYjYQt7eekmjFNquhq73qYs36i05KSkS.bDQMyFTYV/z./S', 1),
+	(25, 'suresh', 'n', '100', '10000', 'Karumbakkam', 'Tamil Nadu', 'India', '639001', '2024-04-26 08:07:28', '987654321', 'suresh@gmail.com', '2024-04-26 13:37:28', '', '', 'suresh', '$2a$08$LqTjWhSKfe9/MuV2saaATOo5pl1TZWSHdwm9fSuL5qGzzM6y1T7Wy', '$2a$08$Xui7P6u5.3CVBG1EuHW0n.uvi4flOtzv0YVqrqe5TxU1TijU9zGDu', 1),
+	(26, 'kumar', 'n', '001', '0001', 'Karumbakkam', 'Tamil Nadu', 'India', '639002', '2024-04-26 08:09:42', '123456789', 'kumar@gmail.com', '2024-04-26 13:39:42', '', '', '', '$2a$08$a2KI.m7aPvd0aaT.1AarduwZikUGhGQfPdIMXNpwy6Efe6mNxgwc2', '$2a$08$pSp9pM4csq6yioXRmt7NQuJzPKZhTWqIZGXWcS3rPG13B7KKH49HW', 1),
+	(27, 'eswaran', 'k', 'belukurichi', 'namakkal', 'Namakkal', 'Tamil Nadu', 'India', '637015', '2024-05-02 11:43:29', '8888887777', 'eswaran@gmail.com', '2024-05-02 17:13:29', '', '', 'eswaran', '$2a$08$NLNLZd66iLZWp1118BeMmO3CBi3NNZAONfrWp6DsnNHxWUyqQEBJu', '$2a$08$wMSF8p06fg8XGxi37EqyiO0DhXfkj/o/TH8Z/3/Kq.jhJv1/cwIIq', 1);
+
+-- Dumping structure for table acco.userrolemap
+CREATE TABLE IF NOT EXISTS `userrolemap` (
+  `userRoleMapId` int NOT NULL AUTO_INCREMENT,
+  `userid` int NOT NULL DEFAULT '0',
+  `roleid` int NOT NULL DEFAULT '0',
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userRoleMapId`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table acco.userrolemap: ~8 rows (approximately)
+INSERT INTO `userrolemap` (`userRoleMapId`, `userid`, `roleid`, `status`) VALUES
+	(18, 7, 2, 1),
+	(19, 8, 1, 1),
+	(20, 6, 3, 1),
+	(21, 12, 3, 1),
+	(22, 16, 4, 1),
+	(23, 10, 3, 1),
+	(24, 17, 3, 1),
+	(25, 18, 4, 1),
+	(29, 22, 3, 1),
+	(30, 23, 3, 1),
+	(31, 24, 3, 1),
+	(32, 25, 3, 1),
+	(33, 26, 3, 1),
+	(34, 27, 3, 1);
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

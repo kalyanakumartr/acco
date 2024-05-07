@@ -288,19 +288,11 @@ router.get('/getguestdetailmonthly', function (req, res) {
     const sql = "CALL getguestmonthly(" + startdate + "," + enddate + ")";
     console.log(sql);
     con.query(sql, function (err, result) {
-        console.log(result);
+        // console.log(result);
       if (err) {
         res.send({"No Data":err});
       }
       else {
-    /*    var i = 0;
-            for (var obj in result[0]) {
-              result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
-            
-            };
-
-*/
-        // res.send({"bhk2":result[0].bhk2count});
         res.send({result});
 
       }
