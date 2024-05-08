@@ -287,13 +287,33 @@ router.get('/getguestdetailmonthly', function (req, res) {
     enddate= req.query.checkout;    
     const sql = "CALL getguestmonthly(" + startdate + "," + enddate + ")";
     console.log(sql);
-    con.query(sql, function (err, result) {
+    con.query(sql, function (err, results) {
         // console.log(result);
       if (err) {
         res.send({"No Data":err});
       }
       else {
-        res.send({result});
+
+        //  result = result.replaceAll("\"", ""); 
+        //  JSON.parse(result.replaceAll("\"", ""));
+        //  .replaceAll("{", '{"').replaceAll(":",'":'));
+        // console.log(results);    
+        // console.log("r0",results[0]);    
+        
+        var i = 0;
+        for (var obj in results[0]) {
+          // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+          results[0][obj].result = results[0][obj].result.replaceAll("\"", "");
+          // .replaceAll("{", '{"').replaceAll(":",'":'));
+        
+// console.log("obj",results[0][obj]);
+        };
+
+    res.send({results});
+
+        // var r=result.replaceAll("\"","");
+        // console.log(r);
+        // res.send({result,r});
 
       }
     });
