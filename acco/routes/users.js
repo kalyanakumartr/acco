@@ -287,7 +287,7 @@ router.get('/getguestdetailmonthly', function (req, res) {
     enddate= req.query.checkout;    
     const sql = "CALL getguestmonthly(" + startdate + "," + enddate + ")";
     console.log(sql);
-    con.query(sql, function (err, results) {
+    con.query(sql, function (err, result) {
         // console.log(result);
       if (err) {
         res.send({"No Data":err});
@@ -301,15 +301,23 @@ router.get('/getguestdetailmonthly', function (req, res) {
         // console.log("r0",results[0]);    
         
         var i = 0;
-        for (var obj in results[0]) {
+        for (var obj in result[0]) {
           // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
-          results[0][obj].result = results[0][obj].result.replaceAll("\"", "");
+ console.log("obj",result[0][obj]);
+        //   // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+          result[0][obj].tit = result[0][obj].tit.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":"').replaceAll(",", '","').replaceAll("}", '"}').replaceAll('}","{', '},{').replaceAll("\\", "");
+          
+          // .replaceAll(":",'"').replaceAll("{", '{"');
           // .replaceAll("{", '{"').replaceAll(":",'":'));
-        
+
+          console.log("obj1",result[0][obj]);
+          //   
+          result[0][obj].tit = JSON.parse(result[0][obj].tit);
+          
 // console.log("obj",results[0][obj]);
         };
 
-    res.send({results});
+    res.send({result});
 
         // var r=result.replaceAll("\"","");
         // console.log(r);
