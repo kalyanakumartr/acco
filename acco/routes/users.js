@@ -303,7 +303,7 @@ router.get('/getguestdetailmonthly', function (req, res) {
         var i = 0;
         for (var obj in result[0]) {
           // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
- console.log("obj",result[0][obj]);
+//  console.log("obj",result[0][obj]);
         //   // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
           result[0][obj].tit = result[0][obj].tit.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":"').replaceAll(",", '","').replaceAll("}", '"}').replaceAll('}","{', '},{').replaceAll("\\", "");
           
