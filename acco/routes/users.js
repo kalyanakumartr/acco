@@ -285,9 +285,13 @@ router.get('/getguestdetailmonthly', function (req, res) {
   try {
     startdate = req.query.checkin;
     enddate= req.query.checkout;    
-    const sql = "CALL getguestmonthly(" + startdate + "," + enddate + ")";
+    // command = 'CALL spandroomlist (?,?,?,?)';
+    //     console.log("command", cin, cout, adultcount)
+    //     con.query(command, [cin, cout, adultcount,roomtypeids], function (err, result) {
+        
+    sql = 'CALL getguestmonthly( ?,?)';
     console.log(sql);
-    con.query(sql, function (err, result) {
+    con.query(sql[startdate,enddate], function (err, result) {
         // console.log(result);
       if (err) {
         res.send({"No Data":err});
