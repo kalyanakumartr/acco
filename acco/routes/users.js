@@ -103,6 +103,7 @@ router.post('/newchangepassword', async function (request, response) {
 
 //st forgot password
 router.post('/forgotpassword', async function (req, res) {
+  try{
   var email = req.body.email;
   // var password = req.body.password;
   let hashedPassword = await bcrypt.hash(req.body.password, 8);
@@ -120,20 +121,13 @@ router.post('/forgotpassword', async function (req, res) {
       console.log({message:"Pls check Email Id"});
     }
   });
-
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
 });
-
-
-//end change password
-
-
-
-
-
-
-
-
-//placetovisit
 
 
 router.get('/getplacetovisit', function (req, res) {
@@ -443,6 +437,7 @@ router.post('/userproof', proofupload.single('images'), userproofimage)
 //st user update
 
 router.post('/updateuser', authcheck, function (req, res) {
+  try{
   console.log("Welcome to update user ");
   var id = req.body.userid;
   var firstname = req.body.firstname;
@@ -470,7 +465,12 @@ router.post('/updateuser', authcheck, function (req, res) {
       res.status(200).send({ message: "Successfully update user" });
     };
   });
-
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
 })
 
 
@@ -778,5 +778,3 @@ router.get('/getcontact', authcheck, function (req, res) {
 module.exports = router;
 
 
-
-// module.exports = router;

@@ -10,6 +10,7 @@ const nodemailer = require("nodemailer");
 //st new email
 
 router.get('/generateOTP', (req, res) => {
+  // try{
   console.log("Welcome to create OTP");
   var otpCode = Math.floor(100000 + Math.random() * 900000);
   var ctime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
@@ -205,6 +206,7 @@ router.post('/verifyOTP', (req, res) => {
 
 //st email verify
 router.get('/emailverify', function (req, res) {
+  try{
   var cmd = 'select * from user  where phonenumber=' + req.query.phonenumber + '';
   console.log("cmd", cmd);
   con.query(cmd, function (err, result) {
@@ -228,6 +230,12 @@ router.get('/emailverify', function (req, res) {
   }
 
   )
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 })
 
 

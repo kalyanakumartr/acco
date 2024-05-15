@@ -151,25 +151,46 @@ router.post('/roomupdatestatus',(req,res)=>{
   try{
     console.log("Welcome to Roomupdatestatus")
     cmd='update room set status='+req.body.statusid+' where roomid='+req.body.roomid+' ';
-    // and statustype="'+req.body.statustype+'"';
-    console.log(cmd);
-    // cmd='update room set status=(SELECT statusid FROM status WHERE statusname="'+req.body.statusname+'" and stastustype="room") where roomid='+req.body.roomid+'';
     con.query(cmd,(err,result)=>{
-      
-      if(result.affectedRows>=1){
-      console.log(cmd);
-      console.log("aa",result.affectedRows);
-        console.log("Successfully update for room status");
-        res.send({message: "Successfully update for room status"});
-      }
-      else
-    {
-      res.send({message: "Some Error"});
-      console.log("Some Error Pls check room id");
+      selbok='SELECT bookingid FROM booking WHERE roomid='+req.body.roomid+' AND bookedstatusid=4'
+      console.log("selbook",selbok);
+      con.query(selbok,(serr,sres)=>{
+        
+        console.log("sres",sres);
+        if(sres.length>0){
+        bid=sres[0].bookingid;
+        console.log(bid);
+      cm='update booking set bookedstatusid=11  where bookingid='+bid+'';
+                console.log(cm);
+        con.query(cm,(cmerr,cmres)=>{
+          if(cmerr)
+            {               res.send({message:err})  ;
+           console.log("err");          }
+            else
+            { 
+              console.log("Successfully update for room status")    ; 
+                 res.send({message: "Successfully update for room status"});       }
+    })
+  }
+  else
+  {
+    console.log("Else part");
+    // res.send("Pls check room id and status id alread changed");
+    
+    res.send({message: "Successfully room status updated "});
+  }
+  })
+    
 
-    }  })
+})
+    }// else
+//     {
+//       res.send({message: "Some Error"});
+//       console.log("Some Error Pls check room id");
+
+//     }  })
   
-    }
+    // }
   catch (err) {
     console.log("Catch");
     const statusCode = e.statusCoderes || 500;
@@ -181,6 +202,7 @@ router.post('/roomupdatestatus',(req,res)=>{
 // end Update getroom
 //to get roomnumber and bhk when floornumber given
 router.get('/getroom', authcheck, function (req, res) {
+  try{
   console.log("getroom");
   var getroom = ('SELECT *,(SELECT statusname FROM status WHERE statusid=status and statustype="room") AS statusname FROM room');
   con.query(getroom, function (error, result) {
@@ -193,11 +215,19 @@ router.get('/getroom', authcheck, function (req, res) {
       res.send(result);
     }
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 
 //to get roomnumber and bhk when floornumber given
 router.get('/getfloorroommapping', authcheck, function (req, res) {
+  try
+  {
   console.log("getroom")
   var getroom = "SELECT * FROM floorroommapping"
   con.query(getroom, function (error, result) {
@@ -209,6 +239,12 @@ router.get('/getfloorroommapping', authcheck, function (req, res) {
       res.send(result);
     }
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 
@@ -240,6 +276,7 @@ router.get('/getroomsplit', authcheck, function (req, res) {
 
 //room booked
 router.post('/roombooked', authcheck, function (req, res) {
+try{
   console.log("Welcome to Book page");
   // console.log(req.body);
 
@@ -270,7 +307,12 @@ router.post('/roombooked', authcheck, function (req, res) {
 
   })
 
-
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 
@@ -279,6 +321,7 @@ router.post('/roombooked', authcheck, function (req, res) {
 //anupama code 
 //get floor
 router.get('/getfloor', authcheck, function (req, res) {
+ try{
   console.log("getfloor");
   var tablelist = "SELECT floornumber FROM floor ";
   con.query(tablelist, function (error, result) {
@@ -290,10 +333,17 @@ router.get('/getfloor', authcheck, function (req, res) {
       res.send(result);
     }
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 //to get roomnumber and bhk when floornumber given
 router.get('/getroom/:floornumber', authcheck, function (req, res) {
+ try{
   console.log("getroom")
   var getroom = "SELECT * FROM floorroommapping WHERE floornumber=" + req.params.floornumber + '';
   con.query(getroom, function (error, result) {
@@ -305,9 +355,16 @@ router.get('/getroom/:floornumber', authcheck, function (req, res) {
       res.send(result);
     }
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 router.get('/getbhk/:noofbhk', authcheck, function (req, res) {
+ try{
   console.log("getbhk")
   var getroom = "SELECT * FROM floorroommapping WHERE noofbhk=" + req.params.noofbhk + '';
   con.query(getroom, function (error, result) {
@@ -319,9 +376,16 @@ router.get('/getbhk/:noofbhk', authcheck, function (req, res) {
       res.send(result);
     }
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 router.get('/getChargedAmenities', authcheck, function (req, res) {
+ try{
   console.log("getchargedAmenities")
   var getroom = "SELECT * FROM facilitycharges WHERE facilitycategory='Charged Amenities'";
   con.query(getroom, function (error, result) {
@@ -333,6 +397,12 @@ router.get('/getChargedAmenities', authcheck, function (req, res) {
       res.send(result);
     }
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 
@@ -340,7 +410,7 @@ router.get('/getChargedAmenities', authcheck, function (req, res) {
 
 //st get room list
 router.get('/oldgetroomlist', authcheck, function (req, res) {
-
+try{
   var cmmd = sprintf("select COUNT(roomname) AS roomcount,rtype ,price,roomname ,CONCAT('[',GROUP_CONCAT('{', '\"roomid\":',roomno,',\"price\":',price,',\"CHECKED\":false' '}'),']') AS roomnos  from room where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "' OR checkout BETWEEN '" + req.query.checkin + "' AND '" + req.query.checkout + "')) GROUP BY rtype,price,roomname");
   con.query(cmmd, function (err, result) {
     console.log("cmd", cmmd);
@@ -357,6 +427,12 @@ router.get('/oldgetroomlist', authcheck, function (req, res) {
       res.send(result);
     }
   })
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
   // res.send(result);
 });
 //end get room list
@@ -368,21 +444,3 @@ module.exports = router;
 
 
 
-
-// router.get('/findroom',function(req,res){
-// var get = "SELECT roomno FROM floorroommapping"
-// getroom.find()
-// .then(roomno=>{
-//   res.json(roomno)
-// })
-// .catch(error=>{
-//   res.json({error})
-// })
-// })
-
-// //
-// st extra bill
-
-
-
-// end extra bill

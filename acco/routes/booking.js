@@ -80,6 +80,7 @@ router.get('/cancelpolicy', (req, res) => {
 
 
 router.get('/getimage', function (req, res) {
+  try{
   var getresisterQ = "SELECT imageUrl FROM booking WHERE bookingid=" + req.query.bookingid;
   con.query(getresisterQ, function (error, result) {
     console.log("len", result.length);
@@ -99,9 +100,15 @@ router.get('/getimage', function (req, res) {
     // }
 
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
-
 //end get image
+
 
 
 
@@ -109,6 +116,7 @@ router.get('/getimage', function (req, res) {
 //st firm 
 
 router.post('/checkinconfirm', function (req, res) {
+  try{
   console.log("Body", req.body);
   console.log("Welcome to checkinconfirm");
   ain = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
@@ -131,7 +139,12 @@ router.post('/checkinconfirm', function (req, res) {
       console.log(error);
     }
   });
-
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
 })
 //end checkinconfirm 
 
@@ -182,6 +195,7 @@ router.post('/idbookingproof', upload.single('images'), createimage)
 // //st getid proof
 
 router.get('/getidproofimage', function (req, res) {
+  try{
   var getresisterQ = "SELECT imageUrl FROM booking WHERE bookingid=" + req.query.bookingid;
   con.query(getresisterQ, function (error, result) {
     if (error) {
@@ -198,6 +212,13 @@ router.get('/getidproofimage', function (req, res) {
 
     }
   });
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
+
 });
 //****End  */
 // //end getid proof
@@ -206,6 +227,7 @@ router.get('/getidproofimage', function (req, res) {
 //st search booking info
 
 router.get('/searchbookinginfo', function (req, res) {
+  try{
   console.log("Welcome to search");
   cmd = 'select * from booking where bookedstatusid=1 ';
 
@@ -230,6 +252,12 @@ router.get('/searchbookinginfo', function (req, res) {
       res.send(result);
     }
   })
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 });
 
 
@@ -702,6 +730,7 @@ router.post('/roomavilable', (req, res) => {
 
 // st checkout and status chage housekeep
 router.post('/actualcheckout', (req, res) => {
+  try{
   console.log("Welcome to A Check Out");
   command = sprintf('update booking set acheckout=' + '"' + req.body.acheckout + '"' + ' ,bookedstatusid=' + 4 + ' WHERE bookingid=' + req.body.bookingid + '');
   let data = [true, 1];
@@ -724,6 +753,12 @@ router.post('/actualcheckout', (req, res) => {
       });
     }
   })
+}
+catch (e) {
+  console.log("Catch");
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
 })
 
 
