@@ -279,19 +279,14 @@ router.get('/getguestdetailmonthly', function (req, res) {
   try {
     startdate = req.query.checkin;
     enddate= req.query.checkout;    
-    // command = 'CALL spandroomlist (?,?,?,?)';
-    //     console.log("command", cin, cout, adultcount)
-    //     con.query(command, [cin, cout, adultcount,roomtypeids], function (err, result) {
-        
-    sql = 'CALL getguestmonthly( ?,?)';
+    const sql = "CALL getguestmonthly(" + startdate + "," + enddate + ")";
     console.log(sql);
-    con.query(sql[startdate,enddate], function (err, result) {
+    con.query(sql, function (err, result) {
         // console.log(result);
       if (err) {
         res.send({"No Data":err});
       }
       else {
-
         //  result = result.replaceAll("\"", ""); 
         //  JSON.parse(result.replaceAll("\"", ""));
         //  .replaceAll("{", '{"').replaceAll(":",'":'));
@@ -301,6 +296,7 @@ router.get('/getguestdetailmonthly', function (req, res) {
         var i = 0;
         for (var obj in result[0]) {
           // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+ console.log("obj",result[0][obj]);
 //  console.log("obj",result[0][obj]);
         //   // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
           result[0][obj].tit = result[0][obj].tit.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":"').replaceAll(",", '","').replaceAll("}", '"}').replaceAll('}","{', '},{').replaceAll("\\", "");
@@ -335,6 +331,69 @@ router.get('/getguestdetailmonthly', function (req, res) {
 
 
 //end monthly
+
+
+
+// router.get('/getguestdetailmonthly', function (req, res) {
+//   try {
+//     startdate = req.query.checkin;
+//     enddate= req.query.checkout;    
+//     // command = 'CALL spandroomlist (?,?,?,?)';
+//     //     console.log("command", cin, cout, adultcount)
+//     //     con.query(command, [cin, cout, adultcount,roomtypeids], function (err, result) {
+        
+//     sql = 'CALL getguestmonthly( ?,?)';
+//     console.log(sql);
+//     con.query(sql[startdate,enddate], function (err, result) {
+//         // console.log(result);
+//       if (err) {
+//         res.send({"No Data":err});
+//       }
+//       else {
+
+//         //  result = result.replaceAll("\"", ""); 
+//         //  JSON.parse(result.replaceAll("\"", ""));
+//         //  .replaceAll("{", '{"').replaceAll(":",'":'));
+//         // console.log(results);    
+//         // console.log("r0",results[0]);    
+        
+//         var i = 0;
+//         for (var obj in result[0]) {
+//           // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+// //  console.log("obj",result[0][obj]);
+//         //   // result[0][obj].romenose = JSON.parse(result[0][obj].romenose.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":'));
+//           result[0][obj].tit = result[0][obj].tit.replaceAll("\"", "").replaceAll("{", '{"').replaceAll(":",'":"').replaceAll(",", '","').replaceAll("}", '"}').replaceAll('}","{', '},{').replaceAll("\\", "");
+          
+//           // .replaceAll(":",'"').replaceAll("{", '{"');
+//           // .replaceAll("{", '{"').replaceAll(":",'":'));
+
+//           console.log("obj1",result[0][obj]);
+//           //   
+//           result[0][obj].tit = JSON.parse(result[0][obj].tit);
+          
+// // console.log("obj",results[0][obj]);
+//         };
+
+//     res.send({result});
+
+//         // var r=result.replaceAll("\"","");
+//         // console.log(r);
+//         // res.send({result,r});
+
+//       }
+//     });
+//   }
+//   catch (e) {
+//     console.log("Catch");
+//     const statusCode = e.statusCoderes || 500;
+//     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+//   }
+// })
+
+
+
+
+// //end monthly
 
 
 
