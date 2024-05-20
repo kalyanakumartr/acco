@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer");
 //st new email
 
 router.get('/generateOTP', (req, res) => {
-  // try{
+  
   console.log("Welcome to create OTP");
   var otpCode = Math.floor(100000 + Math.random() * 900000);
   var ctime = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
