@@ -179,7 +179,7 @@ router.post('/verifyOTP', (req, res) => {
       con.query(cmmd, function (error, result) {
         console.log("count", result[0].counting);
         if (result[0].counting >= 1) {
-          res.send({ status: true, message: "Phonenumber verified successfully " });
+          res.send({ status: true, message: " OTP verified Successfully " });
         }
         else {
           console.log("Error", error)
