@@ -14,6 +14,8 @@ var emailRouter=require('./routes/email');
 var ebreadingRouter=require('./routes/eb');
 var bookRouter=require('./routes/booking');
 var authRouter=require('./routes/authentication');
+var smsRouter=require('./routes/sms');
+
 // var pdfRouter=require('./routes/createpdf');
 const router = require('./routes/users');
 var genpdfRouter=require('./routes/genpdf');
@@ -51,6 +53,8 @@ app.use('/logic',logicRouter);
 app.use('/eb',ebreadingRouter);
 app.use('/genpdf',genpdfRouter);
 app.use('/room',roomRouter);
+app.use('/sms',smsRouter);
+
 app.use('/email', emailRouter);
 // app.use('/whatsupsms',whatsupRouter);
 // app.use('/createpdf',pdfRouter);
