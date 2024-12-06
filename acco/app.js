@@ -7,6 +7,7 @@ var logger = require('morgan');
 var roomRouter=require('./routes/room');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var marqueeRouter = require('./routes/marquee');
 var logicRouter = require('./routes/logic');
 // var whatsupRouter=require('./routes/whatsupsms');
 var adminRouter=require('./routes/admin');
@@ -54,7 +55,7 @@ app.use('/eb',ebreadingRouter);
 app.use('/genpdf',genpdfRouter);
 app.use('/room',roomRouter);
 app.use('/sms',smsRouter);
-
+// app.use('/marquee', marqueeRouter);
 app.use('/email', emailRouter);
 // app.use('/whatsupsms',whatsupRouter);
 // app.use('/createpdf',pdfRouter);
