@@ -11,7 +11,37 @@
 			"name": "checkAvailability",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/room/checkAvailability?roomtypeid=1&checkin=2023-12-29 03:00:00&checkout=2023-12-30 03:00:00&adults=70",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"room",
+						"checkAvailability"
+					],
+					"query": [
+						{
+							"key": "roomtypeid",
+							"value": "1"
+						},
+						{
+							"key": "checkin",
+							"value": "2023-12-29 03:00:00"
+						},
+						{
+							"key": "checkout",
+							"value": "2023-12-30 03:00:00"
+						},
+						{
+							"key": "adults",
+							"value": "70"
+						}
+					]
+				}
 			},
 			"response": []
 		}
