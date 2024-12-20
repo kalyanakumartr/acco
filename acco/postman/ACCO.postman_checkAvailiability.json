@@ -1,0 +1,19 @@
+{
+	"info": {
+		"_postman_id": "a56cd4ce-5f76-48d1-8167-6d0844dd682e",
+		"name": "acco",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20742464",
+		"_collection_link": "https://interstellar-flare-481627.postman.co/workspace/focus~5326f900-6df3-42ea-9890-915dc7bdf96f/collection/20742464-a56cd4ce-5f76-48d1-8167-6d0844dd682e?action=share&source=collection_link&creator=20742464"
+	},
+	"item": [
+		{
+			"name": "checkAvailability",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
