@@ -437,6 +437,36 @@ catch (e) {
 });
 //end get room list
 
+router.get('/checkAvailability', function (req, res) {
+  console.log("Welcome to getroomlist");
+  try {
+    rtid = req.query.roomtypeid;
+    cin = req.query.checkin;
+    cout = req.query.checkout;
+    adultin = req.query.adults;
+
+    cmd = 'CALL checkAvailability (?,?,?,?)';
+    console.log("cmd", cin, cout, rtid, adultin)
+    // cmd='select name,des,price,maintenance,headcount,totalamount,tax,discount,roomtypeid,(select COUNT(roomname) AS roomcount from room  where roomid NOT IN (SELECT roomid from booking WHERE (checkin  BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'" OR checkout BETWEEN "'+req.query.checkin+'" AND "'+req.query.checkout+'"))AND roomname=name ) AS avilable from tariffdetail where roomtypeid='+rid+' AND (headcount='+req.query.adults+' OR headcount>=4)';
+    con.query(cmd, [cin, cout, rtid, adultin], function (err, getroomtype) {
+
+      console.log(cmd, "data", getroomtype);
+      if (err) {
+        console.log(err);
+        res.send({ "Message": "Unable to get Date " });
+      }
+      else {
+        res.send(getroomtype);
+
+      }
+    })
+  }
+  catch (err) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: err.message, status: statusCode });
+  }
+})
 
 
 
