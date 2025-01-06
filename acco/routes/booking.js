@@ -123,7 +123,7 @@ router.post('/checkinconfirm', function (req, res) {
   console.log(ain);
   // cmd='UPDATE booking SET bookedstatusid=2 ,roomid='+req.body.roomid+' WHERE bookingid=' + id + '  and userid=' + uid + '';
   // var cmd = 'UPDATE booking SET roomid="select json_array(GROUP_CONCAT("{",roomid ,":",roomno,"}")) AS roomids from room where roomid IN' +( req.body.roomid)+',acheckin="' + ain + '",bookedstatusid=3 where bookingid= ' + req.body.bookingid + '';
-  cmd='UPDATE booking b,room r SET b.bookedstatusid=3 ,b.roomid="'+req.body.roomid+'", b.roomnos="'+req.body.roomnos+'", b.acheckin="'+ain+'",r.status=9 WHERE b.bookingid=' + req.body.bookingid+' and r.roomid="'+req.body.roomid+'"' ;
+  cmd='UPDATE booking b,room r SET b.bookedstatusid=3 ,b.roomid="'+req.body.roomid+'", b.roomnos="'+req.body.roomnos+'", b.acheckin="'+ain+'",r.status=9 WHERE b.bookingid=' + req.body.bookingid+' and r.roomid in ('+req.body.roomid+')' ;
     console.log(cmd);
   let data = [true, 1];
   con.query(cmd, data, function (error, result) {
