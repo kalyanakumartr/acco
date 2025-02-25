@@ -32,7 +32,7 @@ app.set('view engine', 'jade');
 
 const cors = require("cors");
 const { error } = require('console');
-const allowedOrigins = ['http://localhost:3001' ,'http://localhost:4200'];
+const allowedOrigins = ['http://localhost:3001' ,'http://localhost:4200','http://localhost:4201'];
 const options=cors.CorsOptions= {  origin: allowedOrigins};
 app.use(cors(options));
 app.use(cors({
