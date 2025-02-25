@@ -61,7 +61,7 @@ router.post('/addadult',function(req,res){
     console.log("Weolcom to Add Adult");
     console.log(req.body);
     console.log("RoomTypeId",req.body.roomtypeid);
-    var command = sprintf('INSERT INTO logic(adult,roomtypeid,optiontype,bhktype1,bhktype2,bhktype3,noofrooms,bed,price) values(%d,%d,"%s",%d,%d,%d,%d,%.2f,%.2f)',req.body.adult, req.body.roomtypeid, req.body.optiontype,req.body.bhktype1,req.body.bhktype2,req.body.bhktype3,req.body.noofrooms,req.body.bed,req.body.price);
+    var command = sprintf('INSERT INTO logic(adult,roomtypeid,optiontype,bhktype1,bhktype2,bhktype3,noofrooms,bed,price,totalamount,status) values(%d,%d,"%s",%d,%d,%d,%d,%.2f,%.2f,%.2f,%d)',req.body.adult, req.body.roomtypeid, req.body.optiontype,req.body.bhktype1,req.body.bhktype2,req.body.bhktype3,req.body.noofrooms,req.body.bed,req.body.price,req.body.price,1);
       // bhktype1,,,noofrooms,bed,Price,totalamount,status)VALUES (%d,%d"%s",%d,%d,%d,%d,%.2f,%.2f,%.2f,%d)',req.body.adult,req.body.roomtypeid,req.body.optiontype, req.body.bhktype1, req.body.bhktype2, req.body.bhktype3,req.body.noofrooms,req.body.bed,req.body.Price,req.body.Price,1);
       // ,optiontype,bhktype1,bhktype2,bhktype3,noofrooms,bed,Price,totalamount,status) VALUES (%d,%d,"%s",%d,%d,%d,%d,%.2f,%.2f,%.2f,%d)' 
       // , req.body.adult, req.body.roomtypeid, req.body.optiontype, req.body.bhktype1, req.body.bhktype2, req.body.bhktype3,req.body.noofrooms,req.body.bed,req.body.Price,req.body.Price,1);
