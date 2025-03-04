@@ -890,6 +890,65 @@ router.get('/getcontact', authcheck, function (req, res) {
 })
 
 //end contact
+
+
+//GET TARIFF DAILY AND MONTHLY DETIALS
+
+router.get('/gettariff', function (req, res) {
+  try {
+    command = 'select * from tariff';
+    con.query(command, function (error, results) {
+      if (error) {
+        res.send({ "Message": "Unable to get tariff data " });
+      }
+      else {
+        res.send(results);
+      }
+    })
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+//update tariff 
+router.post('/updatetariff', authcheck, function (req, res) {
+  try {
+    console.log("Welcome to update user ");
+    var bhk = req.body.bhk;
+    var personcount = req.body.personcount;
+    var dailytariff = req.body.dailytariff;
+    var monthlytariff = req.body.monthlytariff;
+    var title = req.body.title;
+    var description = req.body.description
+
+    var command = 'UPDATE tariff SET bhk="' + bhk + '", dailytariff="' + dailytariff + '", monthlytariff="' + monthlytariff + '",title="' + title + '", description="' + description + '" WHERE personcount=' + personcount + '';
+    console.log(command);
+    let data = [true, 1];
+    con.query(command, data, function (error, result) {
+      if (result.affectedRows <= 0) {
+        res.send({ status: false, message: "Person Count is invalid" });
+        console.log(error);
+        // throw error;
+      }
+      else {
+        res.status(200).send({ message: "Tariff Updated Successfully" });
+      };
+    });
+  }
+  catch (e) {
+    console.log("Catch");
+    const statusCode = e.statusCoderes || 500;
+    res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+  }
+})
+
+
+
+
+
+
 module.exports = router;
 
 

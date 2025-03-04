@@ -56,15 +56,49 @@ router.get('/getlogic', function (req, res) {
   }
 
 })
+//st update
+router.post('/updateadult',function(req,res){
+try
+{
+console.log("Welcome to Uodate Session");
+
+adult=req.body.adult; 
+roomtype=req.body.roomtypeid;
+ optiontype=req.body.optiontype;
+ bhk1=req.body.bhktype1;
+ bhk2=req.body.bhktype2;
+ bhk3=req.body.bhktype3;
+ noofrooms=req.body.noofrooms;
+ bed=req.body.bed;
+ price=req.body.price;
+//  password="' + hashedPassword + '",cpassword="' + hashedCPassword + '" where userid=' + userid + '';
+
+cmd='UPDATE logic SET adult="' + adult + '",roomtypeid="'+req.body.roomtypeid+'",optiontype="'+req.body.optiontype+'" ,bhktype1="'+req.body.bhktype1+'",bhktype2="'+req.body.bhktype2+'",bhktype3="'+req.body.bhktype3+'",noofrooms="'+req.body.noofrooms+'",price="'+req.body.price+'" WHERE logicid=' + req.body.logicid + '';
+let data = [true, 1];
+  con.query(cmd, data, function (error, result) {
+     if (result.affectedRows <= 0) {
+      res.send({ status: false, message: "No Data" });
+      console.log(error);
+          }
+    else {
+      res.status(200).send({ message: "Successfully update Adult" });
+    };
+});
+}
+catch (e) {
+  console.log("Catch",e);
+  const statusCode = e.statusCoderes || 500;
+  res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
+}
+
+})
+
+//end updat
 router.post('/addadult',function(req,res){
   try{
     console.log("Weolcom to Add Adult");
     console.log(req.body);
-    console.log("RoomTypeId",req.body.roomtypeid);
     var command = sprintf('INSERT INTO logic(adult,roomtypeid,optiontype,bhktype1,bhktype2,bhktype3,noofrooms,bed,price,totalamount,status) values(%d,%d,"%s",%d,%d,%d,%d,%.2f,%.2f,%.2f,%d)',req.body.adult, req.body.roomtypeid, req.body.optiontype,req.body.bhktype1,req.body.bhktype2,req.body.bhktype3,req.body.noofrooms,req.body.bed,req.body.price,req.body.price,1);
-      // bhktype1,,,noofrooms,bed,Price,totalamount,status)VALUES (%d,%d"%s",%d,%d,%d,%d,%.2f,%.2f,%.2f,%d)',req.body.adult,req.body.roomtypeid,req.body.optiontype, req.body.bhktype1, req.body.bhktype2, req.body.bhktype3,req.body.noofrooms,req.body.bed,req.body.Price,req.body.Price,1);
-      // ,optiontype,bhktype1,bhktype2,bhktype3,noofrooms,bed,Price,totalamount,status) VALUES (%d,%d,"%s",%d,%d,%d,%d,%.2f,%.2f,%.2f,%d)' 
-      // , req.body.adult, req.body.roomtypeid, req.body.optiontype, req.body.bhktype1, req.body.bhktype2, req.body.bhktype3,req.body.noofrooms,req.body.bed,req.body.Price,req.body.Price,1);
     console.log(command);
     con.query(command, function (err, result) {
       if (err) {
@@ -72,7 +106,6 @@ router.post('/addadult',function(req,res){
         res.status(401).send({ "message": err });
       }
       else {
-        // console.log(err);
         res.status(200).send({ message: "Successfully Add Adult" });
         res.end();
       }
