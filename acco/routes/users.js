@@ -943,7 +943,7 @@ router.post('/updatetariff', authcheck, function (req, res) {
     res.status(statusCode, "Error").json({ success: 0, message: e.message, status: statusCode });
   }
 })
-
+//end traiff
 
 
 
