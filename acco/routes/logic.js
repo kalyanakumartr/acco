@@ -74,9 +74,10 @@ roomtype=req.body.roomtypeid;
 //  password="' + hashedPassword + '",cpassword="' + hashedCPassword + '" where userid=' + userid + '';
 
 cmd='UPDATE logic SET adult="' + adult + '",roomtypeid="'+req.body.roomtypeid+'",optiontype="'+req.body.optiontype+'" ,bhktype1="'+req.body.bhktype1+'",bhktype2="'+req.body.bhktype2+'",bhktype3="'+req.body.bhktype3+'",noofrooms="'+req.body.noofrooms+'",price="'+req.body.price+'" WHERE logicid=' + req.body.logicid + '';
+console.log("cmd",cmd);
 let data = [true, 1];
   con.query(cmd, data, function (error, result) {
-     if (result.affectedRows <= 0) {
+     if (result.affectedRows >= 0) {
       res.send({ status: false, message: "No Data" });
       console.log(error);
           }
